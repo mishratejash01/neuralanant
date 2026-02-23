@@ -21,8 +21,8 @@ export default function Navbar() {
   useEffect(() => {
     const onScroll = () => {
       setIsScrolled(window.scrollY > 10);
-      // Transitions the navbar right as the 95vh Hero section ends
-      setIsPastHero(window.scrollY > window.innerHeight * 0.85);
+      // Transitions the navbar right as the 97vh Hero section ends
+      setIsPastHero(window.scrollY > window.innerHeight * 0.95);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll(); // Run immediately on mount
@@ -38,10 +38,10 @@ export default function Navbar() {
         mobileOpen 
           ? "bg-[#f6fbfb] backdrop-blur-md" 
           : isPastHero
-            ? "bg-teal-50/70 backdrop-blur-md border-b border-teal-100/30 shadow-sm"
+            ? "bg-[#f6fbfb]/90 backdrop-blur-md" // NO border, NO shadow, perfectly matches page background
             : isScrolled
-              ? "bg-black/10 backdrop-blur-md border-b border-white/10"
-              : "bg-transparent border-b border-transparent"
+              ? "bg-black/20 backdrop-blur-md" // NO border for the dark theme either
+              : "bg-transparent"
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -75,7 +75,7 @@ export default function Navbar() {
               href="/contact"
               className={`flex items-center gap-1.5 px-5 py-2.5 text-[14px] font-normal transition-all duration-300 ${
                 isDarkTheme
-                  ? "bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-md"
+                  ? "bg-white/10 text-white hover:bg-white/20 backdrop-blur-md" // Removed button border here too for consistency
                   : "bg-teal-100 text-black hover:bg-teal-200"
               }`}
             >
