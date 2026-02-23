@@ -43,7 +43,7 @@ export default function Navbar() {
           ? "bg-[#f6fbfb] backdrop-blur-md" 
           : isHomePage 
             ? (isPastHero ? "bg-[#f6fbfb]/90 backdrop-blur-md" : isScrolled ? "bg-black/20 backdrop-blur-md" : "bg-transparent")
-            : (isScrolled ? "bg-[#f6fbfb]/90 backdrop-blur-md" : "bg-transparent") // Behavior for other pages
+            : (isScrolled ? "bg-[#f6fbfb]/90 backdrop-blur-md" : "bg-transparent") 
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
@@ -58,22 +58,23 @@ export default function Navbar() {
         </div>
 
         {/* Desktop */}
-        <div className="hidden items-center gap-1 md:flex">
+        <div className="hidden items-center gap-2 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-lg px-3.5 py-2.5 text-[14px] font-normal transition-all duration-300 ${
+              // Removed all bg blocks! Now it's just pure text with a gentle opacity fade on hover.
+              className={`px-3.5 py-2.5 text-[14px] transition-opacity duration-300 ${
                 pathname === link.href 
-                  ? (isDarkTheme ? "bg-white/15 text-white" : "bg-teal-100/50 text-black") 
-                  : (isDarkTheme ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-black hover:bg-teal-100/40")
+                  ? (isDarkTheme ? "text-white font-medium" : "text-black font-medium") 
+                  : (isDarkTheme ? "text-white hover:opacity-60" : "text-black hover:opacity-60")
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <div className="ml-3">
-            {/* 3. Sharp corners (no rounded classes) and no hover effects */}
+          <div className="ml-4">
+            {/* Square button, no hover effect */}
             <Link
               href="/contact"
               className={`flex items-center gap-1.5 px-6 py-3 text-[14px] font-normal transition-colors duration-300 ${
@@ -110,14 +111,13 @@ export default function Navbar() {
         <div className="flex flex-col gap-1 px-6 pt-6">
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}
-              className={`rounded-xl px-4 py-3.5 text-[15px] font-normal transition-colors text-black ${
-                pathname === link.href ? "bg-teal-100/50" : ""
+              className={`px-4 py-3.5 text-[15px] font-normal transition-opacity duration-300 text-black ${
+                pathname === link.href ? "font-medium" : "hover:opacity-60"
               }`}>
               {link.label}
             </Link>
           ))}
           <div className="mt-4 border-t border-teal-100/30 pt-6">
-            {/* Sharp corners and no hover effect for mobile CTA too */}
             <Link href="/contact" onClick={() => setMobileOpen(false)}
               className="flex items-center justify-center gap-1.5 bg-teal-100 py-3.5 text-[15px] font-normal text-black transition-colors">
               Get Early Access <span className="font-normal">&gt;</span>
