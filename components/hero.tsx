@@ -19,35 +19,35 @@ export default function Hero() {
         {/* ALIGNED CONTAINER */}
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
           
-          {/* Main headline - Letter gap reduced using tracking-tight */}
+          {/* Main headline - Maximum letter gap reduction using tracking-tighter */}
           <AnimateOnScroll delay="delay-150">
-            <h1 className="font-sans text-[clamp(3.5rem,8vw,6.5rem)] font-normal leading-[1.05] tracking-tight text-white">
+            <h1 className="font-sans text-[clamp(3.5rem,8vw,6.5rem)] font-normal leading-[1.05] tracking-tighter text-white">
               The AI That
               <br />
               Never Forgets
             </h1>
           </AnimateOnScroll>
 
-          {/* Description - Inter Regular */}
+          {/* Description - Tracking set to tight to prevent spreading */}
           <AnimateOnScroll delay="delay-300">
-            <p className="mt-8 max-w-xl font-sans text-[1.1rem] font-normal leading-relaxed tracking-wide text-zinc-300">
+            <p className="mt-8 max-w-xl font-sans text-[1.1rem] font-normal leading-relaxed tracking-tight text-zinc-300">
               Anant 1.0 is India&apos;s first large language model with persistent
               memory. Every conversation builds on the last.
             </p>
           </AnimateOnScroll>
 
-          {/* CTA buttons */}
+          {/* CTA buttons - Tracking set to tight */}
           <AnimateOnScroll delay="delay-400">
             <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
               <Link
                 href="/contact"
-                className="group relative overflow-hidden rounded-full bg-white px-8 py-3.5 text-[15px] font-normal tracking-wide text-black shadow-xl transition-all duration-500 hover:-translate-y-0.5 hover:bg-zinc-100 hover:shadow-2xl hover:shadow-white/10"
+                className="group relative overflow-hidden rounded-full bg-white px-8 py-3.5 text-[15px] font-normal tracking-tight text-black shadow-xl transition-all duration-500 hover:-translate-y-0.5 hover:bg-zinc-100 hover:shadow-2xl hover:shadow-white/10"
               >
                 Get Early Access
               </Link>
               <Link
                 href="/contact"
-                className="group flex items-center gap-2.5 rounded-full border border-white/30 bg-white/5 px-8 py-3.5 text-[15px] font-normal tracking-wide text-white shadow-sm backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/50"
+                className="group flex items-center gap-2.5 rounded-full border border-white/30 bg-white/5 px-8 py-3.5 text-[15px] font-normal tracking-tight text-white shadow-sm backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/50"
               >
                 Get in touch
               </Link>
