@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,31 +14,15 @@ const navLinks = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <nav
-      className={`fixed top-0 z-50 w-full transition-all duration-500 ${
-        scrolled
-          ? "border-b border-zinc-100 bg-white/90 shadow-sm shadow-zinc-100/50 backdrop-blur-xl"
-          : "bg-transparent"
-      }`}
-    >
+    <nav className="fixed top-0 z-50 w-full border-b border-zinc-100 bg-white shadow-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2.5">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-900 text-sm font-bold text-white">
-              N
-            </span>
-            <span className="text-[15px] font-bold tracking-tight text-zinc-900">
-              Neural AI
+            <span className="text-[15px] font-semibold tracking-tight text-zinc-900">
+              neural
             </span>
           </Link>
           <span className="hidden items-center gap-1.5 rounded-full border border-amber-200/60 bg-amber-50/60 px-3 py-1 lg:inline-flex">
@@ -64,9 +48,9 @@ export default function Navbar() {
           <div className="ml-3">
             <Link
               href="/contact"
-              className="rounded-full bg-zinc-900 px-5 py-2.5 text-[13px] font-medium text-white transition-all duration-300 hover:bg-zinc-800"
+              className="flex items-center gap-1.5 bg-zinc-800 px-5 py-2.5 text-[13px] font-medium text-white transition-all duration-300 hover:bg-zinc-700"
             >
-              Get Early Access
+              Get Early Access <span>&gt;</span>
             </Link>
           </div>
         </div>
@@ -105,8 +89,8 @@ export default function Navbar() {
           </div>
           <div className="mt-4">
             <Link href="/contact" onClick={() => setMobileOpen(false)}
-              className="block rounded-full bg-zinc-900 py-3.5 text-center text-[15px] font-medium text-white">
-              Get Early Access
+              className="flex items-center justify-center gap-1.5 bg-zinc-800 py-3.5 text-[15px] font-medium text-white transition-colors hover:bg-zinc-700">
+              Get Early Access <span>&gt;</span>
             </Link>
           </div>
         </div>
