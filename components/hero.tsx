@@ -8,7 +8,7 @@ export default function Hero() {
       {/* ── Background Image ── */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <img
-          src="https://npletjmaefkrjhlcgsbc.supabase.co/storage/v1/object/sign/design/efecto-2026-02-23T18-54-27.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xM2EzYjE1MC1mZDRlLTRiZjktYjc0OC1lZGI4YTk0MmM0ZGEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkZXNpZ24vZWZlY3RvLTIwMjYtMDItMjNUMTgtNTQtMjcucG5nIiwiaWF0IjoxNzcxODc0MzY5LCJleHAiOjQ5MjU0NzQzNjl9.4dZa1qTXEJiAOyVeDu9Y4CTFkXIj9hhPAdoU2qGDKU0"
+          src="https://npletjmaefkrjhlcgsbc.supabase.co/storage/v1/object/sign/design/efecto-2026-02-23T19-56-55.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xM2EzYjE1MC1mZDRlLTRiZjktYjc0OC1lZGI4YTk0MmM0ZGEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkZXNpZ24vZWZlY3RvLTIwMjYtMDItMjNUMTktNTYtNTUucG5nIiwiaWF0IjoxNzcxODc2NjgxLCJleHAiOjQ5MjU0NzY2ODF9.NOoJq-sc5nAg1R1YCVDFM-Oi5YDgjq_CR-0AjASVikw"
           alt="Hero Background"
           className="h-full w-full object-cover object-center"
         />
