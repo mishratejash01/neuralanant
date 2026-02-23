@@ -33,11 +33,10 @@ export default async function SupportersMarquee() {
         }
       `}</style>
 
-      {/* Removed the bottom border separator */}
-      <section className="group relative flex h-24 cursor-pointer items-center justify-center bg-[#f6fbfb]">
+      {/* 1. INCREASED HEIGHT: Changed h-24 to h-48 to give the section massive vertical breathing room */}
+      <section className="group relative flex h-48 cursor-pointer items-center justify-center bg-[#f6fbfb]">
         
         {/* ALIGNED CONTAINER + CSS MASK */}
-        {/* This perfectly aligns the scroll area with the navbar and fades the edges */}
         <div 
           className="relative mx-auto flex w-full max-w-6xl items-center overflow-hidden px-6"
           style={{
@@ -45,14 +44,16 @@ export default async function SupportersMarquee() {
             maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)"
           }}
         >
-          {/* Track: Reduced blur and increased opacity to 60% on hover */}
+          {/* Track: Retained the 60% opacity and subtle blur on hover */}
           <div className="animate-marquee flex w-[200%] items-center justify-around transition-all duration-500 group-hover:opacity-60 group-hover:blur-[2px]">
             {[...logos, ...logos].map((logo, index) => (
-              <div key={index} className="flex w-48 items-center justify-center">
+              {/* 2. INCREASED SPACING: Changed w-48 to w-72 to give the larger logos more horizontal gap */}
+              <div key={index} className="flex w-72 items-center justify-center px-4">
                 <img
                   src={logo.image_url} 
                   alt={logo.name}
-                  className="max-h-8 max-w-[120px] object-contain opacity-50 grayscale mix-blend-multiply transition-opacity duration-300 hover:opacity-100"
+                  {/* 3. BIGGER LOGOS: Changed max-h-8 to max-h-14 and max-w to 180px */}
+                  className="max-h-14 max-w-[180px] object-contain opacity-50 grayscale mix-blend-multiply transition-opacity duration-300 hover:opacity-100"
                 />
               </div>
             ))}
@@ -65,7 +66,7 @@ export default async function SupportersMarquee() {
             href="/supporters"
             className="bg-teal-900 px-7 py-3 font-sans text-[14px] font-medium tracking-tight text-white transition-transform hover:scale-105"
           >
-            Meet our supporters
+            Meet our customers
           </Link>
         </div>
       </section>
