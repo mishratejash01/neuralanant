@@ -3,15 +3,14 @@ import AnimateOnScroll from "./animate-on-scroll";
 
 export default function Hero() {
   return (
-    // Outer wrapper gives the bottom space the exact same whitish-teal color as your navbar
+    // Outer wrapper provides the whitish-teal background for that small 1cm strip at the bottom
     <div className="bg-[#f6fbfb]">
       
-      {/* Hero Section: 
-        - h-[90vh] makes it take up 90% of the screen, leaving the 10% space below.
-        - Background image is applied directly via inline CSS so it cannot be hidden.
+      {/* h-[97vh] makes the hero take up 97% of the screen height, leaving a tiny sliver at the bottom. 
+        No rounded corners, pure straight edges.
       */}
       <section 
-        className="relative flex h-[90vh] min-h-[600px] w-full flex-col items-center justify-center px-6 pt-16"
+        className="relative flex h-[97vh] min-h-[600px] w-full flex-col items-center justify-center px-6 pt-16"
         style={{
           backgroundImage: "url('https://npletjmaefkrjhlcgsbc.supabase.co/storage/v1/object/sign/design/result_0.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xM2EzYjE1MC1mZDRlLTRiZjktYjc0OC1lZGI4YTk0MmM0ZGEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkZXNpZ24vcmVzdWx0XzAucG5nIiwiaWF0IjoxNzcxODc3MTc2LCJleHAiOjQ5MjU0NzcxNzZ9.MOmVU8xiCJfogvk23VCtMcBFlf4UWtMg3GHPlF4csKI')",
           backgroundSize: "cover",
@@ -19,7 +18,7 @@ export default function Hero() {
           backgroundRepeat: "no-repeat"
         }}
       >
-        {/* Dark overlay to make the white text pop - positioned behind the text */}
+        {/* Dark overlay to ensure white text is perfectly legible over the background image */}
         <div className="absolute inset-0 bg-black/40 z-0" />
 
         <div className="relative z-10 mx-auto max-w-5xl text-center">
