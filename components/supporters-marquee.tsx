@@ -43,30 +43,30 @@ export default async function SupportersMarquee() {
             maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)"
           }}
         >
-          {/* Track: Increased group-hover opacity to 60% so logos remain visible when blurred */}
           <div className="animate-marquee flex w-[200%] items-center justify-around transition-all duration-500 group-hover:opacity-60 group-hover:blur-[2px]">
             {[...logos, ...logos].map((logo, index) => (
               <div key={index} className="flex w-72 items-center justify-center px-4">
                 <img
                   src={logo.image_url} 
                   alt={logo.name}
-                  /* Removed opacity-50 and grayscale. 
-                     Added brightness-0 to force the logo to be solid black. 
+                  /* Removed 'brightness-0'.
+                     Added 'invert' to simply invert the colors of the original logo.
                   */
-                  className="max-h-14 max-w-[180px] object-contain brightness-0 transition-opacity duration-300"
+                  className="max-h-14 max-w-[180px] object-contain invert transition-opacity duration-300"
                 />
               </div>
             ))}
           </div>
         </div>
 
-        {/* Hover Button: Dark teal sharp-edged block */}
+        {/* Hover Button */}
         <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <div
+          <Link
+            href="/supporters"
             className="bg-teal-900 px-7 py-3 font-sans text-[14px] font-medium tracking-tight text-white transition-transform hover:scale-105"
           >
             Meet our customers
-          </div>
+          </Link>
         </div>
       </section>
     </>
