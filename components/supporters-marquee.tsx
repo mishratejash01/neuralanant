@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function SupportersMarquee() {
@@ -33,7 +32,8 @@ export default async function SupportersMarquee() {
         }
       `}</style>
 
-      <section className="group relative flex h-48 cursor-pointer items-center justify-center bg-[#f6fbfb]">
+      {/* Removed cursor-pointer as the section is no longer clickable */}
+      <section className="group relative flex h-48 items-center justify-center bg-[#f6fbfb]">
         
         {/* ALIGNED CONTAINER + CSS MASK */}
         <div 
@@ -43,16 +43,12 @@ export default async function SupportersMarquee() {
             maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)"
           }}
         >
-          {/* Track: Logos stay at full opacity and color unless hovered */}
           <div className="animate-marquee flex w-[200%] items-center justify-around transition-all duration-500 group-hover:opacity-60 group-hover:blur-[2px]">
             {[...logos, ...logos].map((logo, index) => (
               <div key={index} className="flex w-72 items-center justify-center px-4">
                 <img
                   src={logo.image_url} 
                   alt={logo.name}
-                  /* Removed 'invert', 'grayscale', and 'brightness-0'.
-                    The logo now appears in its original, natural colors.
-                  */
                   className="max-h-14 max-w-[180px] object-contain transition-opacity duration-300"
                 />
               </div>
@@ -60,14 +56,13 @@ export default async function SupportersMarquee() {
           </div>
         </div>
 
-        {/* Hover Button: Meet our customers */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <Link
-            href="/supporters"
-            className="bg-teal-900 px-7 py-3 font-sans text-[14px] font-medium tracking-tight text-white transition-transform hover:scale-105"
+        {/* Static Badge: Changed from <Link> to <div> and removed scale effect */}
+        <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none">
+          <div
+            className="bg-teal-900 px-7 py-3 font-sans text-[14px] font-medium tracking-tight text-white"
           >
             Trusted by Leading Incubators
-          </Link>
+          </div>
         </div>
       </section>
     </>
