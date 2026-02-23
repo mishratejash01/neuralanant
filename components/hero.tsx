@@ -3,7 +3,7 @@ import AnimateOnScroll from "./animate-on-scroll";
 
 export default function Hero() {
   return (
-    <section className="grain relative min-h-screen overflow-hidden bg-white px-6 pb-32 pt-32 sm:pb-40 sm:pt-40">
+    <section className="grain relative min-h-screen overflow-hidden bg-gradient-to-b from-teal-50/60 via-[#f6fbfb] to-white px-6 pb-32 pt-32 sm:pb-40 sm:pt-40">
       {/* ── Colorful animated gradient blobs ── */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Blue blob — top left */}
