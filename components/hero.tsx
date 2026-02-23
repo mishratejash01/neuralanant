@@ -19,6 +19,19 @@ export default function Hero() {
         {/* ALIGNED CONTAINER */}
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
           
+          {/* Announcement Badge - Sharp edges, off-teal white background, non-bold text */}
+          <AnimateOnScroll delay="delay-100">
+            <div className="mb-6 inline-flex items-center gap-3 bg-[#f6fbfb] px-3.5 py-2 shadow-sm">
+              {/* Subtle spark icon to match the Mistral layout */}
+              <svg className="h-4 w-4 text-teal-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+              </svg>
+              <span className="font-sans text-[14px] font-normal tracking-tight text-black">
+                Update: India&apos;s first memory-native LLM.
+              </span>
+            </div>
+          </AnimateOnScroll>
+
           {/* Main headline */}
           <AnimateOnScroll delay="delay-150">
             <h1 className="font-sans text-[clamp(2.75rem,6vw,5rem)] font-normal leading-[1.05] tracking-tighter text-white">
@@ -36,7 +49,7 @@ export default function Hero() {
             </p>
           </AnimateOnScroll>
 
-          {/* CTA Links - Styled like the reference image (Underlined text + arrow) */}
+          {/* CTA Links - Underlined text + arrow */}
           <AnimateOnScroll delay="delay-400">
             <div className="mt-12 flex flex-col items-start gap-8 sm:flex-row sm:items-center sm:gap-12">
               
@@ -47,7 +60,6 @@ export default function Hero() {
                 <span className="font-sans text-[16px] font-normal tracking-tight text-white">
                   Get in touch
                 </span>
-                {/* Chevron icon that slides right on hover */}
                 <svg className="h-4 w-4 text-white transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
@@ -60,7 +72,6 @@ export default function Hero() {
                 <span className="font-sans text-[16px] font-normal tracking-tight text-white">
                   Get Early Access
                 </span>
-                {/* Chevron icon that slides right on hover */}
                 <svg className="h-4 w-4 text-white transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
