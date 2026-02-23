@@ -39,10 +39,8 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-lg px-3.5 py-2 text-[14px] font-normal transition-all duration-300 ${
-                pathname === link.href
-                  ? "bg-teal-100/50 text-black"
-                  : "text-black hover:bg-teal-100/40"
+              className={`rounded-lg px-3.5 py-2 text-[14px] font-normal transition-all duration-300 text-black ${
+                pathname === link.href ? "bg-teal-100/50" : ""
               }`}
             >
               {link.label}
@@ -79,8 +77,8 @@ export default function Navbar() {
         <div className="flex flex-col gap-1 px-6 pt-6">
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}
-              className={`rounded-xl px-4 py-3.5 text-[15px] font-normal transition-colors ${
-                pathname === link.href ? "bg-teal-100/50 text-black" : "text-black hover:bg-teal-100/40"
+              className={`rounded-xl px-4 py-3.5 text-[15px] font-normal transition-colors text-black ${
+                pathname === link.href ? "bg-teal-100/50" : ""
               }`}>
               {link.label}
             </Link>
