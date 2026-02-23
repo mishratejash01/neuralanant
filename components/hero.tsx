@@ -3,20 +3,17 @@ import AnimateOnScroll from "./animate-on-scroll";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-b from-teal-50/60 via-[#f6fbfb] to-white px-6 pb-32 pt-32 sm:pb-40 sm:pt-40">
+    <section className="relative min-h-screen overflow-hidden px-6 pb-32 pt-32 sm:pb-40 sm:pt-40">
       
-      {/* ── Background Design (Grid + Glowing Teal Center) ── */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Grid Pattern with fade mask */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0000000a_1px,transparent_1px),linear-gradient(to_bottom,#0000000a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_0%,#000_70%,transparent_110%)]" />
-
-        {/* Glowing Teal Orbs */}
-        <div className="absolute left-1/2 top-[-150px] -translate-x-1/2">
-          <div className="h-[400px] w-[800px] rounded-full bg-teal-400/20 blur-[100px] sm:w-[1000px] sm:bg-teal-400/25" />
-        </div>
-        <div className="absolute left-1/2 top-[-50px] -translate-x-1/2">
-          <div className="h-[300px] w-[500px] rounded-full bg-teal-300/30 blur-[80px]" />
-        </div>
+      {/* ── Background Image ── */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <img
+          src="https://npletjmaefkrjhlcgsbc.supabase.co/storage/v1/object/sign/design/efecto-2026-02-23T18-54-27.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xM2EzYjE1MC1mZDRlLTRiZjktYjc0OC1lZGI4YTk0MmM0ZGEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkZXNpZ24vZWZlY3RvLTIwMjYtMDItMjNUMTgtNTQtMjcucG5nIiwiaWF0IjoxNzcxODc0MzY5LCJleHAiOjQ5MjU0NzQzNjl9.4dZa1qTXEJiAOyVeDu9Y4CTFkXIj9hhPAdoU2qGDKU0"
+          alt="Hero Background"
+          className="h-full w-full object-cover object-center"
+        />
+        {/* Optional: A very subtle white overlay in case the image makes text hard to read */}
+        <div className="absolute inset-0 bg-white/20" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-5xl text-center">
@@ -53,7 +50,7 @@ export default function Hero() {
         </AnimateOnScroll>
 
         <AnimateOnScroll delay="delay-300">
-          <p className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-zinc-500">
+          <p className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-zinc-600 font-medium">
             Anant 1.0 is India&apos;s first large language model with persistent
             memory. Every conversation builds on the last.
           </p>
@@ -90,7 +87,7 @@ export default function Hero() {
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <p className="text-3xl font-bold text-zinc-900">{stat.value}</p>
-                <p className="mt-2 text-[13px] text-zinc-400">{stat.label}</p>
+                <p className="mt-2 text-[13px] text-zinc-600 font-medium">{stat.label}</p>
               </div>
             ))}
           </div>
