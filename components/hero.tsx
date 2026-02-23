@@ -1,27 +1,27 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import AnimateOnScroll from "./animate-on-scroll";
+
+// 1. Dynamically import the 3D scene and disable Server-Side Rendering (ssr: false)
+const EffectScene = dynamic(
+  () => import("./effect-scene").then((mod) => mod.EffectScene),
+  { ssr: false }
+);
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-white px-6 pb-32 pt-32 sm:pb-40 sm:pt-40">
-      {/* ── Background Design (Grid + Glowing Teal Center) ── */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {/* Grid Pattern with fade mask */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0000000a_1px,transparent_1px),linear-gradient(to_bottom,#0000000a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_60%_at_50%_0%,#000_70%,transparent_110%)]" />
-
-        {/* Glowing Teal Orbs (Replacing Orange) */}
-        <div className="absolute left-1/2 top-[-150px] -translate-x-1/2">
-          <div className="h-[400px] w-[800px] rounded-full bg-teal-400/20 blur-[100px] sm:w-[1000px] sm:bg-teal-400/25" />
-        </div>
-        <div className="absolute left-1/2 top-[-50px] -translate-x-1/2">
-          <div className="h-[300px] w-[500px] rounded-full bg-teal-300/30 blur-[80px]" />
-        </div>
+    <section className="relative min-h-screen overflow-hidden bg-gradient-to-b from-teal-50/60 via-[#f6fbfb] to-white px-6 pb-32 pt-32 sm:pb-40 sm:pt-40">
+      
+      {/* ── 3D ASCII Background Effect ── */}
+      <div className="absolute inset-0 z-0 opacity-50 mix-blend-multiply">
+        {/* The component will now only load safely in the browser */}
+        <EffectScene />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-5xl text-center">
+      <div className="relative z-10 mx-auto max-w-5xl text-center pointer-events-none">
         {/* Badges */}
         <AnimateOnScroll>
-          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center pointer-events-auto">
             <div className="inline-flex items-center gap-2.5 rounded-full border border-zinc-200/80 bg-white/80 px-5 py-2 shadow-sm backdrop-blur-sm">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal-500 opacity-75" />
@@ -60,7 +60,7 @@ export default function Hero() {
 
         {/* CTA buttons */}
         <AnimateOnScroll delay="delay-400">
-          <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row pointer-events-auto">
             <Link
               href="/contact"
               className="group relative overflow-hidden rounded-full bg-zinc-900 px-8 py-4 text-[15px] font-semibold text-white shadow-xl shadow-zinc-900/10 transition-all duration-500 hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-zinc-900/20"
@@ -81,7 +81,7 @@ export default function Hero() {
 
         {/* Stats row */}
         <AnimateOnScroll delay="delay-500">
-          <div className="mx-auto mt-24 grid max-w-lg grid-cols-3 gap-8">
+          <div className="mx-auto mt-24 grid max-w-lg grid-cols-3 gap-8 pointer-events-auto">
             {[
               { value: "100%", label: "Built in India" },
               { value: "\u221E", label: "Memory retention" },
