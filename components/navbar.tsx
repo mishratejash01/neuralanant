@@ -18,6 +18,9 @@ export default function Navbar() {
   const [isPastHero, setIsPastHero] = useState(false);
   const pathname = usePathname();
 
+  // 1. Check if we are currently on the home page
+  const isHomePage = pathname === "/";
+
   useEffect(() => {
     const onScroll = () => {
       setIsScrolled(window.scrollY > 10);
@@ -29,22 +32,20 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Determine if we are in the dark hero section (and menu is not open)
-  const isDarkTheme = !isPastHero && !mobileOpen;
+  // 2. ONLY apply the dark theme (white text) if we are on the Home Page, 
+  // haven't scrolled past the hero, and the mobile menu is closed.
+  const isDarkTheme = isHomePage && !isPastHero && !mobileOpen;
 
   return (
     <nav 
       className={`fixed top-0 z-50 w-full transition-all duration-500 ${
         mobileOpen 
           ? "bg-[#f6fbfb] backdrop-blur-md" 
-          : isPastHero
-            ? "bg-[#f6fbfb]/90 backdrop-blur-md" 
-            : isScrolled
-              ? "bg-black/20 backdrop-blur-md" 
-              : "bg-transparent"
+          : isHomePage 
+            ? (isPastHero ? "bg-[#f6fbfb]/90 backdrop-blur-md" : isScrolled ? "bg-black/20 backdrop-blur-md" : "bg-transparent")
+            : (isScrolled ? "bg-[#f6fbfb]/90 backdrop-blur-md" : "bg-transparent") // Behavior for other pages
       }`}
     >
-      {/* Increased padding from py-4 to py-6 to make the navbar taller */}
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2.5">
@@ -72,12 +73,13 @@ export default function Navbar() {
             </Link>
           ))}
           <div className="ml-3">
+            {/* 3. Sharp corners (no rounded classes) and no hover effects */}
             <Link
               href="/contact"
-              className={`flex items-center gap-1.5 px-6 py-3 text-[14px] font-normal transition-all duration-300 rounded-lg ${
+              className={`flex items-center gap-1.5 px-6 py-3 text-[14px] font-normal transition-colors duration-300 ${
                 isDarkTheme
-                  ? "bg-white/10 text-white hover:bg-white/20 backdrop-blur-md" 
-                  : "bg-teal-100 text-black hover:bg-teal-200"
+                  ? "bg-white/10 text-white backdrop-blur-md" 
+                  : "bg-teal-100 text-black"
               }`}
             >
               Get Early Access <span className="font-normal">&gt;</span>
@@ -101,7 +103,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile menu (Adjusted top position from 76px to 88px to fit the taller navbar) */}
+      {/* Mobile menu */}
       <div className={`fixed inset-0 top-[88px] z-40 backdrop-blur-xl transition-all duration-300 md:hidden ${
         mobileOpen ? "pointer-events-auto opacity-100 bg-[#f6fbfb]/95" : "pointer-events-none opacity-0 bg-transparent"
       }`}>
@@ -115,8 +117,9 @@ export default function Navbar() {
             </Link>
           ))}
           <div className="mt-4 border-t border-teal-100/30 pt-6">
+            {/* Sharp corners and no hover effect for mobile CTA too */}
             <Link href="/contact" onClick={() => setMobileOpen(false)}
-              className="flex items-center justify-center gap-1.5 bg-teal-100 py-3.5 text-[15px] font-normal text-black transition-colors rounded-lg hover:bg-teal-200">
+              className="flex items-center justify-center gap-1.5 bg-teal-100 py-3.5 text-[15px] font-normal text-black transition-colors">
               Get Early Access <span className="font-normal">&gt;</span>
             </Link>
           </div>
