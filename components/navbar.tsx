@@ -4,32 +4,29 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// Menu structure with sub-links for dropdowns
+// Dynamic Navigation Data
 const navLinks = [
-  { label: "Products", href: "#", hasDropdown: true },
-  { label: "Solutions", href: "#", hasDropdown: true },
-  { label: "Research", href: "#", hasDropdown: true },
-  { label: "Resources", href: "#", hasDropdown: true },
-  { label: "Pricing", href: "/pricing", hasDropdown: false },
-  { label: "Company", href: "#", hasDropdown: true },
+  { 
+    label: "Products", 
+    href: "#", 
+    subLinks: [{ label: "Anant 1.0", href: "/products/anant" }, { label: "Studio", href: "/studio" }] 
+  },
+  { 
+    label: "Solutions", 
+    href: "#", 
+    subLinks: [{ label: "Enterprise", href: "/enterprise" }, { label: "Startups", href: "/startups" }] 
+  },
+  { label: "Research", href: "/research" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "Company", href: "/about" },
 ];
-
-// Custom Pixelated Arrow Component (Teal Green)
-const PixelArrow = ({ color = "#0d9488" }) => (
-  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M2 2H4V4H6V6H4V8H2V10H0V2H2Z" fill={color} />
-    <rect x="6" y="4" width="2" height="2" fill={color} />
-    <rect x="8" y="2" width="2" height="2" fill={color} />
-    <rect x="8" y="6" width="2" height="2" fill={color} />
-  </svg>
-);
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
 
-  // Handle body scroll lock when sidebar is open
+  // Prevent background scrolling when menu is open
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
@@ -45,86 +42,111 @@ export default function Navbar() {
           neural
         </Link>
 
-        {/* Hamburger Toggle */}
+        {/* Hamburger - Only visible on mobile */}
         <button 
           onClick={() => setMobileOpen(true)}
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5"
+          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
         >
           <span className="h-[2px] w-6 bg-white" />
           <span className="h-[2px] w-6 bg-white" />
         </button>
       </div>
 
-      {/* MOBILE SIDEBAR OVERLAY */}
-      <div 
-        className={`fixed inset-0 z-[60] bg-black/20 backdrop-blur-sm transition-opacity duration-300 ${
-          mobileOpen ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-        onClick={() => setMobileOpen(false)}
-      />
+      {/* --- MOBILE SIDEBAR ONLY --- */}
+      <div className="md:hidden">
+        {/* Overlay */}
+        <div 
+          className={`fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${
+            mobileOpen ? "opacity-100" : "pointer-events-none opacity-0"
+          }`}
+          onClick={() => setMobileOpen(false)}
+        />
 
-      {/* SIDEBAR PANEL */}
-      <div 
-        className={`fixed right-0 top-0 z-[70] h-full w-[85%] max-w-[400px] bg-[#fdfaf1] transition-transform duration-500 ease-out ${
-          mobileOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        {/* Close Button */}
-        <div className="flex justify-end p-6">
-          <button 
-            onClick={() => setMobileOpen(false)}
-            className="flex h-12 w-12 items-center justify-center bg-[#f7f2e5] text-black"
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
+        {/* Sidebar Panel */}
+        <div 
+          className={`fixed right-0 top-0 z-[70] h-full w-[85%] max-w-[380px] bg-[#f6fbfb] transition-transform duration-500 ease-in-out ${
+            mobileOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          {/* Close Button */}
+          <div className="flex justify-end p-6">
+            <button 
+              onClick={() => setMobileOpen(false)}
+              className="p-2 text-black"
+            >
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
 
-        {/* Menu Links */}
-        <div className="flex flex-col px-8 pt-4">
-          {navLinks.map((link) => (
-            <div key={link.label} className="border-b border-zinc-200/60 py-5">
-              <button 
-                className="flex w-full items-center justify-between text-[19px] font-normal text-zinc-800"
-                onClick={() => setOpenDropdown(openDropdown === link.label ? null : link.label)}
-              >
-                {link.label}
-                {link.hasDropdown && (
-                  <div className={`transition-transform duration-300 ${openDropdown === link.label ? "rotate-180" : ""}`}>
-                    <PixelArrow />
+          {/* Dynamic Menu Links */}
+          <div className="flex flex-col px-8">
+            {navLinks.map((link) => (
+              <div key={link.label} className="border-b border-zinc-200 py-5">
+                <div className="flex items-center justify-between">
+                  <Link 
+                    href={link.href} 
+                    onClick={() => !link.subLinks && setMobileOpen(false)}
+                    className="text-[18px] font-normal text-black"
+                  >
+                    {link.label}
+                  </Link>
+                  
+                  {link.subLinks && (
+                    <button 
+                      onClick={() => setOpenDropdown(openDropdown === link.label ? null : link.label)}
+                      className={`p-2 transition-transform duration-300 ${openDropdown === link.label ? "rotate-180" : ""}`}
+                    >
+                      {/* Normal Down Arrow (Teal Green) */}
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0d9488" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M6 9l6 6 6-6" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+
+                {/* Sub-links Dropdown */}
+                {link.subLinks && openDropdown === link.label && (
+                  <div className="mt-4 flex flex-col gap-4 pl-2">
+                    {link.subLinks.map((sub) => (
+                      <Link 
+                        key={sub.label} 
+                        href={sub.href} 
+                        onClick={() => setMobileOpen(false)}
+                        className="text-[16px] text-zinc-500 hover:text-teal-700"
+                      >
+                        {sub.label}
+                      </Link>
+                    ))}
                   </div>
                 )}
-              </button>
-              
-              {/* Dropdown Content placeholder */}
-              {openDropdown === link.label && link.hasDropdown && (
-                <div className="mt-4 flex flex-col gap-3 pl-2 text-zinc-500">
-                  <Link href="#" className="text-base hover:text-teal-700">Overview</Link>
-                  <Link href="#" className="text-base hover:text-teal-700">Features</Link>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+              </div>
+            ))}
+          </div>
 
-        {/* Bottom CTAs - Sharp Black Boxes with Teal Arrows */}
-        <div className="absolute bottom-12 w-full px-8 space-y-3">
-          <Link 
-            href="/studio"
-            className="flex w-full items-center justify-between bg-black px-6 py-5 text-lg font-medium text-white"
-          >
-            Try Studio
-            <PixelArrow color="#2dd4bf" /> {/* Vibrant Teal Green */}
-          </Link>
-          
-          <Link 
-            href="/contact"
-            className="flex w-full items-center justify-between bg-black px-6 py-5 text-lg font-medium text-white"
-          >
-            Talk to sales
-            <PixelArrow color="#2dd4bf" />
-          </Link>
+          {/* Bottom CTAs - Sharp Black Blocks */}
+          <div className="absolute bottom-10 w-full px-8 space-y-3">
+            <Link 
+              href="/studio"
+              className="flex w-full items-center justify-between bg-black px-6 py-5 text-[16px] font-normal text-white"
+            >
+              Try Studio
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" strokeWidth="3">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </Link>
+            
+            <Link 
+              href="/contact"
+              className="flex w-full items-center justify-between bg-black px-6 py-5 text-[16px] font-normal text-white"
+            >
+              Talk to sales
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" strokeWidth="3">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </div>
     </nav>
