@@ -35,7 +35,6 @@ export default async function SupportersMarquee() {
 
       <section className="group relative flex h-48 cursor-pointer items-center justify-center bg-[#f6fbfb]">
         
-        {/* ALIGNED CONTAINER + CSS MASK */}
         <div 
           className="relative mx-auto flex w-full max-w-6xl items-center overflow-hidden px-6"
           style={{
@@ -49,17 +48,16 @@ export default async function SupportersMarquee() {
                 <img
                   src={logo.image_url} 
                   alt={logo.name}
-                  /* Removed 'brightness-0'.
-                     Added 'invert' to simply invert the colors of the original logo.
+                  /* Combines 'invert' to flip colors and 'grayscale' 
+                     to strip any remaining saturation, leaving only black and white. 
                   */
-                  className="max-h-14 max-w-[180px] object-contain invert transition-opacity duration-300"
+                  className="max-h-14 max-w-[180px] object-contain invert grayscale transition-opacity duration-300"
                 />
               </div>
             ))}
           </div>
         </div>
 
-        {/* Hover Button */}
         <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <Link
             href="/supporters"
