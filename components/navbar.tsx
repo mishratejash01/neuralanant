@@ -38,13 +38,14 @@ export default function Navbar() {
         mobileOpen 
           ? "bg-[#f6fbfb] backdrop-blur-md" 
           : isPastHero
-            ? "bg-[#f6fbfb]/90 backdrop-blur-md" // NO border, NO shadow, perfectly matches page background
+            ? "bg-[#f6fbfb]/90 backdrop-blur-md" 
             : isScrolled
-              ? "bg-black/20 backdrop-blur-md" // NO border for the dark theme either
+              ? "bg-black/20 backdrop-blur-md" 
               : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      {/* Increased padding from py-4 to py-6 to make the navbar taller */}
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2.5">
             <span className={`text-3xl font-semibold tracking-tight transition-colors duration-300 ${
@@ -61,7 +62,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`rounded-lg px-3.5 py-2 text-[14px] font-normal transition-all duration-300 ${
+              className={`rounded-lg px-3.5 py-2.5 text-[14px] font-normal transition-all duration-300 ${
                 pathname === link.href 
                   ? (isDarkTheme ? "bg-white/15 text-white" : "bg-teal-100/50 text-black") 
                   : (isDarkTheme ? "text-white/80 hover:bg-white/10 hover:text-white" : "text-black hover:bg-teal-100/40")
@@ -73,9 +74,9 @@ export default function Navbar() {
           <div className="ml-3">
             <Link
               href="/contact"
-              className={`flex items-center gap-1.5 px-5 py-2.5 text-[14px] font-normal transition-all duration-300 ${
+              className={`flex items-center gap-1.5 px-6 py-3 text-[14px] font-normal transition-all duration-300 rounded-lg ${
                 isDarkTheme
-                  ? "bg-white/10 text-white hover:bg-white/20 backdrop-blur-md" // Removed button border here too for consistency
+                  ? "bg-white/10 text-white hover:bg-white/20 backdrop-blur-md" 
                   : "bg-teal-100 text-black hover:bg-teal-200"
               }`}
             >
@@ -100,8 +101,8 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile menu (Locks into light teal theme for readability) */}
-      <div className={`fixed inset-0 top-[76px] z-40 backdrop-blur-xl transition-all duration-300 md:hidden ${
+      {/* Mobile menu (Adjusted top position from 76px to 88px to fit the taller navbar) */}
+      <div className={`fixed inset-0 top-[88px] z-40 backdrop-blur-xl transition-all duration-300 md:hidden ${
         mobileOpen ? "pointer-events-auto opacity-100 bg-[#f6fbfb]/95" : "pointer-events-none opacity-0 bg-transparent"
       }`}>
         <div className="flex flex-col gap-1 px-6 pt-6">
@@ -115,7 +116,7 @@ export default function Navbar() {
           ))}
           <div className="mt-4 border-t border-teal-100/30 pt-6">
             <Link href="/contact" onClick={() => setMobileOpen(false)}
-              className="flex items-center justify-center gap-1.5 bg-teal-100 py-3.5 text-[15px] font-normal text-black transition-colors hover:bg-teal-200">
+              className="flex items-center justify-center gap-1.5 bg-teal-100 py-3.5 text-[15px] font-normal text-black transition-colors rounded-lg hover:bg-teal-200">
               Get Early Access <span className="font-normal">&gt;</span>
             </Link>
           </div>
