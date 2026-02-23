@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,14 +14,23 @@ const navLinks = [
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <nav 
-      className={`fixed top-0 z-50 w-full border-b border-teal-100/30 shadow-sm transition-all duration-300 ${
+      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
         mobileOpen 
           ? "bg-gradient-to-b from-teal-50 to-[#f6fbfb]" 
-          : "bg-teal-50/60 backdrop-blur-md"
+          : `bg-teal-50/60 backdrop-blur-md ${
+              scrolled ? "border-b border-teal-100/30 shadow-sm" : "border-b border-transparent"
+            }`
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
