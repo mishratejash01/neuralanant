@@ -28,9 +28,9 @@ export default function Navbar() {
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
         mobileOpen 
           ? "bg-gradient-to-b from-teal-50 to-[#f6fbfb]" 
-          : `bg-teal-50/60 backdrop-blur-md ${
-              scrolled ? "border-b border-teal-100/30 shadow-sm" : "border-b border-transparent"
-            }`
+          : scrolled 
+            ? "bg-teal-50/60 backdrop-blur-md border-b border-teal-100/30 shadow-sm"
+            : "bg-transparent border-b border-transparent"
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -49,7 +49,7 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               className={`rounded-lg px-3.5 py-2 text-[14px] font-normal transition-all duration-300 text-black ${
-                pathname === link.href ? "bg-teal-100/50" : ""
+                pathname === link.href ? "bg-teal-100/50" : "hover:bg-teal-100/40"
               }`}
             >
               {link.label}
@@ -87,7 +87,7 @@ export default function Navbar() {
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}
               className={`rounded-xl px-4 py-3.5 text-[15px] font-normal transition-colors text-black ${
-                pathname === link.href ? "bg-teal-100/50" : ""
+                pathname === link.href ? "bg-teal-100/50" : "hover:bg-teal-100/40"
               }`}>
               {link.label}
             </Link>
