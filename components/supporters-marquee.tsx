@@ -66,7 +66,7 @@ export default async function SupportersMarquee() {
             href="/supporters"
             className="bg-teal-900 px-7 py-3 font-sans text-[14px] font-medium tracking-tight text-white transition-transform hover:scale-105"
           >
-            Meet our customers
+            TRUSTED BY LEADING INCUBATORS
           </Link>
         </div>
       </section>
