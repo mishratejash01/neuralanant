@@ -16,14 +16,12 @@ export default function Hero() {
         {/* Dark overlay to ensure text readability */}
         <div className="absolute inset-0 bg-black/40 z-0" />
 
-        {/* ALIGNED CONTAINER: 
-          Uses `max-w-6xl px-6 mx-auto` to perfectly match the navbar's horizontal alignment. 
-        */}
+        {/* ALIGNED CONTAINER */}
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
           
-          {/* Main headline - Inter Regular with added letter spacing */}
+          {/* Main headline - Letter gap reduced using tracking-tight */}
           <AnimateOnScroll delay="delay-150">
-            <h1 className="font-sans text-[clamp(3.5rem,8vw,6.5rem)] font-normal leading-[1.05] tracking-[0.02em] text-white">
+            <h1 className="font-sans text-[clamp(3.5rem,8vw,6.5rem)] font-normal leading-[1.05] tracking-tight text-white">
               The AI That
               <br />
               Never Forgets
@@ -38,7 +36,7 @@ export default function Hero() {
             </p>
           </AnimateOnScroll>
 
-          {/* CTA buttons - Updated text and set to Inter Regular */}
+          {/* CTA buttons */}
           <AnimateOnScroll delay="delay-400">
             <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
               <Link
