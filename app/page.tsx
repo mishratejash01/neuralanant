@@ -4,7 +4,6 @@ import SupportersMarquee from "@/components/supporters-marquee";
 import WhyAnant from "@/components/why-anant";
 import Architecture from "@/components/architecture";
 import FAQ from "@/components/faq";
-import Footer from "@/components/footer";
 
 export default function Home() {
   return (
@@ -25,9 +24,6 @@ export default function Home() {
 
       {/* 5. FAQ: Addressing common questions */}
       <FAQ />
-
-      {/* 6. Footer: Navigation and legal */}
-      <Footer />
     </main>
   );
 }
