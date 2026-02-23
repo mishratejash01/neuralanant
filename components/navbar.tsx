@@ -17,17 +17,18 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed top-0 z-50 w-full border-b border-zinc-100 bg-white shadow-sm">
+    <nav 
+      className={`fixed top-0 z-50 w-full border-b border-zinc-100 shadow-sm transition-all duration-300 ${
+        mobileOpen ? "bg-gradient-to-b from-teal-50 to-white" : "bg-white"
+      }`}
+    >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2.5">
-            <span className="text-[15px] font-semibold tracking-tight text-zinc-900">
+            <span className="text-xl font-semibold tracking-tight text-zinc-900">
               neural
             </span>
           </Link>
-          <span className="hidden items-center gap-1.5 rounded-full border border-amber-200/60 bg-amber-50/60 px-3 py-1 lg:inline-flex">
-            <span className="text-[10px] font-semibold text-amber-800">Incubated at IIT Madras</span>
-          </span>
         </div>
 
         {/* Desktop */}
@@ -38,8 +39,8 @@ export default function Navbar() {
               href={link.href}
               className={`rounded-lg px-3.5 py-2 text-[13px] font-medium transition-all duration-300 ${
                 pathname === link.href
-                  ? "bg-zinc-100 text-zinc-900"
-                  : "text-zinc-400 hover:bg-zinc-50 hover:text-zinc-700"
+                  ? "bg-zinc-100 text-black"
+                  : "text-zinc-500 hover:bg-zinc-100 hover:text-black"
               }`}
             >
               {link.label}
@@ -48,9 +49,9 @@ export default function Navbar() {
           <div className="ml-3">
             <Link
               href="/contact"
-              className="flex items-center gap-1.5 bg-zinc-800 px-5 py-2.5 text-[13px] font-medium text-white transition-all duration-300 hover:bg-zinc-700"
+              className="flex items-center gap-1.5 bg-teal-100 px-5 py-2.5 text-[13px] font-medium text-black transition-all duration-300 hover:bg-teal-200"
             >
-              Get Early Access <span>&gt;</span>
+              Get Early Access <span className="font-bold">&gt;</span>
             </Link>
           </div>
         </div>
@@ -70,27 +71,22 @@ export default function Navbar() {
       </div>
 
       {/* Mobile menu */}
-      <div className={`fixed inset-0 top-[65px] z-40 bg-white/95 backdrop-blur-xl transition-all duration-300 md:hidden ${
+      <div className={`fixed inset-0 top-[69px] z-40 bg-white/95 backdrop-blur-xl transition-all duration-300 md:hidden ${
         mobileOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
       }`}>
         <div className="flex flex-col gap-1 px-6 pt-6">
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} onClick={() => setMobileOpen(false)}
               className={`rounded-xl px-4 py-3.5 text-[15px] font-medium transition-colors ${
-                pathname === link.href ? "bg-zinc-100 text-zinc-900" : "text-zinc-500 hover:bg-zinc-50"
+                pathname === link.href ? "bg-zinc-100 text-black" : "text-zinc-500 hover:bg-zinc-50 hover:text-black"
               }`}>
               {link.label}
             </Link>
           ))}
-          <div className="mt-4 border-t border-zinc-100 pt-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200/60 bg-amber-50/60 px-3 py-1.5">
-              <span className="text-[11px] font-semibold text-amber-800">Incubated at IIT Madras</span>
-            </span>
-          </div>
-          <div className="mt-4">
+          <div className="mt-4 border-t border-zinc-100 pt-6">
             <Link href="/contact" onClick={() => setMobileOpen(false)}
-              className="flex items-center justify-center gap-1.5 bg-zinc-800 py-3.5 text-[15px] font-medium text-white transition-colors hover:bg-zinc-700">
-              Get Early Access <span>&gt;</span>
+              className="flex items-center justify-center gap-1.5 bg-teal-100 py-3.5 text-[15px] font-medium text-black transition-colors hover:bg-teal-200">
+              Get Early Access <span className="font-bold">&gt;</span>
             </Link>
           </div>
         </div>
