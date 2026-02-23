@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// RESTORED: Your original navigation tabs
 const navLinks = [
   { label: "Technology", href: "/technology" },
   { label: "About", href: "/about" },
@@ -31,6 +30,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock scroll when full-screen mobile menu is open
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
@@ -60,16 +60,16 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* RESTORED: PC Screen Tabs */}
-        <div className="hidden items-center gap-2 md:flex">
+        {/* DESKTOP TABS: Pure text, non-bold, no glow/blocks */}
+        <div className="hidden items-center gap-4 md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`px-3.5 py-2.5 text-[14px] transition-opacity duration-300 ${
+              className={`px-3 py-2 text-[14px] font-normal transition-opacity duration-300 ${
                 pathname === link.href 
-                  ? (isDarkTheme ? "text-white font-medium" : "text-black font-medium") 
-                  : (isDarkTheme ? "text-white hover:opacity-60" : "text-black hover:opacity-60")
+                  ? (isDarkTheme ? "text-white opacity-100" : "text-black opacity-100") 
+                  : (isDarkTheme ? "text-white/70 hover:opacity-100" : "text-black/70 hover:opacity-100")
               }`}
             >
               {link.label}
@@ -87,7 +87,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Hamburger - Mobile only */}
+        {/* MOBILE HAMBURGER */}
         <button
           className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
           onClick={() => setMobileOpen(true)}
@@ -97,57 +97,49 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* --- MOBILE SIDEBAR --- */}
-      <div className="md:hidden">
-        {/* Backdrop overlay */}
-        <div 
-          className={`fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm transition-opacity duration-300 ${
-            mobileOpen ? "opacity-100" : "pointer-events-none opacity-0"
-          }`}
-          onClick={() => setMobileOpen(false)}
-        />
-
-        {/* Sidebar Panel */}
-        <div className={`fixed right-0 top-0 z-[70] h-full w-[85%] max-w-[380px] bg-[#f6fbfb] transition-transform duration-500 ease-in-out ${
+      {/* --- FULL SCREEN MOBILE SIDEBAR --- */}
+      <div 
+        className={`fixed inset-0 z-[70] h-full w-full bg-[#f6fbfb] transition-transform duration-500 ease-in-out md:hidden ${
           mobileOpen ? "translate-x-0" : "translate-x-full"
-        }`}>
-          {/* Close Button Area */}
-          <div className="flex justify-end p-6">
-            <button onClick={() => setMobileOpen(false)} className="p-2 text-black">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M18 6L6 18M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
+        }`}
+      >
+        {/* Header inside Sidebar */}
+        <div className="flex items-center justify-between px-6 py-6">
+          <span className="text-3xl font-semibold tracking-tight text-black">neural</span>
+          <button onClick={() => setMobileOpen(false)} className="p-2 text-black">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
 
-          {/* Sidebar Tabs - Mirrored from PC view */}
-          <div className="flex flex-col px-8 pt-4">
-            {navLinks.map((link) => (
-              <div key={link.label} className="border-b border-zinc-200 py-5">
-                <Link 
-                  href={link.href} 
-                  onClick={() => setMobileOpen(false)}
-                  className={`text-[19px] font-normal ${pathname === link.href ? "text-teal-700" : "text-black"}`}
-                >
-                  {link.label}
-                </Link>
-              </div>
-            ))}
-          </div>
+        {/* Sidebar Navigation: Non-bold */}
+        <div className="mt-8 flex flex-col px-8">
+          {navLinks.map((link) => (
+            <div key={link.label} className="border-b border-zinc-200 py-6">
+              <Link 
+                href={link.href} 
+                onClick={() => setMobileOpen(false)}
+                className={`text-[22px] font-normal ${pathname === link.href ? "text-teal-700" : "text-black"}`}
+              >
+                {link.label}
+              </Link>
+            </div>
+          ))}
+        </div>
 
-          {/* Sharp Black CTA Blocks */}
-          <div className="absolute bottom-10 w-full px-8 space-y-3">
-            <Link 
-              href="/contact"
-              onClick={() => setMobileOpen(false)}
-              className="flex w-full items-center justify-between bg-black px-6 py-5 text-[16px] font-normal text-white"
-            >
-              Get Early Access
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" strokeWidth="2.5">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </Link>
-          </div>
+        {/* Bottom CTA Area */}
+        <div className="absolute bottom-12 w-full px-8 space-y-4">
+          <Link 
+            href="/contact"
+            onClick={() => setMobileOpen(false)}
+            className="flex w-full items-center justify-between bg-black px-6 py-6 text-[18px] font-normal text-white"
+          >
+            Get Early Access
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2dd4bf" strokeWidth="2.5">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </Link>
         </div>
       </div>
     </nav>
