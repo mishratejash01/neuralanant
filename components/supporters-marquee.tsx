@@ -1,11 +1,9 @@
 import Link from "next/link";
-// Make sure this import matches where your Supabase server client is located!
-import { createClient } from "@/utils/supabase/server"; 
+import { createClient } from "@/utils/supabase/server";
 
 export default async function SupportersMarquee() {
   const supabase = await createClient();
   
-  // Fetch active logos from Supabase, ordered by display_order
   const { data: supporterLogos, error } = await supabase
     .from("supporters")
     .select("name, image_url")
@@ -18,7 +16,6 @@ export default async function SupportersMarquee() {
 
   const logos = supporterLogos || [];
 
-  // If there are no logos in the database yet, we don't render the section at all
   if (logos.length === 0) return null;
 
   return (
@@ -36,30 +33,39 @@ export default async function SupportersMarquee() {
         }
       `}</style>
 
-      <section className="group relative flex h-24 cursor-pointer items-center justify-center overflow-hidden border-b border-black/5 bg-[#f6fbfb]">
+      {/* Removed the bottom border separator */}
+      <section className="group relative flex h-24 cursor-pointer items-center justify-center bg-[#f6fbfb]">
         
-        <div className="animate-marquee flex w-[200%] items-center justify-around transition-all duration-500 group-hover:opacity-20 group-hover:blur-sm">
-          {/* Mapping over the logos array twice creates the seamless infinite loop */}
-          {[...logos, ...logos].map((logo, index) => (
-            <div key={index} className="flex w-48 items-center justify-center">
-              <img
-                src={logo.image_url} 
-                alt={logo.name}
-                className="max-h-8 max-w-[120px] object-contain opacity-50 grayscale mix-blend-multiply transition-opacity duration-300 hover:opacity-100"
-              />
-            </div>
-          ))}
+        {/* ALIGNED CONTAINER + CSS MASK */}
+        {/* This perfectly aligns the scroll area with the navbar and fades the edges */}
+        <div 
+          className="relative mx-auto flex w-full max-w-6xl items-center overflow-hidden px-6"
+          style={{
+            WebkitMaskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+            maskImage: "linear-gradient(to right, transparent, black 10%, black 90%, transparent)"
+          }}
+        >
+          {/* Track: Reduced blur and increased opacity to 60% on hover */}
+          <div className="animate-marquee flex w-[200%] items-center justify-around transition-all duration-500 group-hover:opacity-60 group-hover:blur-[2px]">
+            {[...logos, ...logos].map((logo, index) => (
+              <div key={index} className="flex w-48 items-center justify-center">
+                <img
+                  src={logo.image_url} 
+                  alt={logo.name}
+                  className="max-h-8 max-w-[120px] object-contain opacity-50 grayscale mix-blend-multiply transition-opacity duration-300 hover:opacity-100"
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        {/* Hover Button: Dark teal, no rounded corners, no arrow */}
+        <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
           <Link
             href="/supporters"
-            className="flex items-center gap-3 bg-black px-5 py-2.5 font-sans text-[14px] font-medium tracking-tight text-white transition-transform hover:scale-105"
+            className="bg-teal-900 px-7 py-3 font-sans text-[14px] font-medium tracking-tight text-white transition-transform hover:scale-105"
           >
             Meet our supporters
-            <svg className="h-3.5 w-3.5 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
           </Link>
         </div>
       </section>
