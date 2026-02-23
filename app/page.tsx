@@ -1,20 +1,30 @@
+import Navbar from "@/components/navbar";
 import Hero from "@/components/hero";
 import SupportersMarquee from "@/components/supporters-marquee";
-import Navbar from "@/components/navbar";
+
+// Keep all your other imports here!
+// import WhyAnant from "@/components/why-anant";
+// import Footer from "@/components/footer";
 
 export default function Home() {
   return (
-    // The main wrapper sets the default off-teal background for the whole page
     <main className="flex min-h-screen flex-col bg-[#f6fbfb]">
       <Navbar />
       
-      {/* 97vh Hero Section */}
+      {/* 1. Hero Section */}
       <Hero />
       
-      {/* Scrolling Marquee sits immediately below the Hero */}
+      {/* 2. Marquee Section */}
       <SupportersMarquee />
       
-      {/* Future sections (like the 'Other LLMs forget' section) will go right here! */}
+      {/* 👇 DO NOT REMOVE YOUR REMAINING COMPONENTS 👇 */}
+      {/* All your other sections like "Other LLMs forget. Anant remembers." stay safely right here! */}
+      
+      {/* <WhyAnant />
+      <Architecture />
+      <Footer /> 
+      */}
+      
     </main>
   );
 }
