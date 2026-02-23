@@ -13,48 +13,45 @@ export default function Hero() {
           backgroundRepeat: "no-repeat"
         }}
       >
+        {/* Dark overlay to ensure text readability */}
         <div className="absolute inset-0 bg-black/40 z-0" />
 
-        {/* ALIGNMENT FIX: 
-          Uses exactly "max-w-6xl px-6" just like the navbar. 
-          This guarantees the "T" in "The AI" aligns perfectly with the "n" in "neural".
+        {/* ALIGNED CONTAINER: 
+          Uses `max-w-6xl px-6 mx-auto` to perfectly match the navbar's horizontal alignment. 
         */}
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
           
-          {/* Main headline - Letter spacing increased using tracking-normal */}
+          {/* Main headline - Inter Regular with added letter spacing */}
           <AnimateOnScroll delay="delay-150">
-            <h1 className="font-display text-[clamp(3.5rem,8vw,6.5rem)] leading-[0.95] tracking-normal text-white">
+            <h1 className="font-sans text-[clamp(3.5rem,8vw,6.5rem)] font-normal leading-[1.05] tracking-[0.02em] text-white">
               The AI That
               <br />
               Never Forgets
             </h1>
           </AnimateOnScroll>
 
-          {/* Description - Letter spacing increased slightly using tracking-wide */}
+          {/* Description - Inter Regular */}
           <AnimateOnScroll delay="delay-300">
-            <p className="mt-8 max-w-xl text-[1.1rem] font-medium leading-relaxed tracking-wide text-zinc-300">
+            <p className="mt-8 max-w-xl font-sans text-[1.1rem] font-normal leading-relaxed tracking-wide text-zinc-300">
               Anant 1.0 is India&apos;s first large language model with persistent
               memory. Every conversation builds on the last.
             </p>
           </AnimateOnScroll>
 
-          {/* CTA buttons */}
+          {/* CTA buttons - Updated text and set to Inter Regular */}
           <AnimateOnScroll delay="delay-400">
-            <div className="mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+            <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
               <Link
                 href="/contact"
-                className="group relative overflow-hidden rounded-full bg-white px-8 py-4 text-[15px] font-semibold tracking-wide text-black shadow-xl transition-all duration-500 hover:-translate-y-0.5 hover:bg-zinc-100 hover:shadow-2xl hover:shadow-white/10"
+                className="group relative overflow-hidden rounded-full bg-white px-8 py-3.5 text-[15px] font-normal tracking-wide text-black shadow-xl transition-all duration-500 hover:-translate-y-0.5 hover:bg-zinc-100 hover:shadow-2xl hover:shadow-white/10"
               >
                 Get Early Access
               </Link>
               <Link
-                href="/technology"
-                className="group flex items-center gap-2.5 rounded-full border border-white/20 bg-white/10 px-8 py-4 text-[15px] font-medium tracking-wide text-white shadow-sm backdrop-blur-md transition-all duration-300 hover:bg-white/20 hover:border-white/40"
+                href="/contact"
+                className="group flex items-center gap-2.5 rounded-full border border-white/30 bg-white/5 px-8 py-3.5 text-[15px] font-normal tracking-wide text-white shadow-sm backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/50"
               >
-                Explore Architecture
-                <svg className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                </svg>
+                Get in touch
               </Link>
             </div>
           </AnimateOnScroll>
