@@ -37,16 +37,16 @@ const usps = [
 
 export default function WhyAnant() {
   return (
-    // Applied explicit Inter font family and adjusted base text properties
     <section 
       className="relative bg-[#f6fbfb] text-[#1a1a1a]"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
-      {/* Main Content Wrapper - Widened max-w to create a zoomed-out effect */}
-      <div className="mx-auto flex max-w-[85rem] flex-col lg:flex-row relative z-10">
+      {/* Main Content Wrapper - Aligned perfectly to Navbar (max-w-6xl and px-6) */}
+      <div className="mx-auto flex w-full max-w-6xl flex-col px-6 lg:flex-row relative z-10">
         
         {/* --- Left Side (Sticky Text + Bounded Blocks) --- */}
-        <div className="relative w-full p-8 pt-16 lg:w-1/2 lg:p-16 lg:pl-20">
+        {/* Removed extra padding, uses pr-12 just to separate from the right side */}
+        <div className="relative w-full pt-16 lg:w-1/2 lg:pr-12">
           
           {/* Background Blocks Container */}
           <div className="pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-0 hidden w-full lg:block lg:pb-32 lg:pt-32">
@@ -71,7 +71,6 @@ export default function WhyAnant() {
           <div className="relative z-10 lg:sticky lg:top-40 lg:pt-12">
             <div className="w-full max-w-md">
               <AnimateOnScroll>
-                {/* Font size reduced slightly for the zoomed-out proportion */}
                 <h1 className="text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.25rem] text-zinc-900">
                   India&apos;s mind.<br />
                   Unshackled.<br />
@@ -83,12 +82,12 @@ export default function WhyAnant() {
         </div>
 
         {/* --- Right Side (Scrollable USPs) --- */}
-        <div className="w-full px-8 pb-32 pt-8 lg:w-1/2 lg:px-16 lg:pr-24 lg:pt-32">
+        {/* Removed extra padding, uses pl-12 to separate from the left side */}
+        <div className="w-full pb-32 pt-8 lg:w-1/2 lg:pl-12 lg:pt-32">
           {usps.map((usp, index) => (
             <AnimateOnScroll key={index} delay={`delay-${index * 100}`}>
-              {/* Separator lines */}
+              {/* Separator lines now stretch fully to the right edge */}
               <div className={`border-b border-black/15 py-10 ${index === 0 ? "border-t" : ""}`}>
-                {/* Title size scaled down */}
                 <h2 className="mb-3 max-w-[450px] text-lg font-medium leading-tight sm:text-xl">
                   {usp.title}
                 </h2>
@@ -96,7 +95,6 @@ export default function WhyAnant() {
                   <span className="mt-1 text-lg font-bold leading-none text-[#0f766e]">
                     ⇢
                   </span>
-                  {/* Applied font-normal for Inter Regular text, reduced size slightly */}
                   <p className="max-w-[450px] text-[15px] font-normal leading-relaxed text-[#444]">
                     {usp.desc}
                   </p>
