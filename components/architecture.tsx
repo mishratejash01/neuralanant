@@ -109,8 +109,8 @@ export default function Architecture() {
           </div>
         </div>
 
-        {/* Navigation Arrows - Grouped at Right Bottom, White Rectangular Blocks */}
-        <div className="mt-8 flex w-full items-center justify-end gap-3 sm:mt-10">
+        {/* Navigation Arrows - Placed on opposite sides (justify-between) */}
+        <div className="mt-8 flex w-full items-center justify-between sm:mt-10">
           <button 
             onClick={handlePrev} 
             disabled={currentIndex === 0}
