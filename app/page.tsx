@@ -4,30 +4,20 @@ import SupportersMarquee from "@/components/supporters-marquee";
 import WhyAnant from "@/components/why-anant";
 import Architecture from "@/components/architecture";
 import ContextWindow from "@/components/context-window";
-import FAQ from "@/components/faq";
+import CareersCard from "@/components/careers-card"; // <-- Import the new component
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col bg-[#f6fbfb]">
       <Navbar />
-      
-      {/* 1. Hero: The main introduction */}
       <Hero />
-      
-      {/* 2. Marquee: Social proof/Supporters */}
       <SupportersMarquee />
-      
-      {/* 3. Why Anant: "Other LLMs forget. Anant remembers." */}
       <WhyAnant />
-
-      {/* 4. Architecture: The technical breakdown */}
       <Architecture />
-
-      {/* 5. Context Window: Deep dive into the infinite memory */}
       <ContextWindow />
-
-      {/* 6. FAQ: Addressing common questions */}
-      <FAQ />
+      
+      {/* 7. Careers Call-to-action Card */}
+      <CareersCard />
     </main>
   );
 }
