@@ -2,8 +2,7 @@
 
 import AnimateOnScroll from "./animate-on-scroll";
 
-// Adjusted top (t) percentages to distribute evenly without huge gaps.
-// 0% aligns with the top separator, and 98% aligns with the bottom separator.
+// Background blocks evenly distributed to match the height of the right column
 const blocks = [
   { w: 60, h: 100, t: "0%", l: "10%" },
   { w: 80, h: 50, t: "10%", r: "20%" },
@@ -17,22 +16,23 @@ const blocks = [
   { w: 100, h: 50, t: "98%", l: "50%" },
 ];
 
+// Updated with Neural AI / Anant specific offerings
 const usps = [
   {
-    title: "Frontier intelligence, customized to you.",
-    desc: "Make your AI your own. Train, distill, fine-tune, and build with state-of-the-art open source models.",
+    title: "Persistent Memory Layer",
+    desc: "Ask a question on Monday, and by Tuesday traditional models forget. Anant retains your context across sessions, building a continuous thread of understanding without you repeating yourself.",
   },
   {
-    title: "Enterprise agents with deep context.",
-    desc: "Deploy agents that execute, adapt, and deliver real results—with powerful orchestration, tooling, and safety.",
+    title: "Deep Personalization",
+    desc: "Anant organically learns your coding style, business domain, and preferences over time, tailoring responses to your exact needs instantly.",
   },
   {
-    title: "Self-contained private deployments.",
-    desc: "Build privately anywhere—on-premises, cloud, edge, devices, and more—while retaining full control of your data.",
+    title: "Continuous Knowledge Graph",
+    desc: "This isn't retrieval bolted on as an afterthought. Memory is woven deeply into Anant's core architecture from the ground up to truly comprehend your evolving data.",
   },
   {
-    title: "Deeply engaged solutioning and value delivery.",
-    desc: "Hands-on assistance from the world's foremost applied AI scientists across deployment, solutioning, safety, and beyond.",
+    title: "Enterprise-Grade Privacy",
+    desc: "Your memory graph is securely isolated. Anant ensures your private data and contextual history never leak across tenants, giving you complete peace of mind while maintaining powerful recall.",
   },
 ];
 
@@ -43,11 +43,9 @@ export default function WhyAnant() {
       <div className="mx-auto flex max-w-7xl flex-col lg:flex-row relative z-10">
         
         {/* --- Left Side (Sticky Text + Bounded Blocks) --- */}
-        {/* Added relative positioning so the blocks container is bounded to this specific column */}
         <div className="relative w-full p-8 pt-16 lg:w-1/2 lg:p-12 lg:pl-16">
           
           {/* Background Blocks Container */}
-          {/* Matches the pt-32 and pb-32 of the right side so it perfectly aligns with the separators */}
           <div className="pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-0 hidden w-full lg:block lg:pb-32 lg:pt-32">
             <div className="relative h-full w-full">
               {blocks.map((block, i) => (
@@ -71,11 +69,12 @@ export default function WhyAnant() {
             <div className="w-full max-w-md">
               <AnimateOnScroll>
                 <h1 className="text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl lg:text-5xl">
-                  Your AI future<br />
-                  belongs in<br />
-                  your hands.
-                  <span className="ml-3 inline-block align-middle text-3xl font-bold text-[#ff5a1f]">
-                    ⚑
+                  Other LLMs<br />
+                  forget. Anant<br />
+                  remembers.
+                  {/* Replaced the flag with an AI sparkle using your teal brand color */}
+                  <span className="ml-3 inline-block align-middle text-3xl font-bold text-[#0f766e]">
+                    ✨
                   </span>
                 </h1>
               </AnimateOnScroll>
@@ -93,7 +92,8 @@ export default function WhyAnant() {
                   {usp.title}
                 </h2>
                 <div className="flex items-start gap-5">
-                  <span className="mt-1 text-xl font-bold leading-none text-[#ff5a1f]">
+                  {/* Changed arrow color to Teal */}
+                  <span className="mt-1 text-xl font-bold leading-none text-[#0f766e]">
                     ⇢
                   </span>
                   <p className="max-w-[450px] text-[1rem] leading-relaxed text-[#444]">
