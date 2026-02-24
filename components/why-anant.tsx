@@ -40,6 +40,7 @@ export default function WhyAnant() {
     <section className="relative bg-[#f6fbfb] text-[#1a1a1a]">
       
       {/* Background Blocks Container (Scrolls naturally behind content) */}
+      {/* Because it is absolute to the section, it will move as you scroll down */}
       <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-0 hidden w-full overflow-hidden lg:block lg:w-1/2">
         {blocks.map((block, i) => (
           <div
@@ -56,28 +57,30 @@ export default function WhyAnant() {
         ))}
       </div>
 
-      {/* Main Content Wrapper - Strict 50/50 split so left content never exceeds the center */}
-      <div className="mx-auto flex max-w-7xl flex-col lg:flex-row">
+      {/* Main Content Wrapper - Strict 50/50 split */}
+      <div className="mx-auto flex max-w-7xl flex-col lg:flex-row relative z-10">
         
-        {/* --- Left Side (Scrolling Text, NOT sticky) --- */}
-        <div className="relative z-10 w-full p-8 pt-16 lg:w-1/2 lg:p-12 lg:pl-16 lg:pt-32">
-          {/* Removed sticky classes, text now flows normally */}
-          <div className="w-full max-w-md">
-            <AnimateOnScroll>
-              <h1 className="text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl lg:text-5xl">
-                Your AI future<br />
-                belongs in<br />
-                your hands.
-                <span className="ml-3 inline-block align-middle text-3xl font-bold text-[#ff5a1f]">
-                  ⚑
-                </span>
-              </h1>
-            </AnimateOnScroll>
+        {/* --- Left Side (Text is STICKY/FIXED again) --- */}
+        <div className="w-full p-8 pt-16 lg:w-1/2 lg:p-12 lg:pl-16">
+          {/* This wrapper keeps the text pinned to the screen while scrolling */}
+          <div className="lg:sticky lg:top-40 lg:pt-12">
+            <div className="w-full max-w-md">
+              <AnimateOnScroll>
+                <h1 className="text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl lg:text-5xl">
+                  Your AI future<br />
+                  belongs in<br />
+                  your hands.
+                  <span className="ml-3 inline-block align-middle text-3xl font-bold text-[#ff5a1f]">
+                    ⚑
+                  </span>
+                </h1>
+              </AnimateOnScroll>
+            </div>
           </div>
         </div>
 
         {/* --- Right Side (Scrollable USPs) --- */}
-        <div className="relative z-10 w-full px-8 pb-32 pt-8 lg:w-1/2 lg:px-12 lg:pr-16 lg:pt-24">
+        <div className="w-full px-8 pb-32 pt-8 lg:w-1/2 lg:px-12 lg:pr-16 lg:pt-32">
           {usps.map((usp, index) => (
             <AnimateOnScroll key={index} delay={`delay-${index * 100}`}>
               {/* Separator lines */}
