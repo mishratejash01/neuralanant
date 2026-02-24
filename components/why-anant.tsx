@@ -2,8 +2,7 @@
 
 import AnimateOnScroll from "./animate-on-scroll";
 
-// Scattered across the full height (using top percentages instead of bottom)
-// so they scroll past naturally as the user scrolls down.
+// Background blocks scattered across the full height
 const blocks = [
   { w: 60, h: 100, t: "5%", l: "10%" },
   { w: 80, h: 50, t: "12%", r: "20%" },
@@ -38,9 +37,9 @@ const usps = [
 
 export default function WhyAnant() {
   return (
-    <section className="relative flex min-h-screen flex-col bg-[#f6fbfb] text-[#1a1a1a] lg:flex-row">
+    <section className="relative bg-[#f6fbfb] text-[#1a1a1a]">
       
-      {/* Background Blocks Container (Scrolls naturally, NOT sticky) */}
+      {/* Background Blocks Container (Scrolls naturally) */}
       <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-0 hidden w-full overflow-hidden lg:block lg:w-1/2">
         {blocks.map((block, i) => (
           <div
@@ -57,50 +56,56 @@ export default function WhyAnant() {
         ))}
       </div>
 
-      {/* --- Left Side (Only Text is Sticky) --- */}
-      <div className="relative z-10 w-full p-12 lg:w-1/2 lg:p-16 lg:pl-24">
-        {/* The sticky wrapper for the text */}
-        <div className="flex h-auto items-center justify-start lg:sticky lg:top-[35vh]">
-          <div className="w-full max-w-lg">
-            <AnimateOnScroll>
-              <h1 className="text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.5rem]">
-                Your AI future<br />
-                belongs in<br />
-                your hands.
-                <span className="ml-3 inline-block align-middle text-4xl font-bold text-[#ff5a1f]">
-                  ⚑
-                </span>
-              </h1>
-            </AnimateOnScroll>
+      {/* Main Content Wrapper - Added max-w-7xl to "zoom out" horizontally */}
+      <div className="mx-auto flex min-h-screen max-w-7xl flex-col items-start lg:flex-row">
+        
+        {/* --- Left Side (Sticky Text) --- */}
+        <div className="relative z-10 w-full p-8 lg:w-[45%] lg:p-12 lg:pl-16">
+          {/* Sticky wrapper aligns nicely with the first separator row */}
+          <div className="lg:sticky lg:top-40 lg:pt-8">
+            <div className="w-full max-w-md">
+              <AnimateOnScroll>
+                {/* Font size slightly reduced for zoom-out effect */}
+                <h1 className="text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl lg:text-5xl">
+                  Your AI future<br />
+                  belongs in<br />
+                  your hands.
+                  <span className="ml-3 inline-block align-middle text-3xl font-bold text-[#ff5a1f]">
+                    ⚑
+                  </span>
+                </h1>
+              </AnimateOnScroll>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* --- Right Side (Scrollable USPs) --- */}
-      <div className="relative z-10 w-full px-8 pb-32 pt-8 lg:w-1/2 lg:px-16 lg:pr-32">
-        {usps.map((usp, index) => (
-          <AnimateOnScroll key={index} delay={`delay-${index * 100}`}>
-            {/* Darker border (black/15) for visible separation */}
-            <div className={`border-b border-black/15 py-16 ${index === 0 ? "border-t lg:mt-32" : ""}`}>
-              <h2 className="mb-8 max-w-[500px] text-2xl font-medium leading-tight sm:text-3xl">
-                {usp.title}
-              </h2>
-              <div className="flex items-start gap-6">
-                <span className="mt-1 text-2xl font-bold leading-none text-[#ff5a1f]">
-                  ⇢
-                </span>
-                <p className="max-w-[480px] text-[1.1rem] leading-relaxed text-[#444]">
-                  {usp.desc}
-                </p>
+        {/* --- Right Side (Scrollable USPs) --- */}
+        <div className="relative z-10 w-full px-8 pb-32 pt-8 lg:w-[55%] lg:px-12 lg:pr-16">
+          {usps.map((usp, index) => (
+            <AnimateOnScroll key={index} delay={`delay-${index * 100}`}>
+              {/* Reduced py-16 to py-10 to bring rows closer */}
+              <div className={`border-b border-black/15 py-10 ${index === 0 ? "border-t lg:mt-40" : ""}`}>
+                {/* Font sizes adjusted down slightly */}
+                <h2 className="mb-4 max-w-[450px] text-xl font-medium leading-tight sm:text-2xl">
+                  {usp.title}
+                </h2>
+                <div className="flex items-start gap-5">
+                  <span className="mt-1 text-xl font-bold leading-none text-[#ff5a1f]">
+                    ⇢
+                  </span>
+                  <p className="max-w-[450px] text-[1rem] leading-relaxed text-[#444]">
+                    {usp.desc}
+                  </p>
+                </div>
               </div>
-            </div>
-          </AnimateOnScroll>
-        ))}
+            </AnimateOnScroll>
+          ))}
 
-        {/* Extra space to demonstrate smooth scrolling to the footer */}
-        <div className="h-[10vh]"></div>
+          {/* Extra space to demonstrate smooth scrolling to the footer */}
+          <div className="h-[15vh]"></div>
+        </div>
+
       </div>
-
     </section>
   );
 }
