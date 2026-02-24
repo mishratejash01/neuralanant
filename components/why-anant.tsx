@@ -1,126 +1,100 @@
+"use client";
+
 import AnimateOnScroll from "./animate-on-scroll";
+
+const blocks = [
+  { w: 60, h: 100, t: "15%", l: "10%" },
+  { w: 80, h: 50, t: "5%", r: "20%" },
+  { w: 50, h: 50, t: "20%", l: "40%" },
+  { w: 40, h: 50, b: "45%", l: "5%" },
+  { w: 50, h: 100, b: "35%", r: "15%" },
+  { w: 60, h: 100, b: "10%", l: "30%" },
+  { w: 60, h: 50, b: "15%", l: "20%" },
+  { w: 100, h: 100, b: "5%", l: "10%" },
+  { w: 60, h: 50, b: "20%", l: "42%" },
+  { w: 100, h: 50, b: "5%", l: "50%" },
+];
+
+const usps = [
+  {
+    title: "Frontier intelligence, customized to you.",
+    desc: "Make your AI your own. Train, distill, fine-tune, and build with state-of-the-art open source models.",
+  },
+  {
+    title: "Enterprise agents with deep context.",
+    desc: "Deploy agents that execute, adapt, and deliver real results—with powerful orchestration, tooling, and safety.",
+  },
+  {
+    title: "Self-contained private deployments.",
+    desc: "Build privately anywhere—on-premises, cloud, edge, devices, and more—while retaining full control of your data.",
+  },
+  {
+    title: "Deeply engaged solutioning and value delivery.",
+    desc: "Hands-on assistance from the world's foremost applied AI scientists across deployment, solutioning, safety, and beyond.",
+  },
+];
 
 export default function WhyAnant() {
   return (
-    <section className="relative overflow-hidden bg-[#f4faf9] px-6 py-28 sm:py-36">
-      {/* Subtle background blob */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -right-[10%] top-[10%] h-[500px] w-[500px] rounded-full bg-teal-100/40 blur-[120px]" />
+    <section className="flex min-h-screen flex-col bg-[#f6fbfb] text-[#1a1a1a] lg:flex-row">
+      {/* --- Left Side (Sticky on Desktop) --- */}
+      <div className="relative flex h-auto w-full items-center justify-center overflow-hidden p-12 py-24 lg:sticky lg:top-0 lg:h-screen lg:w-1/2 lg:p-16">
+        
+        {/* Background Blocks */}
+        <div className="absolute inset-0 z-0">
+          {blocks.map((block, i) => (
+            <div
+              key={i}
+              className="absolute bg-[#d1e8e8]"
+              style={{
+                width: `${block.w}px`,
+                height: `${block.h}px`,
+                top: block.t,
+                bottom: block.b,
+                left: block.l,
+                right: block.r,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Left Content */}
+        <div className="relative z-10 w-full max-w-lg">
+          <AnimateOnScroll>
+            <h1 className="text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.5rem]">
+              Your AI future<br />
+              belongs in<br />
+              your hands.
+              <span className="ml-3 inline-block align-middle text-4xl font-bold text-[#ff5a1f]">
+                ⚑
+              </span>
+            </h1>
+          </AnimateOnScroll>
+        </div>
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-24 items-start">
-          
-          {/* LEFT SIDE - Sticky Content */}
-          <div className="lg:sticky lg:top-32 lg:pr-8">
-            <AnimateOnScroll>
-              <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-teal-700">
-                The Anant difference
-              </p>
-              <h2 className="mt-6 text-4xl font-semibold tracking-tight text-zinc-900 sm:text-5xl leading-tight">
-                Other LLMs forget.<br />
-                <span className="text-zinc-500">Anant remembers.</span>
+      {/* --- Right Side (Scrollable) --- */}
+      <div className="w-full px-8 pb-32 pt-8 lg:w-1/2 lg:px-16 lg:pr-32">
+        {usps.map((usp, index) => (
+          <AnimateOnScroll key={index} delay={`delay-${index * 100}`}>
+            <div className={`border-b border-black/10 py-16 ${index === 0 ? "lg:pt-32" : ""}`}>
+              <h2 className="mb-8 max-w-[500px] text-2xl font-medium leading-tight sm:text-3xl">
+                {usp.title}
               </h2>
-              <p className="mt-6 text-lg leading-relaxed text-zinc-600 max-w-md">
-                Today&apos;s language models start every conversation from scratch.
-                Anant changes that with memory built into its core.
-              </p>
-              <div className="mt-10">
-                <a 
-                  href="#early-access" 
-                  className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-7 py-3.5 text-sm font-medium text-white transition hover:bg-zinc-800"
-                >
-                  Get early access
-                  <svg className="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </a>
-              </div>
-            </AnimateOnScroll>
-          </div>
-
-          {/* RIGHT SIDE - Scrolling Cards */}
-          <div className="space-y-8">
-            
-            {/* Card 1: Continuous Knowledge Graph */}
-            <AnimateOnScroll delay="delay-100">
-              <div className="rounded-[2.5rem] border border-teal-800/30 bg-[#0b2826] p-8 sm:p-10 shadow-xl">
-                <h3 className="text-2xl font-medium text-white">Continuous Knowledge Graph</h3>
-                <p className="mt-4 text-teal-100/70 text-base leading-relaxed">
-                  Unlike traditional models that lose context between sessions, Anant builds a persistent knowledge graph of your interactions and data.
-                </p>
-
-                {/* Comparison UI Inside the Card */}
-                <div className="mt-10 grid gap-4 sm:grid-cols-2">
-                  
-                  {/* Traditional LLM Box */}
-                  <div className="rounded-2xl bg-white p-6 shadow-sm">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100">
-                        <div className="h-2 w-2 rounded-full bg-zinc-300" />
-                      </div>
-                      <p className="text-xs font-bold uppercase tracking-[0.1em] text-zinc-400">Traditional LLM</p>
-                    </div>
-                    <div className="mt-6 space-y-2">
-                      {[
-                        { label: "Session 1", status: "Context loaded", ok: true },
-                        { label: "Session 2", status: "Context lost", ok: false },
-                        { label: "Session 3", status: "Starts from zero", ok: false },
-                      ].map((item) => (
-                        <div key={item.label} className="flex items-center justify-between rounded-xl bg-zinc-50 px-4 py-3">
-                          <span className="text-sm font-medium text-zinc-500">{item.label}</span>
-                          <span className={`rounded-full px-2.5 py-1 text-[10px] font-semibold ${item.ok ? "bg-zinc-200/50 text-zinc-500" : "bg-red-50 text-red-400"}`}>
-                            {item.status}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Anant 1.0 Box */}
-                  <div className="rounded-2xl border border-zinc-700 bg-zinc-900 p-6">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-800">
-                        <div className="h-2 w-2 rounded-full bg-white" />
-                      </div>
-                      <p className="text-xs font-bold uppercase tracking-[0.1em] text-zinc-400">Anant 1.0</p>
-                    </div>
-                    <div className="mt-6 space-y-2">
-                      {["Context loaded", "Context retained", "Context grows"].map((status, i) => (
-                        <div key={i} className="flex items-center justify-between rounded-xl bg-zinc-800/50 px-4 py-3">
-                          <span className="text-sm font-medium text-zinc-300">Session {i + 1}</span>
-                          <span className="rounded-full bg-zinc-700 px-2.5 py-1 text-[10px] font-semibold text-zinc-200">{status}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </AnimateOnScroll>
-
-            {/* Card 2: Deep Personalization */}
-            <AnimateOnScroll delay="delay-200">
-              <div className="rounded-[2.5rem] border border-teal-800/30 bg-[#0b2826] p-8 sm:p-10 shadow-xl">
-                <h3 className="text-2xl font-medium text-white">Deep Personalization</h3>
-                <p className="mt-4 text-teal-100/70 text-base leading-relaxed">
-                  Anant learns your coding style, your business domain, and your preferences over time. It tailors its responses to your specific needs instantly, without requiring repetitive background prompts.
+              <div className="flex items-start gap-6">
+                <span className="mt-1 text-2xl font-bold leading-none text-[#ff5a1f]">
+                  ⇢
+                </span>
+                <p className="max-w-[480px] text-[1.1rem] leading-relaxed text-[#444]">
+                  {usp.desc}
                 </p>
               </div>
-            </AnimateOnScroll>
+            </div>
+          </AnimateOnScroll>
+        ))}
 
-            {/* Card 3: Enterprise Privacy */}
-            <AnimateOnScroll delay="delay-300">
-              <div className="rounded-[2.5rem] border border-teal-800/30 bg-[#0b2826] p-8 sm:p-10 shadow-xl">
-                <h3 className="text-2xl font-medium text-white">Enterprise Privacy</h3>
-                <p className="mt-4 text-teal-100/70 text-base leading-relaxed">
-                  Your memory graph is securely isolated. Anant ensures that your private data and contextual history never leak across tenants, giving you complete peace of mind while maintaining powerful historical recall.
-                </p>
-              </div>
-            </AnimateOnScroll>
-
-          </div>
-        </div>
+        {/* Extra space to demonstrate smooth scrolling to the footer */}
+        <div className="h-[20vh]"></div>
       </div>
     </section>
   );
