@@ -16,15 +16,15 @@ const blocks = [
   { w: 100, h: 50, t: "98%", l: "50%" },
 ];
 
-// Updated with Neural AI / Anant specific offerings
+// Updated with Sovereign/Patriotic focus + original memory USPs
 const usps = [
+  {
+    title: "India's First Sovereign AI",
+    desc: "Built from the ground up for Bharat. Anant ensures that our nation's data, cultural nuance, and intelligence remain fiercely protected within our borders. True digital independence, zero foreign dependency.",
+  },
   {
     title: "Persistent Memory Layer",
     desc: "Ask a question on Monday, and by Tuesday traditional models forget. Anant retains your context across sessions, building a continuous thread of understanding without you repeating yourself.",
-  },
-  {
-    title: "Deep Personalization",
-    desc: "Anant organically learns your coding style, business domain, and preferences over time, tailoring responses to your exact needs instantly.",
   },
   {
     title: "Continuous Knowledge Graph",
@@ -68,14 +68,11 @@ export default function WhyAnant() {
           <div className="relative z-10 lg:sticky lg:top-40 lg:pt-12">
             <div className="w-full max-w-md">
               <AnimateOnScroll>
-                <h1 className="text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl lg:text-5xl">
-                  Other LLMs<br />
-                  forget. Anant<br />
-                  remembers.
-                  {/* Replaced the flag with an AI sparkle using your teal brand color */}
-                  <span className="ml-3 inline-block align-middle text-3xl font-bold text-[#0f766e]">
-                    ✨
-                  </span>
+                {/* Removed emoji, added bold/crazy text */}
+                <h1 className="text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl text-zinc-900">
+                  India&apos;s mind.<br />
+                  Unshackled.<br />
+                  <span className="text-[#0f766e]">Unstoppable.</span>
                 </h1>
               </AnimateOnScroll>
             </div>
@@ -92,7 +89,6 @@ export default function WhyAnant() {
                   {usp.title}
                 </h2>
                 <div className="flex items-start gap-5">
-                  {/* Changed arrow color to Teal */}
                   <span className="mt-1 text-xl font-bold leading-none text-[#0f766e]">
                     ⇢
                   </span>
