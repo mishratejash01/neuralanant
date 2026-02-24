@@ -10,7 +10,7 @@ const useCases = [
     desc: "State-of-the-art NLU engine optimized for fluid, non-deterministic dialogue trees. Leverages persistent memory graphs to execute semantic retrieval and dynamic multi-step inference without context window degradation.",
     imageBg: "bg-gradient-to-br from-[#e6f4f1] to-[#cce8e4]", // Light off-teal gradient
     icon: "/window.svg",
-    darkIcon: false, // Keeps SVG black for the light background
+    darkIcon: false, 
   },
   {
     title: "Algorithmic Logic Synthesis",
@@ -18,7 +18,7 @@ const useCases = [
     desc: "Deterministic syntax generation model fine-tuned on vast enterprise architectures. Capabilities include zero-shot automated code completion, AST-level anomaly detection, and cross-framework semantic translation.",
     imageBg: "bg-gradient-to-br from-teal-900 to-teal-950", // Dark teal gradient
     icon: "/file.svg",
-    darkIcon: true, // Inverts SVG to white for the dark background
+    darkIcon: true, 
   },
   {
     title: "Enterprise Agentic Orchestration",
@@ -26,45 +26,40 @@ const useCases = [
     desc: "Agentic framework for multi-tool execution. Seamlessly integrates with internal vector stores via high-dimensional RAG, enabling robust, self-correcting data pipelines in isolated, air-gapped environments.",
     imageBg: "bg-gradient-to-br from-zinc-900 to-black", // Dark zinc gradient
     icon: "/globe.svg",
-    darkIcon: true, // Inverts SVG to white for the dark background
+    darkIcon: true, 
   },
 ];
 
 export default function Architecture() {
   return (
+    // Changed background to exactly match the navbar (#f6fbfb)
     <section 
-      className="relative bg-white py-28 sm:py-36" 
+      className="relative bg-[#f6fbfb] py-28 sm:py-36" 
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
-      {/* Zoomed out max-width to match previous sections */}
       <div className="mx-auto max-w-[85rem] px-6 lg:px-8">
         
-        {/* Section Header */}
+        {/* Section Header - Only keeping the title */}
         <AnimateOnScroll>
-          <div className="max-w-3xl">
-            <h2 className="text-[13px] font-semibold uppercase tracking-[0.2em] text-teal-700">
-              Architecture
-            </h2>
-            <h3 className="mt-5 text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl lg:text-[3.25rem] leading-[1.1]">
+          <div className="max-w-3xl mb-16">
+            <h2 className="text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl lg:text-[3.25rem] leading-[1.1]">
               Deployed in Production.
-            </h3>
-            <p className="mt-6 text-[16px] font-normal leading-relaxed text-zinc-600 max-w-2xl">
-              Built for high-performance enterprise environments. Anant&apos;s architecture delivers uncompromised scale, low-latency inferencing, and cryptographically secure isolation across diverse operational workloads.
-            </p>
+            </h2>
           </div>
         </AnimateOnScroll>
 
         {/* 3 Image Cards Grid */}
-        <div className="mt-20 grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {useCases.map((useCase, index) => (
             <AnimateOnScroll key={index} delay={`delay-${index * 100}`}>
-              <div className="group flex h-full flex-col overflow-hidden rounded-[2rem] border border-zinc-200/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-200/50">
+              {/* Added rounded-none for completely sharp, rectangular corners */}
+              <div className="group flex h-full flex-col overflow-hidden rounded-none border border-zinc-200/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-200/50">
                 
-                {/* Image Frame (Acts as the image area of the card) */}
-                <div className={`relative flex h-60 w-full items-center justify-center ${useCase.imageBg} overflow-hidden`}>
+                {/* Image Frame with sharp corners */}
+                <div className={`relative flex h-60 w-full items-center justify-center ${useCase.imageBg} overflow-hidden rounded-none`}>
                   
-                  {/* Category Tag overlay on the image */}
-                  <div className={`absolute left-6 top-6 rounded-full px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-md border ${
+                  {/* Category Tag overlay - also made sharp (rounded-none) */}
+                  <div className={`absolute left-6 top-6 rounded-none px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-md border ${
                     useCase.darkIcon 
                       ? "bg-white/10 text-white border-white/10" 
                       : "bg-black/5 text-teal-900 border-teal-900/10"
@@ -72,7 +67,7 @@ export default function Architecture() {
                     {useCase.tag}
                   </div>
 
-                  {/* Center Icon representing the use case */}
+                  {/* Center Icon */}
                   <div className="relative z-10 transition-transform duration-700 group-hover:scale-110">
                     <Image 
                       src={useCase.icon} 
@@ -87,10 +82,10 @@ export default function Architecture() {
                 </div>
 
                 {/* Content Frame */}
-                <div className="flex flex-1 flex-col p-8 sm:p-10">
-                  <h4 className="text-xl font-medium text-zinc-900">
+                <div className="flex flex-1 flex-col p-8 sm:p-10 rounded-none bg-white">
+                  <h3 className="text-xl font-medium text-zinc-900">
                     {useCase.title}
-                  </h4>
+                  </h3>
                   <p className="mt-4 text-[15px] font-normal leading-relaxed text-zinc-600">
                     {useCase.desc}
                   </p>
@@ -100,6 +95,7 @@ export default function Architecture() {
             </AnimateOnScroll>
           ))}
         </div>
+
       </div>
     </section>
   );
