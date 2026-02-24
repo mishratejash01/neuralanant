@@ -1,99 +1,135 @@
 "use client";
 
+import { useState } from "react";
 import AnimateOnScroll from "./animate-on-scroll";
-import Image from "next/image";
 
-const useCases = [
+const frames = [
   {
-    title: "Multi-Turn Contextual Reasoning",
-    tag: "Natural Language",
-    desc: "State-of-the-art NLU engine optimized for fluid, non-deterministic dialogue trees. Leverages persistent memory graphs to execute semantic retrieval and dynamic multi-step inference without context window degradation.",
-    imageBg: "bg-gradient-to-br from-[#e6f4f1] to-[#cce8e4]", // Light off-teal gradient
-    icon: "/window.svg",
-    darkIcon: false, 
+    text: "State-of-the-art NLU engine optimized for fluid, non-deterministic dialogue trees and multi-step inference.",
+    company: "ANANT",
+    model: "NLU",
+    badge: "Natural Language",
+    bgClass: "bg-[#1e1e1e]",
   },
   {
-    title: "Algorithmic Logic Synthesis",
-    tag: "Code Generation",
-    desc: "Deterministic syntax generation model fine-tuned on vast enterprise architectures. Capabilities include zero-shot automated code completion, AST-level anomaly detection, and cross-framework semantic translation.",
-    imageBg: "bg-gradient-to-br from-teal-900 to-teal-950", // Dark teal gradient
-    icon: "/file.svg",
-    darkIcon: true, 
+    text: "Deterministic syntax generation model fine-tuned on vast enterprise architectures for automated code completion.",
+    company: "ANANT",
+    model: "CODE",
+    badge: "Code Generation",
+    bgClass: "bg-[#2a2a2a]",
   },
   {
-    title: "Enterprise Agentic Orchestration",
-    tag: "Autonomous Systems",
-    desc: "Agentic framework for multi-tool execution. Seamlessly integrates with internal vector stores via high-dimensional RAG, enabling robust, self-correcting data pipelines in isolated, air-gapped environments.",
-    imageBg: "bg-gradient-to-br from-zinc-900 to-black", // Dark zinc gradient
-    icon: "/globe.svg",
-    darkIcon: true, 
+    text: "Agentic framework for multi-tool execution enabling robust data pipelines in air-gapped, isolated environments.",
+    company: "ANANT",
+    model: "AGENT",
+    badge: "Autonomous Systems",
+    bgClass: "bg-[#333333]",
   },
 ];
 
 export default function Architecture() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const totalCards = frames.length;
+
+  const handleNext = () => {
+    if (currentIndex < totalCards - 1) setCurrentIndex(currentIndex + 1);
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
+  };
+
   return (
-    // Changed background to exactly match the navbar (#f6fbfb)
     <section 
-      className="relative bg-[#f6fbfb] py-28 sm:py-36" 
+      className="relative w-full overflow-hidden bg-[#f6fbfb] py-24 sm:py-32" 
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
-      <div className="mx-auto max-w-[85rem] px-6 lg:px-8">
+      {/* Zoomed out max-width container, strictly aligned padding */}
+      <div className="mx-auto flex w-full max-w-[85rem] flex-col px-6 lg:px-8">
         
-        {/* Section Header - Only keeping the title */}
+        {/* Header - Non-bold and perfectly aligned to the left edge of the cards */}
         <AnimateOnScroll>
-          <div className="max-w-3xl mb-16">
-            <h2 className="text-4xl font-medium tracking-tight text-zinc-900 sm:text-5xl lg:text-[3.25rem] leading-[1.1]">
-              Deployed in Production.
+          <div className="mb-12">
+            <h2 className="text-4xl font-normal tracking-tight text-[#1a1a1a] sm:text-5xl lg:text-[3rem]">
+              Deployed in production.
             </h2>
           </div>
         </AnimateOnScroll>
 
-        {/* 3 Image Cards Grid */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          {useCases.map((useCase, index) => (
-            <AnimateOnScroll key={index} delay={`delay-${index * 100}`}>
-              {/* Added rounded-none for completely sharp, rectangular corners */}
-              <div className="group flex h-full flex-col overflow-hidden rounded-none border border-zinc-200/80 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-zinc-200/50">
+        {/* Carousel Viewport (overflow-visible allows next cards to peek through) */}
+        <div className="relative w-full overflow-visible">
+          <div 
+            className="flex w-full gap-6 transition-transform duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] will-change-transform"
+            // Card takes 80% of container + gap (24px for gap-6)
+            style={{ transform: `translateX(calc(-${currentIndex} * (80% + 24px)))` }}
+          >
+            {frames.map((frame, index) => (
+              <div 
+                key={index} 
+                className={`relative h-[450px] w-[80%] shrink-0 overflow-hidden rounded-[4px] text-white sm:h-[500px] ${frame.bgClass}`}
+              >
+                {/* Technical Grid Overlay */}
+                <div 
+                  className="pointer-events-none absolute inset-0 opacity-40"
+                  style={{
+                    backgroundImage: `
+                      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+                    `,
+                    backgroundSize: "60px 60px"
+                  }}
+                />
                 
-                {/* Image Frame with sharp corners */}
-                <div className={`relative flex h-60 w-full items-center justify-center ${useCase.imageBg} overflow-hidden rounded-none`}>
-                  
-                  {/* Category Tag overlay - also made sharp (rounded-none) */}
-                  <div className={`absolute left-6 top-6 rounded-none px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider backdrop-blur-md border ${
-                    useCase.darkIcon 
-                      ? "bg-white/10 text-white border-white/10" 
-                      : "bg-black/5 text-teal-900 border-teal-900/10"
-                  }`}>
-                    {useCase.tag}
-                  </div>
+                {/* UI Marker Decoration */}
+                <div className="pointer-events-none absolute left-[40%] top-[30%] h-[180px] w-[180px] border border-white/10" />
 
-                  {/* Center Icon */}
-                  <div className="relative z-10 transition-transform duration-700 group-hover:scale-110">
-                    <Image 
-                      src={useCase.icon} 
-                      alt={useCase.tag} 
-                      width={56} 
-                      height={56} 
-                      className={`opacity-80 transition-opacity duration-300 group-hover:opacity-100 ${
-                        useCase.darkIcon ? "invert" : ""
-                      }`} 
-                    />
-                  </div>
-                </div>
-
-                {/* Content Frame */}
-                <div className="flex flex-1 flex-col p-8 sm:p-10 rounded-none bg-white">
-                  <h3 className="text-xl font-medium text-zinc-900">
-                    {useCase.title}
+                {/* Card Content */}
+                <div className="relative z-10 flex h-full flex-col justify-between p-8 sm:p-10">
+                  <h3 className="max-w-xl text-2xl font-normal leading-snug sm:text-3xl lg:text-[1.8rem]">
+                    {frame.text}
                   </h3>
-                  <p className="mt-4 text-[15px] font-normal leading-relaxed text-zinc-600">
-                    {useCase.desc}
-                  </p>
+                  
+                  <div className="flex w-full items-center justify-between">
+                    {/* Logos Area */}
+                    <div className="flex items-center gap-4 text-xs font-bold tracking-[0.15em] sm:text-sm">
+                      <span>{frame.company}</span>
+                      <div className="h-[1px] w-[20px] bg-white/30 sm:w-[30px]" />
+                      <span className="text-[#0f766e]">✨</span>
+                      <span>{frame.model}</span>
+                    </div>
+                    
+                    {/* Badge */}
+                    <div className="rounded-full border border-white/20 px-4 py-2 text-[10px] uppercase tracking-wider sm:px-5 sm:text-[11px]">
+                      {frame.badge}
+                    </div>
+                  </div>
                 </div>
-                
+
               </div>
-            </AnimateOnScroll>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        {/* Navigation Arrows */}
+        <div className="mt-10 flex w-[80%] items-center justify-between">
+          <button 
+            onClick={handlePrev} 
+            disabled={currentIndex === 0}
+            className={`flex h-14 w-14 cursor-pointer items-center justify-center border-none text-2xl transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-30 ${
+              currentIndex === 0 ? "bg-[#f1f0e8]" : "bg-[#f5eed3] hover:bg-[#e8e6d8]"
+            }`}
+          >
+            ←
+          </button>
+          <button 
+            onClick={handleNext} 
+            disabled={currentIndex === totalCards - 1}
+            className={`flex h-14 w-14 cursor-pointer items-center justify-center border-none text-2xl transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-30 ${
+              currentIndex === totalCards - 1 ? "bg-[#f1f0e8]" : "bg-[#f5eed3] hover:bg-[#e8e6d8]"
+            }`}
+          >
+            →
+          </button>
         </div>
 
       </div>
