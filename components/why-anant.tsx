@@ -2,8 +2,8 @@ import AnimateOnScroll from "./animate-on-scroll";
 
 export default function WhyAnant() {
   return (
-    {/* Applied off-teal white background */}
     <section className="relative overflow-hidden px-6 py-28 sm:py-36 bg-[#f4faf9]">
+      {/* Applied off-teal white background to the section above */}
       <div className="section-divider absolute left-0 right-0 top-0" />
 
       {/* Subtle teal background blob */}
