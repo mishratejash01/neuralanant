@@ -2,23 +2,24 @@ import AnimateOnScroll from "./animate-on-scroll";
 
 export default function WhyAnant() {
   return (
-    <section className="relative overflow-hidden px-6 py-28 sm:py-36">
+    {/* Applied off-teal white background */}
+    <section className="relative overflow-hidden px-6 py-28 sm:py-36 bg-[#f4faf9]">
       <div className="section-divider absolute left-0 right-0 top-0" />
 
-      {/* Subtle background blob */}
+      {/* Subtle teal background blob */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="blob-3 absolute -right-[10%] top-[10%] h-[500px] w-[500px] rounded-full bg-blue-100/40 blur-[120px]" />
+        <div className="blob-3 absolute -right-[10%] top-[10%] h-[500px] w-[500px] rounded-full bg-teal-100/40 blur-[120px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-6xl">
         <AnimateOnScroll>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400">
+          <div className="mx-auto max-w-2xl text-center mb-20">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-teal-600">
               Why Anant
             </p>
             <h2 className="font-display mt-5 text-4xl tracking-tight text-zinc-900 sm:text-5xl">
               Other LLMs forget.{" "}
-              <span className="text-zinc-400">Anant remembers.</span>
+              <span className="text-teal-600">Anant remembers.</span>
             </h2>
             <p className="mt-5 text-[17px] leading-relaxed text-zinc-500">
               Today&apos;s language models start every conversation from scratch.
@@ -27,72 +28,82 @@ export default function WhyAnant() {
           </div>
         </AnimateOnScroll>
 
-        <div className="mt-20 grid gap-8 lg:grid-cols-2 lg:gap-12">
-          <AnimateOnScroll delay="delay-100">
-            <div className="h-full rounded-3xl border border-zinc-100 bg-gradient-to-br from-zinc-50/80 to-white p-10">
-              <h3 className="text-xl font-semibold text-zinc-900">The memory gap in AI</h3>
+        {/* Grid with items-start to allow the sticky element to work */}
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12 items-start relative">
+          
+          {/* Left Side (Sticky Content) */}
+          <div className="lg:sticky lg:top-32 h-auto rounded-3xl border border-teal-100 bg-white p-10 shadow-sm">
+            <AnimateOnScroll>
+              <h3 className="text-2xl font-semibold text-zinc-900">The memory gap in AI</h3>
               <div className="mt-6 space-y-5">
-                <p className="text-[15px] leading-[1.8] text-zinc-500">
+                <p className="text-[15px] leading-[1.8] text-zinc-600">
                   Ask a question on Monday, and by Tuesday it&apos;s gone. There&apos;s no continuity, no context, no memory of who you are or what you&apos;ve discussed.
                 </p>
-                <p className="text-[15px] leading-[1.8] text-zinc-500">
-                  Anant is built with a <span className="font-semibold text-zinc-900">persistent memory layer</span> at its core — retaining context across sessions, learning your preferences, and building deeper understanding over time.
+                <p className="text-[15px] leading-[1.8] text-zinc-600">
+                  Anant is built with a <span className="font-semibold text-teal-700">persistent memory layer</span> at its core — retaining context across sessions, learning your preferences, and building deeper understanding over time.
                 </p>
-                <p className="text-[15px] leading-[1.8] text-zinc-500">
-                  This isn&apos;t retrieval bolted on as an afterthought. Memory is woven into Anant&apos;s architecture from the ground up.
+                <p className="text-[15px] leading-[1.8] text-zinc-600">
+                  This isn&apos;t retrieval bolted on as an afterthought. Memory is woven into Anant&apos;s architecture from the ground up to give you an AI that truly knows you.
                 </p>
               </div>
-            </div>
-          </AnimateOnScroll>
+            </AnimateOnScroll>
+          </div>
 
-          <AnimateOnScroll delay="delay-200">
-            <div className="space-y-5">
-              {/* Traditional */}
-              <div className="rounded-3xl border border-zinc-100 bg-white p-7 shadow-sm">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-100">
-                    <div className="h-2.5 w-2.5 rounded-full bg-zinc-300" />
+          {/* Right Side (Scrolling USPs & Offerings) */}
+          <div className="space-y-8">
+            {/* USP 1 */}
+            <AnimateOnScroll delay="delay-100">
+              <div className="rounded-3xl border border-teal-800 bg-teal-900 p-8 shadow-lg">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-800">
+                    <div className="h-3 w-3 rounded-full bg-teal-300" />
                   </div>
-                  <p className="text-xs font-bold uppercase tracking-[0.15em] text-zinc-400">Traditional LLM</p>
+                  <h4 className="text-lg font-bold text-white">Persistent Context</h4>
                 </div>
-                <div className="mt-5 space-y-2.5">
-                  {[
-                    { label: "Session 1", status: "Context loaded", ok: true },
-                    { label: "Session 2", status: "Context lost", ok: false },
-                    { label: "Session 3", status: "Starts from zero", ok: false },
-                  ].map((item) => (
-                    <div key={item.label} className="flex items-center justify-between rounded-xl bg-zinc-50 px-5 py-3">
-                      <span className="text-sm font-medium text-zinc-500">{item.label}</span>
-                      <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${item.ok ? "bg-zinc-100 text-zinc-500" : "bg-red-50 text-red-400"}`}>
-                        {item.status}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Anant */}
-              <div className="rounded-3xl border border-zinc-900 bg-zinc-900 p-7">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-800">
-                    <div className="h-2.5 w-2.5 rounded-full bg-white" />
-                  </div>
-                  <p className="text-xs font-bold uppercase tracking-[0.15em] text-zinc-400">Anant 1.0</p>
-                </div>
-                <div className="mt-5 space-y-2.5">
+                <p className="text-teal-100 mb-6 text-sm leading-relaxed">
+                  Unlike traditional models that lose context between sessions, Anant builds a continuous knowledge graph of your interactions and data.
+                </p>
+                <div className="space-y-3">
                   {["Context loaded", "Context retained", "Context grows"].map((status, i) => (
-                    <div key={i} className="flex items-center justify-between rounded-xl bg-zinc-800 px-5 py-3">
-                      <span className="text-sm font-medium text-zinc-300">Session {i + 1}</span>
-                      <span className="rounded-full bg-zinc-700 px-3 py-1 text-[11px] font-semibold text-zinc-200">{status}</span>
+                    <div key={i} className="flex items-center justify-between rounded-xl bg-teal-800/50 px-5 py-3 border border-teal-700/50">
+                      <span className="text-sm font-medium text-teal-50">Session {i + 1}</span>
+                      <span className="rounded-full bg-teal-700 px-3 py-1 text-[11px] font-semibold text-teal-100">{status}</span>
                     </div>
                   ))}
                 </div>
-                <div className="mt-4 rounded-xl bg-zinc-800 px-5 py-2.5 text-center text-xs font-semibold text-zinc-300">
-                  Persistent memory across all sessions
-                </div>
               </div>
-            </div>
-          </AnimateOnScroll>
+            </AnimateOnScroll>
+
+            {/* USP 2 */}
+            <AnimateOnScroll delay="delay-200">
+              <div className="rounded-3xl border border-teal-800 bg-teal-900 p-8 shadow-lg">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-800">
+                    <div className="h-3 w-3 rounded-full bg-teal-300" />
+                  </div>
+                  <h4 className="text-lg font-bold text-white">Deep Personalization</h4>
+                </div>
+                <p className="text-teal-100 text-sm leading-relaxed">
+                  Anant learns your coding style, your business domain, and your preferences over time. It tailors its responses to your specific needs instantly, without requiring repetitive background prompts.
+                </p>
+              </div>
+            </AnimateOnScroll>
+
+            {/* USP 3 */}
+            <AnimateOnScroll delay="delay-300">
+              <div className="rounded-3xl border border-teal-800 bg-teal-900 p-8 shadow-lg">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-800">
+                    <div className="h-3 w-3 rounded-full bg-teal-300" />
+                  </div>
+                  <h4 className="text-lg font-bold text-white">Enterprise Privacy</h4>
+                </div>
+                <p className="text-teal-100 text-sm leading-relaxed">
+                  Your memory graph is securely isolated. Anant ensures that your private data and contextual history never leak across tenants, giving you complete peace of mind while maintaining powerful historical recall.
+                </p>
+              </div>
+            </AnimateOnScroll>
+          </div>
         </div>
       </div>
     </section>
