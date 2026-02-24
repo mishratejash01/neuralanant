@@ -3,6 +3,7 @@ import Hero from "@/components/hero";
 import SupportersMarquee from "@/components/supporters-marquee";
 import WhyAnant from "@/components/why-anant";
 import Architecture from "@/components/architecture";
+import ContextWindow from "@/components/context-window";
 import FAQ from "@/components/faq";
 
 export default function Home() {
@@ -22,7 +23,10 @@ export default function Home() {
       {/* 4. Architecture: The technical breakdown */}
       <Architecture />
 
-      {/* 5. FAQ: Addressing common questions */}
+      {/* 5. Context Window: Deep dive into the infinite memory */}
+      <ContextWindow />
+
+      {/* 6. FAQ: Addressing common questions */}
       <FAQ />
     </main>
   );
