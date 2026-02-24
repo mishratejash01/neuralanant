@@ -44,10 +44,10 @@ export default function Architecture() {
       className="relative w-full overflow-hidden bg-[#f6fbfb] py-24 sm:py-32" 
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
-      {/* Zoomed out max-width container, strictly aligned padding */}
-      <div className="mx-auto flex w-full max-w-[85rem] flex-col px-6 lg:px-8">
+      {/* Container aligned exactly to Navbar (max-w-6xl and px-6) */}
+      <div className="mx-auto flex w-full max-w-6xl flex-col px-6">
         
-        {/* Header - Non-bold and perfectly aligned to the left edge of the cards */}
+        {/* Header - Aligned to the left edge */}
         <AnimateOnScroll>
           <div className="mb-12">
             <h2 className="text-4xl font-normal tracking-tight text-[#1a1a1a] sm:text-5xl lg:text-[3rem]">
@@ -110,8 +110,8 @@ export default function Architecture() {
           </div>
         </div>
 
-        {/* Navigation Arrows */}
-        <div className="mt-10 flex w-[80%] items-center justify-between">
+        {/* Navigation Arrows - Expanded to w-full to align perfectly with Navbar edges */}
+        <div className="mt-10 flex w-full items-center justify-between">
           <button 
             onClick={handlePrev} 
             disabled={currentIndex === 0}
