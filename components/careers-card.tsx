@@ -12,7 +12,6 @@ export default function CareersCard() {
       {/* Container perfectly aligned with the Navbar (max-w-6xl px-6) */}
       <div className="mx-auto w-full max-w-6xl px-6">
         <AnimateOnScroll>
-          {/* Removed rounded corners (rounded-none) and removed the hover scale effect */}
           <div className="relative flex h-[350px] w-full flex-col overflow-hidden rounded-none shadow-xl sm:h-[400px]">
             
             {/* Background Image */}
@@ -23,13 +22,14 @@ export default function CareersCard() {
                 className="h-full w-full object-cover"
               />
               
-              {/* Lighter Teal Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-teal-400/70 via-teal-500/60 to-teal-600/70 mix-blend-multiply" />
-              {/* Additional flat layer to balance contrast without getting too dark */}
-              <div className="absolute inset-0 bg-teal-500/20" />
+              {/* Transparent Light Teal Overlay */}
+              <div className="absolute inset-0 bg-teal-400/20" />
+              
+              {/* Bottom gradient to ensure the white text remains readable */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             </div>
 
-            {/* Card Content Layer - Pushed to the bottom using justify-end */}
+            {/* Card Content Layer - Pushed to the bottom */}
             <div className="relative z-10 flex h-full flex-col justify-end p-8 sm:p-12">
               
               <div className="flex w-full flex-col justify-between gap-6 sm:flex-row sm:items-end">
@@ -39,7 +39,6 @@ export default function CareersCard() {
                   <h2 className="text-3xl font-medium tracking-tight sm:text-5xl lg:text-[3.25rem] leading-tight text-white">
                     Efficiency Wanted
                   </h2>
-                  {/* Exactly 5 words description (Crazy / Impactful) */}
                   <p className="mt-4 text-[16px] font-normal tracking-wide text-white/90 sm:text-lg">
                     Engineer the future of intelligence.
                   </p>
@@ -49,7 +48,7 @@ export default function CareersCard() {
                 <div className="flex shrink-0 sm:pb-2">
                   <Link 
                     href="/careers" 
-                    className="text-[15px] font-normal text-white underline underline-offset-4 transition-colors hover:text-teal-100"
+                    className="text-[15px] font-normal text-white underline underline-offset-4 transition-colors hover:text-teal-200"
                   >
                     view open roles &gt;
                   </Link>
