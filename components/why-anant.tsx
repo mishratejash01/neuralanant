@@ -2,18 +2,19 @@
 
 import AnimateOnScroll from "./animate-on-scroll";
 
-// Background blocks scattered across the full height
+// Adjusted top (t) percentages to distribute evenly without huge gaps.
+// 0% aligns with the top separator, and 98% aligns with the bottom separator.
 const blocks = [
-  { w: 60, h: 100, t: "5%", l: "10%" },
-  { w: 80, h: 50, t: "12%", r: "20%" },
+  { w: 60, h: 100, t: "0%", l: "10%" },
+  { w: 80, h: 50, t: "10%", r: "20%" },
   { w: 50, h: 50, t: "20%", l: "40%" },
   { w: 40, h: 50, t: "35%", l: "5%" },
   { w: 50, h: 100, t: "45%", r: "15%" },
-  { w: 60, h: 100, t: "60%", l: "30%" },
-  { w: 60, h: 50, t: "75%", l: "20%" },
-  { w: 100, h: 100, t: "85%", l: "10%" },
+  { w: 60, h: 100, t: "55%", l: "30%" },
+  { w: 60, h: 50, t: "70%", l: "20%" },
+  { w: 100, h: 100, t: "80%", l: "10%" },
   { w: 60, h: 50, t: "90%", l: "42%" },
-  { w: 100, h: 50, t: "95%", l: "50%" },
+  { w: 100, h: 50, t: "98%", l: "50%" },
 ];
 
 const usps = [
@@ -38,32 +39,35 @@ const usps = [
 export default function WhyAnant() {
   return (
     <section className="relative bg-[#f6fbfb] text-[#1a1a1a]">
-      
-      {/* Background Blocks Container (Scrolls naturally behind content) */}
-      {/* Because it is absolute to the section, it will move as you scroll down */}
-      <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-0 hidden w-full overflow-hidden lg:block lg:w-1/2">
-        {blocks.map((block, i) => (
-          <div
-            key={i}
-            className="absolute bg-[#d1e8e8]/70"
-            style={{
-              width: `${block.w}px`,
-              height: `${block.h}px`,
-              top: block.t,
-              left: block.l,
-              right: block.r,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Main Content Wrapper - Strict 50/50 split */}
+      {/* Main Content Wrapper */}
       <div className="mx-auto flex max-w-7xl flex-col lg:flex-row relative z-10">
         
-        {/* --- Left Side (Text is STICKY/FIXED again) --- */}
-        <div className="w-full p-8 pt-16 lg:w-1/2 lg:p-12 lg:pl-16">
-          {/* This wrapper keeps the text pinned to the screen while scrolling */}
-          <div className="lg:sticky lg:top-40 lg:pt-12">
+        {/* --- Left Side (Sticky Text + Bounded Blocks) --- */}
+        {/* Added relative positioning so the blocks container is bounded to this specific column */}
+        <div className="relative w-full p-8 pt-16 lg:w-1/2 lg:p-12 lg:pl-16">
+          
+          {/* Background Blocks Container */}
+          {/* Matches the pt-32 and pb-32 of the right side so it perfectly aligns with the separators */}
+          <div className="pointer-events-none absolute bottom-0 left-0 right-0 top-0 z-0 hidden w-full lg:block lg:pb-32 lg:pt-32">
+            <div className="relative h-full w-full">
+              {blocks.map((block, i) => (
+                <div
+                  key={i}
+                  className="absolute bg-[#d1e8e8]/70"
+                  style={{
+                    width: `${block.w}px`,
+                    height: `${block.h}px`,
+                    top: block.t,
+                    left: block.l,
+                    right: block.r,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Sticky Text Layer */}
+          <div className="relative z-10 lg:sticky lg:top-40 lg:pt-12">
             <div className="w-full max-w-md">
               <AnimateOnScroll>
                 <h1 className="text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl lg:text-5xl">
