@@ -56,7 +56,7 @@ export default function Navbar() {
           <span className={`text-3xl font-semibold tracking-tight transition-colors duration-300 ${
             isDarkTheme ? "text-white" : "text-black"
           }`}>
-            neural
+            neural ai
           </span>
         </Link>
 
