@@ -39,7 +39,7 @@ export default function WhyAnant() {
   return (
     <section className="relative bg-[#f6fbfb] text-[#1a1a1a]">
       
-      {/* Background Blocks Container (Scrolls naturally) */}
+      {/* Background Blocks Container (Scrolls naturally behind content) */}
       <div className="pointer-events-none absolute bottom-0 left-0 top-0 z-0 hidden w-full overflow-hidden lg:block lg:w-1/2">
         {blocks.map((block, i) => (
           <div
@@ -56,36 +56,32 @@ export default function WhyAnant() {
         ))}
       </div>
 
-      {/* Main Content Wrapper - Added max-w-7xl to "zoom out" horizontally */}
-      <div className="mx-auto flex min-h-screen max-w-7xl flex-col items-start lg:flex-row">
+      {/* Main Content Wrapper - Strict 50/50 split so left content never exceeds the center */}
+      <div className="mx-auto flex max-w-7xl flex-col lg:flex-row">
         
-        {/* --- Left Side (Sticky Text) --- */}
-        <div className="relative z-10 w-full p-8 lg:w-[45%] lg:p-12 lg:pl-16">
-          {/* Sticky wrapper aligns nicely with the first separator row */}
-          <div className="lg:sticky lg:top-40 lg:pt-8">
-            <div className="w-full max-w-md">
-              <AnimateOnScroll>
-                {/* Font size slightly reduced for zoom-out effect */}
-                <h1 className="text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl lg:text-5xl">
-                  Your AI future<br />
-                  belongs in<br />
-                  your hands.
-                  <span className="ml-3 inline-block align-middle text-3xl font-bold text-[#ff5a1f]">
-                    ⚑
-                  </span>
-                </h1>
-              </AnimateOnScroll>
-            </div>
+        {/* --- Left Side (Scrolling Text, NOT sticky) --- */}
+        <div className="relative z-10 w-full p-8 pt-16 lg:w-1/2 lg:p-12 lg:pl-16 lg:pt-32">
+          {/* Removed sticky classes, text now flows normally */}
+          <div className="w-full max-w-md">
+            <AnimateOnScroll>
+              <h1 className="text-4xl font-medium leading-[1.1] tracking-tight sm:text-5xl lg:text-5xl">
+                Your AI future<br />
+                belongs in<br />
+                your hands.
+                <span className="ml-3 inline-block align-middle text-3xl font-bold text-[#ff5a1f]">
+                  ⚑
+                </span>
+              </h1>
+            </AnimateOnScroll>
           </div>
         </div>
 
         {/* --- Right Side (Scrollable USPs) --- */}
-        <div className="relative z-10 w-full px-8 pb-32 pt-8 lg:w-[55%] lg:px-12 lg:pr-16">
+        <div className="relative z-10 w-full px-8 pb-32 pt-8 lg:w-1/2 lg:px-12 lg:pr-16 lg:pt-24">
           {usps.map((usp, index) => (
             <AnimateOnScroll key={index} delay={`delay-${index * 100}`}>
-              {/* Reduced py-16 to py-10 to bring rows closer */}
-              <div className={`border-b border-black/15 py-10 ${index === 0 ? "border-t lg:mt-40" : ""}`}>
-                {/* Font sizes adjusted down slightly */}
+              {/* Separator lines */}
+              <div className={`border-b border-black/15 py-10 ${index === 0 ? "border-t" : ""}`}>
                 <h2 className="mb-4 max-w-[450px] text-xl font-medium leading-tight sm:text-2xl">
                   {usp.title}
                 </h2>
@@ -100,9 +96,6 @@ export default function WhyAnant() {
               </div>
             </AnimateOnScroll>
           ))}
-
-          {/* Extra space to demonstrate smooth scrolling to the footer */}
-          <div className="h-[15vh]"></div>
         </div>
 
       </div>
