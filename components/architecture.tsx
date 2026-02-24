@@ -89,15 +89,15 @@ export default function Architecture() {
                   {/* Footer Area - Middle aligned on mobile (flex-col items-center), Row on desktop */}
                   <div className="flex w-full flex-col items-center gap-5 sm:flex-row sm:justify-between">
                     
-                    {/* Logos Area */}
+                    {/* Logos Area - Changed to all white */}
                     <div className="flex items-center justify-center gap-4 text-[11px] font-bold tracking-[0.2em] sm:text-sm text-white">
                       <span>{frame.company}</span>
                       <div className="h-[1px] w-[20px] bg-white/40 sm:w-[30px]" />
-                      <span className="text-[#2dd4bf]">{frame.model}</span>
+                      <span>{frame.model}</span>
                     </div>
                     
-                    {/* Glassmorphism Badge */}
-                    <div className="rounded-full bg-black/40 backdrop-blur-md border border-white/20 px-4 py-2 text-[10px] uppercase tracking-widest text-[#2dd4bf] sm:px-5 sm:py-2.5 sm:text-[11px]">
+                    {/* Glassmorphism Badge - Changed to White, Rectangular Block (rounded-none) */}
+                    <div className="rounded-none bg-white/10 backdrop-blur-md border border-white/30 px-4 py-2 text-[10px] uppercase tracking-widest text-white sm:px-5 sm:py-2.5 sm:text-[11px]">
                       {frame.badge}
                     </div>
 
@@ -109,15 +109,15 @@ export default function Architecture() {
           </div>
         </div>
 
-        {/* Navigation Arrows - Sharp boxes with balanced teal background */}
-        <div className="mt-8 flex w-full items-center justify-between sm:mt-10">
+        {/* Navigation Arrows - Grouped at Right Bottom, White Rectangular Blocks */}
+        <div className="mt-8 flex w-full items-center justify-end gap-3 sm:mt-10">
           <button 
             onClick={handlePrev} 
             disabled={currentIndex === 0}
-            className={`flex h-12 w-12 sm:h-14 sm:w-14 cursor-pointer items-center justify-center rounded-none text-xl sm:text-2xl transition-all duration-300 ${
+            className={`flex h-12 w-12 sm:h-14 sm:w-14 cursor-pointer items-center justify-center rounded-none border text-xl sm:text-2xl transition-all duration-300 ${
               currentIndex === 0 
-                ? "bg-zinc-200 text-zinc-400 cursor-not-allowed" 
-                : "bg-[#0d9488] hover:bg-[#0f766e] text-white shadow-md"
+                ? "bg-zinc-100 border-zinc-200 text-zinc-400 cursor-not-allowed" 
+                : "bg-white border-zinc-200 hover:bg-zinc-50 text-zinc-900 shadow-sm"
             }`}
           >
             ←
@@ -125,10 +125,10 @@ export default function Architecture() {
           <button 
             onClick={handleNext} 
             disabled={currentIndex === totalCards - 1}
-            className={`flex h-12 w-12 sm:h-14 sm:w-14 cursor-pointer items-center justify-center rounded-none text-xl sm:text-2xl transition-all duration-300 ${
+            className={`flex h-12 w-12 sm:h-14 sm:w-14 cursor-pointer items-center justify-center rounded-none border text-xl sm:text-2xl transition-all duration-300 ${
               currentIndex === totalCards - 1 
-                ? "bg-zinc-200 text-zinc-400 cursor-not-allowed" 
-                : "bg-[#0d9488] hover:bg-[#0f766e] text-white shadow-md"
+                ? "bg-zinc-100 border-zinc-200 text-zinc-400 cursor-not-allowed" 
+                : "bg-white border-zinc-200 hover:bg-zinc-50 text-zinc-900 shadow-sm"
             }`}
           >
             →
