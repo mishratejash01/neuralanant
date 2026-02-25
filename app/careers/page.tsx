@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import AnimateOnScroll from "@/components/animate-on-scroll";
 import SupportersMarquee from "@/components/supporters-marquee";
+import CareersImageAnimation from "@/components/careers-image-animation";
 import { createClient } from "@/utils/supabase/server";
 
 export const metadata: Metadata = {
@@ -52,20 +53,8 @@ export default async function CareersPage() {
         </AnimateOnScroll>
       </section>
 
-      {/* ─── SECTION 2: STICKY IMAGE FRAME ─── */}
-      <section className="relative h-[150vh] bg-[#f6fbfb]">
-        {/* Uses native CSS sticky positioning instead of heavy framer-motion JS */}
-        <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden px-0 pb-12 pt-24 sm:px-6">
-          <div className="z-0 h-full w-full overflow-hidden bg-black shadow-2xl sm:rounded-[4px]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img 
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop" 
-              alt="Neural AI Office" 
-              className="h-full w-full object-cover opacity-90 grayscale transition-transform duration-1000 hover:scale-105"
-            />
-          </div>
-        </div>
-      </section>
+      {/* ─── SECTION 2: ANIMATED IMAGE FRAME (Client Component) ─── */}
+      <CareersImageAnimation />
 
       {/* ─── SECTION 3: CORE MISSION CONTENT ─── */}
       <section className="relative z-20 bg-[#f6fbfb] px-6 pb-20 pt-32">
@@ -88,7 +77,6 @@ export default async function CareersPage() {
                 Backed & Advised By
             </span>
         </div>
-        {/* Reusing your existing component directly */}
         <SupportersMarquee />
       </section>
 
@@ -124,7 +112,6 @@ export default async function CareersPage() {
                                     </div>
                                 </div>
                                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[4px] bg-zinc-50 transition-all group-hover:bg-black group-hover:text-white">
-                                    {/* Native SVG Arrow Right */}
                                     <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                     </svg>
@@ -150,7 +137,6 @@ export default async function CareersPage() {
                     href={mailToLink}
                     className="flex shrink-0 items-center gap-2 rounded-[4px] bg-white px-8 py-3 font-sans font-medium text-black no-underline transition-transform duration-300 hover:scale-105"
                 >
-                    {/* Native SVG Mail Icon */}
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
