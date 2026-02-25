@@ -8,8 +8,9 @@ interface TeamMember {
   role: string;
   bio: string;
   avatar_url: string | null;
-  location: string;
-  department: string;
+  linkedin_url: string | null;
+  location?: string;
+  department?: string;
 }
 
 export default function TeamRow({ categoryName, members }: { categoryName: string, members: TeamMember[] }) {
@@ -75,7 +76,7 @@ export default function TeamRow({ categoryName, members }: { categoryName: strin
             </div>
 
             {/* Hover Hint Arrow */}
-            <div className="absolute right-8 top-1/2 -translate-y-1/2 text-2xl opacity-20 transition-opacity duration-300 group-hover:opacity-0 text-black">
+            <div className="absolute right-8 top-1/2 -translate-y-1/2 text-2xl text-black opacity-20 transition-opacity duration-300 group-hover:opacity-0">
               &rarr;
             </div>
 
@@ -86,7 +87,7 @@ export default function TeamRow({ categoryName, members }: { categoryName: strin
                   {member.bio}
                 </p>
                 <div className="mt-8">
-                  <a href="#" className="w-fit border-b-2 border-teal-500 pb-1 text-[0.9rem] font-bold text-black no-underline transition-colors hover:text-teal-600">
+                  <a href={member.linkedin_url || "#"} target="_blank" rel="noopener noreferrer" className="w-fit border-b-2 border-teal-500 pb-1 text-[0.9rem] font-bold text-black no-underline transition-colors hover:text-teal-600">
                     Executive Profile
                   </a>
                 </div>
@@ -94,10 +95,10 @@ export default function TeamRow({ categoryName, members }: { categoryName: strin
               
               <div className="flex flex-col gap-5">
                 <span className="w-fit bg-black px-4 py-1.5 text-[0.7rem] uppercase tracking-[1px] text-white">
-                  {member.department}
+                  {member.department || 'Leadership'}
                 </span>
                 <p className="text-[0.85rem] leading-[1.5] text-zinc-500">
-                  {member.location.split('/').map((loc, i) => <span key={i}>{loc}<br/></span>)}
+                  {(member.location || 'HQ / Global').split('/').map((loc: string, i: number) => <span key={i}>{loc}<br/></span>)}
                 </p>
               </div>
             </div>
