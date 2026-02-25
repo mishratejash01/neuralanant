@@ -64,7 +64,7 @@ export default async function CareersPage() {
               Engineer the memory layer of the future.
             </h2>
             <p className="mx-auto mb-12 max-w-2xl font-sans text-lg leading-relaxed text-zinc-600">
-              Neural AI is building India&apos;s first memory-native cognitive architecture. Join Tejash Mishra and our team at IIT Madras to scale frontier AI to the world.
+              Neural AI is building India&apos;s first memory-native cognitive architecture. Be a part of the AI first venture.
             </p>
           </div>
         </AnimateOnScroll>
