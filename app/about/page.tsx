@@ -7,7 +7,7 @@ import CTABanner from "@/components/cta-banner";
 export const metadata: Metadata = {
   title: "About — Neural AI",
   description:
-    "Meet the team behind Anant 1.0 — researchers and engineers from leading AI labs building India's AI future.",
+    "Building the persistent memory layer for frontier AI.",
 };
 
 export default function AboutPage() {
@@ -31,7 +31,7 @@ export default function AboutPage() {
           
           <AnimateOnScroll delay="delay-100">
             <p className="mx-auto max-w-2xl text-[1.15rem] font-normal leading-[1.6] tracking-[-0.01em] text-[#666]">
-              Engineering the persistent memory layer for frontier models. We are a research and applied AI lab building India&apos;s first memory-native cognitive architecture for the global ecosystem.
+              Building the persistent memory layer for frontier AI.
             </p>
           </AnimateOnScroll>
         </div>
