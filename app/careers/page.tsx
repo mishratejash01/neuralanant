@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import AnimateOnScroll from "@/components/animate-on-scroll";
-import SupportersMarquee from "@/components/supporters-marquee";
 import CareersImageAnimation from "@/components/careers-image-animation";
 import { createClient } from "@/utils/supabase/server";
 
@@ -10,6 +9,12 @@ export const metadata: Metadata = {
 };
 
 // Strict TypeScript interfaces matching your Supabase DB
+interface Advisor {
+  id: string;
+  name: string;
+  logo_url: string;
+}
+
 interface Career {
   id: string;
   title: string;
@@ -21,20 +26,32 @@ interface Career {
 }
 
 export default async function CareersPage() {
-  // Safe Server-Side Fetching using YOUR existing utility
+  // Safe Server-Side Fetching using your existing utility
   const supabase = await createClient();
 
-  const { data: careersData } = await supabase
-    .from("careers")
-    .select("*")
-    .eq("is_active", true);
+  // 1. Fetch Advisors
+  const { data: advisorsData } = await supabase.from("advisors").select("*");
+  const advisors = (advisorsData as Advisor[]) || [];
 
+  // 2. Fetch Careers
+  const { data: careersData } = await supabase.from("careers").select("*").eq("is_active", true);
   const positions = (careersData as Career[]) || [];
 
   const mailToLink = `mailto:office@neuralai.in?subject=${encodeURIComponent("Application for Career Opportunity at Neural AI")}`;
 
   return (
     <main className="bg-[#f6fbfb]">
+      {/* Required style for the smooth continuous marquee scroll */}
+      <style>{`
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-scroll {
+          animation: scroll 20s linear infinite;
+        }
+      `}</style>
+
       {/* ─── SECTION 1: HERO ─── */}
       <section className="relative z-10 flex min-h-[90vh] flex-col items-center justify-center px-6">
         <AnimateOnScroll>
@@ -53,7 +70,7 @@ export default async function CareersPage() {
         </AnimateOnScroll>
       </section>
 
-      {/* ─── SECTION 2: ANIMATED IMAGE FRAME (Client Component) ─── */}
+      {/* ─── SECTION 2: ANIMATED IMAGE FRAME ─── */}
       <CareersImageAnimation />
 
       {/* ─── SECTION 3: CORE MISSION CONTENT ─── */}
@@ -70,17 +87,37 @@ export default async function CareersPage() {
         </AnimateOnScroll>
       </section>
 
-      {/* ─── SECTION 4: SUPPORTERS MARQUEE ─── */}
+      {/* ─── SECTION 4: ADVISORS MARQUEE (Fetched from DB) ─── */}
       <section className="relative z-20 border-t border-zinc-200 bg-[#f6fbfb] py-16">
         <div className="mb-10 text-center">
             <span className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400">
                 Backed & Advised By
             </span>
         </div>
-        <SupportersMarquee />
+        
+        {advisors.length > 0 ? (
+            <div className="relative w-full overflow-hidden">
+                <div className="flex w-[200%] animate-scroll">
+                    <div className="flex w-1/2 items-center justify-around gap-8 px-10">
+                        {advisors.map((advisor) => (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img key={advisor.id} src={advisor.logo_url} alt={advisor.name} className="h-8 w-auto object-contain grayscale transition-all duration-300 hover:grayscale-0 md:h-12" />
+                        ))}
+                    </div>
+                    <div className="flex w-1/2 items-center justify-around gap-8 px-10">
+                        {advisors.map((advisor) => (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img key={`dup-${advisor.id}`} src={advisor.logo_url} alt={advisor.name} className="h-8 w-auto object-contain grayscale transition-all duration-300 hover:grayscale-0 md:h-12" />
+                        ))}
+                    </div>
+                </div>
+            </div>
+        ) : (
+          <div className="text-center text-sm text-zinc-400">Loading network...</div>
+        )}
       </section>
 
-      {/* ─── SECTION 5: OPEN POSITIONS ─── */}
+      {/* ─── SECTION 5: OPEN POSITIONS (Fetched from DB) ─── */}
       <section className="relative z-20 bg-[#f6fbfb] px-6 py-32">
         <div className="mx-auto max-w-4xl">
             <AnimateOnScroll>
