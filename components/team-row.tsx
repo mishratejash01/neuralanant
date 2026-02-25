@@ -68,42 +68,39 @@ export default function TeamRow({ categoryName, members }: { categoryName: strin
                   />
                 </div>
                 
-                <div className="mt-8">
+                <div className="mt-8 flex-1">
                   <h3 className="text-[2rem] font-medium leading-[1.1] text-black">
                     {member.name.split(' ').map((part, i) => <span key={i}>{part}<br/></span>)}
                   </h3>
-                  {/* Role Text Updated Here */}
                   <p className="mt-2.5 text-[0.9rem] font-normal text-zinc-500">
                     {member.role}
                   </p>
-                  
-                  {/* Social Icons - Stay in exact position on hover */}
-                  {(member.linkedin_url || member.twitter_url) && (
-                    <div className="mt-5 flex items-center gap-4">
-                      {member.linkedin_url && (
-                        <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-[#0A66C2] transition-opacity hover:opacity-75">
-                          {/* LinkedIn SVG */}
-                          <svg className="h-[22px] w-[22px]" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" />
-                          </svg>
-                        </a>
-                      )}
-                      {member.twitter_url && (
-                        <a href={member.twitter_url} target="_blank" rel="noopener noreferrer" className="text-black transition-opacity hover:opacity-75">
-                          {/* X (Twitter) SVG */}
-                          <svg className="h-[20px] w-[20px]" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                          </svg>
-                        </a>
-                      )}
-                    </div>
-                  )}
                 </div>
-              </div>
 
-              {/* Hover Hint Arrow */}
-              <div className="absolute right-8 top-1/2 -translate-y-1/2 text-2xl text-black opacity-20 transition-opacity duration-300 group-hover:opacity-0">
-                &rarr;
+                {/* Bottom Row: Social Icons & Hover Hint Arrow */}
+                <div className="mt-4 flex items-center justify-between pr-2">
+                  <div className="flex items-center gap-4">
+                    {member.linkedin_url && (
+                      <a href={member.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-[#0A66C2] transition-opacity hover:opacity-75">
+                        <svg className="h-[22px] w-[22px]" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z" />
+                        </svg>
+                      </a>
+                    )}
+                    {member.twitter_url && (
+                      <a href={member.twitter_url} target="_blank" rel="noopener noreferrer" className="text-black transition-opacity hover:opacity-75">
+                        <svg className="h-[20px] w-[20px]" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                      </a>
+                    )}
+                  </div>
+                  
+                  {/* The Arrow is now perfectly aligned below the right edge of the image frame */}
+                  <div className="text-2xl text-black opacity-20 transition-opacity duration-300 group-hover:opacity-0">
+                    &rarr;
+                  </div>
+                </div>
               </div>
 
               {/* Hidden Content Reveal */}
@@ -117,21 +114,4 @@ export default function TeamRow({ categoryName, members }: { categoryName: strin
                 <div className="flex flex-col gap-6">
                   {/* member_type logic mapped from db */}
                   {member.member_type && (
-                    <span className="w-fit bg-black px-4 py-1.5 text-[0.7rem] uppercase tracking-[1px] text-white">
-                      {member.member_type}
-                    </span>
-                  )}
-
-                  {/* Location mapped from db */}
-                  <p className="text-[0.85rem] leading-[1.5] text-zinc-500">
-                    {(member.location || 'HQ / Global').split('/').map((loc: string, i: number) => <span key={i}>{loc}<br/></span>)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+                    <span className="
