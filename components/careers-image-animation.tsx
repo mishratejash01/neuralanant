@@ -31,8 +31,8 @@ export default function CareersImageAnimation() {
   const borderRadius = progress * 32;
 
   return (
-    /* -mt-[8vh] creates just a small 'peak' at the bottom of the hero section */
-    <section ref={containerRef} className="relative h-[200vh] bg-[#f6fbfb] -mt-[8vh]">
+    /* Changed to mt-12 to shift the image further down the page */
+    <section ref={containerRef} className="relative h-[200vh] bg-[#f6fbfb] mt-12">
       <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden">
         <div 
           style={{ 
