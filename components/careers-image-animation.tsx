@@ -9,35 +9,29 @@ export default function CareersImageAnimation() {
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return;
-      
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      
-      // Calculate how far the container has scrolled up the screen
       const scrollDistance = rect.height - windowHeight;
       const scrolled = -rect.top;
       
-      // Calculate progress from 0 to 1
       let currentProgress = scrolled / scrollDistance;
       currentProgress = Math.min(Math.max(currentProgress, 0), 1);
-      
       setProgress(currentProgress);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Initialize
-    
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Map progress (0 to 1) to CSS values
-  const scale = 1 - (progress * 0.05); // Scales from 1 down to 0.95
-  const blur = progress * 8; // Blurs from 0px to 8px
-  const opacity = 1 - (progress * 0.4); // Fades from 1 down to 0.6
-  const borderRadius = progress * 8; // Sharp to slightly rounded
+  const scale = 1 - (progress * 0.05);
+  const blur = progress * 8;
+  const opacity = 1 - (progress * 0.4);
+  const borderRadius = progress * 8;
 
   return (
-    <section ref={containerRef} className="relative h-[150vh] bg-[#f6fbfb]">
+    /* We use a negative margin-top to pull the image section up into the hero */
+    <section ref={containerRef} className="relative h-[150vh] bg-[#f6fbfb] -mt-[15vh]">
       <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden px-0 pb-12 pt-24 sm:px-6">
         <div 
           style={{ 
