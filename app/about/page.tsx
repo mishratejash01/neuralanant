@@ -52,7 +52,8 @@ export default function AboutPage() {
       <Team />
       
       {/* ─── SUPPORTERS / INVESTORS MARQUEE ─── */}
-      <div className="py-8">
+      {/* Added -mt-16 to pull it up into the empty space left by the Team component */}
+      <div className="relative z-20 -mt-16 pb-8 sm:-mt-24">
         <SupportersMarquee />
       </div>
 
