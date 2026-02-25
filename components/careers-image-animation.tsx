@@ -1,29 +1,52 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
 
 export default function CareersImageAnimation() {
+  const [progress, setProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Framer Motion Scroll Hooks
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"], 
-  });
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      
+      const rect = containerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Calculate how far the container has scrolled up the screen
+      const scrollDistance = rect.height - windowHeight;
+      const scrolled = -rect.top;
+      
+      // Calculate progress from 0 to 1
+      let currentProgress = scrolled / scrollDistance;
+      currentProgress = Math.min(Math.max(currentProgress, 0), 1);
+      
+      setProgress(currentProgress);
+    };
 
-  // Animation values mapped to scroll position
-  const scale = useTransform(scrollYProgress, [0.2, 0.8], [1, 0.95]);
-  const borderRadius = useTransform(scrollYProgress, [0.2, 0.8], ["0px", "8px"]);
-  const filter = useTransform(scrollYProgress, [0.4, 0.9], ["blur(0px)", "blur(8px)"]);
-  const imageOpacity = useTransform(scrollYProgress, [0.5, 1], [1, 0.6]);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initialize
+    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Map progress (0 to 1) to CSS values
+  const scale = 1 - (progress * 0.05); // Scales from 1 down to 0.95
+  const blur = progress * 8; // Blurs from 0px to 8px
+  const opacity = 1 - (progress * 0.4); // Fades from 1 down to 0.6
+  const borderRadius = progress * 8; // Sharp to slightly rounded
 
   return (
     <section ref={containerRef} className="relative h-[150vh] bg-[#f6fbfb]">
       <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden px-0 pb-12 pt-24 sm:px-6">
-        <motion.div 
-          style={{ scale, borderRadius, filter, opacity: imageOpacity }}
-          className="z-0 h-full w-full origin-center overflow-hidden bg-black shadow-2xl"
+        <div 
+          style={{ 
+            transform: `scale(${scale})`,
+            filter: `blur(${blur}px)`,
+            opacity: opacity,
+            borderRadius: `${borderRadius}px`
+          }}
+          className="z-0 h-full w-full origin-center overflow-hidden bg-black shadow-2xl transition-all duration-75 ease-out"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
@@ -31,7 +54,7 @@ export default function CareersImageAnimation() {
             alt="Neural AI Office" 
             className="h-full w-full object-cover opacity-90 grayscale"
           />
-        </motion.div>
+        </div>
       </div>
     </section>
   );
