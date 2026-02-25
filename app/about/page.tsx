@@ -1,67 +1,44 @@
-import type { Metadata } from "next";
-import AnimateOnScroll from "@/components/animate-on-scroll";
-import Team from "@/components/team";
-import AdvisoryBoard from "@/components/advisory-board";
-import CTABanner from "@/components/cta-banner";
+import AnimateOnScroll from "./animate-on-scroll";
 
-export const metadata: Metadata = {
-  title: "About — Neural AI",
-  description:
-    "Meet the team behind Anant 1.0 — researchers and engineers from leading AI labs building India's AI future.",
-};
-
-export default function AboutPage() {
+export default function Hero() {
   return (
-    <main>
-      <div className="bg-[#f6fbfb]">
-        <section 
-          className="relative flex h-[97vh] min-h-[600px] w-full flex-col justify-center"
-          style={{
-            backgroundImage: "url('https://npletjmaefkrjhlcgsbc.supabase.co/storage/v1/object/sign/design/result_0.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xM2EzYjE1MC1mZDRlLTRiZjktYjc0OC1lZGI4YTk0MmM0ZGEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkZXNpZ24vcmVzdWx0XzAucG5nIiwiaWF0IjoxNzcxODc3MTc2LCJleHAiOjQ5MjU0NzcxNzZ9.MOmVU8xiCJfogvk23VCtMcBFlf4UWtMg3GHPlF4csKI')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat"
-          }}
-        >
-          {/* Dark overlay to ensure text readability */}
-          <div className="absolute inset-0 bg-black/40 z-0" />
-
-          {/* ALIGNED CONTAINER */}
-          <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
-            
-            {/* Block-type light badge */}
-            <AnimateOnScroll delay="delay-100">
-              <div className="mb-6 inline-flex items-center gap-3 bg-[#f6fbfb] px-3.5 py-2 shadow-sm">
-                <span className="font-sans text-[14px] font-normal tracking-tight text-black uppercase">
-                  About
-                </span>
-              </div>
-            </AnimateOnScroll>
-
-            {/* Main headline */}
-            <AnimateOnScroll delay="delay-150">
-              <h1 className="font-sans text-[clamp(2.75rem,6vw,5rem)] font-normal leading-[1.05] tracking-tighter text-white">
-                The people behind
-                <br />
-                Neural AI
-              </h1>
-            </AnimateOnScroll>
-
-            {/* Description */}
-            <AnimateOnScroll delay="delay-300">
-              <p className="mt-6 max-w-lg font-sans text-[17px] font-normal leading-relaxed tracking-tight text-zinc-300">
-                A world-class team of researchers and engineers from Google, Microsoft,
-                Amazon, and DeepMind, united by a shared mission to build India&apos;s AI future.
-              </p>
-            </AnimateOnScroll>
-
-          </div>
-        </section>
+    <section 
+      className="relative flex min-h-screen flex-col items-center px-5 py-[100px] text-[#111] antialiased sm:pt-32"
+      style={{
+        backgroundColor: "#fffdf0",
+        backgroundImage: `
+          linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px)
+        `,
+        backgroundSize: "40px 40px",
+      }}
+    >
+      {/* ─── Header Section ─── */}
+      <div className="mb-[60px] max-w-[800px] text-center z-10">
+        <AnimateOnScroll>
+          <h1 className="mb-6 font-sans text-[clamp(2.5rem,5vw,4rem)] font-medium tracking-[-0.04em] text-black">
+            Frontier AI. For all of us.
+          </h1>
+        </AnimateOnScroll>
+        
+        <AnimateOnScroll delay="delay-100">
+          <p className="text-[1.15rem] font-normal leading-[1.6] tracking-[-0.01em] text-[#666]">
+            We exist to make the frontier memory layer accessible to everyone.
+          </p>
+        </AnimateOnScroll>
       </div>
 
-      <Team />
-      <AdvisoryBoard />
-      <CTABanner />
-    </main>
+      {/* ─── Image Container ─── */}
+      <AnimateOnScroll delay="delay-200" className="w-full max-w-[1100px] z-10">
+        <div className="group relative w-full overflow-hidden rounded-[4px] bg-black shadow-[0_30px_60px_-12px_rgba(0,0,0,0.15)]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&q=80&w=2000"
+            alt="Visual representation of the AI memory layer and neural networks"
+            className="block h-auto w-full opacity-90 transition-opacity duration-300 group-hover:opacity-100"
+          />
+        </div>
+      </AnimateOnScroll>
+    </section>
   );
 }
