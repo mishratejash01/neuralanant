@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="bg-[#f6fbfb] pb-24">
+    <main className="bg-[#f6fbfb]">
       {/* ─── ABOUT HERO SECTION ─── */}
       <section 
         className="relative flex min-h-[90vh] flex-col items-center px-5 py-[100px] text-[#111] antialiased sm:pt-32"
@@ -52,12 +52,12 @@ export default function AboutPage() {
       <Team />
       
       {/* ─── SUPPORTERS / INVESTORS MARQUEE ─── */}
-      <div className="py-12">
+      <div className="py-8">
         <SupportersMarquee />
       </div>
 
       {/* ─── CUSTOM CAREERS CTA ─── */}
-      <section className="flex flex-col items-center justify-center py-24 px-6 text-center">
+      <section className="flex flex-col items-center justify-center pt-8 pb-32 px-6 text-center">
         <AnimateOnScroll>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-black mb-8">
             Build the future of AI with us.
