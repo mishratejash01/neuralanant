@@ -15,15 +15,14 @@ export default function AboutPage() {
     <main>
       {/* ─── NEW ABOUT HERO SECTION ─── */}
       <section 
-        className="relative flex min-h-screen flex-col items-center px-5 py-[100px] text-[#111] antialiased sm:pt-32"
+        className="relative flex min-h-screen flex-col items-center bg-[#f6fbfb] px-5 py-[100px] text-[#111] antialiased sm:pt-32"
         style={{
-          backgroundColor: "#fffdf0",
           backgroundImage: "linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px)",
           backgroundSize: "40px 40px",
         }}
       >
         {/* ─── Header Text ─── */}
-        <div className="z-10 mb-[60px] max-w-[800px] text-center mt-12">
+        <div className="z-10 mt-12 mb-[60px] max-w-[800px] text-center">
           <AnimateOnScroll>
             <h1 className="mb-6 font-sans text-[clamp(2.5rem,5vw,4rem)] font-medium tracking-[-0.04em] text-black">
               Frontier AI. For all of us.
