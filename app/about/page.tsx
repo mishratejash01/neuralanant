@@ -13,26 +13,43 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main>
-      <section className="relative overflow-hidden px-6 pb-16 pt-36 sm:pb-24 sm:pt-44">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="blob-1 absolute right-[20%] top-[25%] h-[400px] w-[400px] rounded-full bg-orange-100/25 blur-[100px]" />
-          <div className="blob-4 absolute left-[15%] top-[30%] h-[300px] w-[300px] rounded-full bg-blue-100/20 blur-[100px]" />
-        </div>
-        <div className="grid-dot-pattern pointer-events-none absolute inset-0 opacity-50" />
+      <div className="bg-[#f6fbfb]">
+        <section className="relative flex min-h-[60vh] w-full flex-col justify-center py-32">
+          {/* Subtle grid texture to give it depth while remaining light and clean */}
+          <div className="grid-dot-pattern pointer-events-none absolute inset-0 opacity-40" />
 
-        <div className="relative z-10 mx-auto max-w-3xl text-center">
-          <AnimateOnScroll>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400">About</p>
-            <h1 className="font-display mt-5 text-4xl tracking-tight text-zinc-900 sm:text-5xl lg:text-6xl">
-              The people behind Neural AI
-            </h1>
-            <p className="mt-5 text-[17px] leading-relaxed text-zinc-500">
-              A world-class team of researchers and engineers from Google, Microsoft,
-              Amazon, and DeepMind, united by a shared mission to build India&apos;s AI future.
-            </p>
-          </AnimateOnScroll>
-        </div>
-      </section>
+          {/* ALIGNED CONTAINER */}
+          <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
+            
+            {/* Block-type light badge */}
+            <AnimateOnScroll delay="delay-100">
+              <div className="mb-6 inline-flex items-center gap-3 bg-white px-3.5 py-2 shadow-sm border border-zinc-100">
+                <span className="font-sans text-[14px] font-normal tracking-tight text-zinc-600 uppercase">
+                  About
+                </span>
+              </div>
+            </AnimateOnScroll>
+
+            {/* Main headline */}
+            <AnimateOnScroll delay="delay-150">
+              <h1 className="font-sans text-[clamp(2.75rem,6vw,5rem)] font-normal leading-[1.05] tracking-tighter text-black">
+                The people behind
+                <br />
+                Neural AI
+              </h1>
+            </AnimateOnScroll>
+
+            {/* Description */}
+            <AnimateOnScroll delay="delay-300">
+              <p className="mt-6 max-w-2xl font-sans text-[17px] font-normal leading-relaxed tracking-tight text-zinc-600">
+                A world-class team of researchers and engineers from Google, Microsoft,
+                Amazon, and DeepMind, united by a shared mission to build India&apos;s AI future.
+              </p>
+            </AnimateOnScroll>
+
+          </div>
+        </section>
+      </div>
 
       <Team />
       <AdvisoryBoard />
