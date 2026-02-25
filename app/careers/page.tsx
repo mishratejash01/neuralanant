@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
 import AnimateOnScroll from "@/components/animate-on-scroll";
 import CareersImageAnimation from "@/components/careers-image-animation";
+import SupportersMarquee from "@/components/supporters-marquee";
 import { createClient } from "@/utils/supabase/server";
 
 export const metadata: Metadata = {
   title: "Careers — Neural AI",
   description: "Join us in building the persistent memory layer for frontier AI.",
 };
-
-// Strict TypeScript interfaces matching your Supabase DB
-interface Advisor {
-  id: string;
-  name: string;
-  logo_url: string;
-}
 
 interface Career {
   id: string;
@@ -26,37 +20,24 @@ interface Career {
 }
 
 export default async function CareersPage() {
-  // Safe Server-Side Fetching using your existing utility
   const supabase = await createClient();
 
-  // 1. Fetch Advisors
-  const { data: advisorsData } = await supabase.from("advisors").select("*");
-  const advisors = (advisorsData as Advisor[]) || [];
+  const { data: careersData } = await supabase
+    .from("careers")
+    .select("*")
+    .eq("is_active", true);
 
-  // 2. Fetch Careers
-  const { data: careersData } = await supabase.from("careers").select("*").eq("is_active", true);
   const positions = (careersData as Career[]) || [];
-
   const mailToLink = `mailto:office@neuralai.in?subject=${encodeURIComponent("Application for Career Opportunity at Neural AI")}`;
 
   return (
     <main className="bg-[#f6fbfb]">
-      {/* Required style for the smooth continuous marquee scroll */}
-      <style>{`
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-scroll {
-          animation: scroll 20s linear infinite;
-        }
-      `}</style>
-
       {/* ─── SECTION 1: HERO ─── */}
-      <section className="relative z-10 flex min-h-[90vh] flex-col items-center justify-center px-6">
+      <section className="relative z-10 flex min-h-[75vh] flex-col items-center justify-center px-6">
         <AnimateOnScroll>
           <div className="mb-8 text-center">
-            <span className="font-sans text-[12px] font-semibold uppercase tracking-[0.25em] text-black">
+            {/* Using Inter Regular for the label as requested */}
+            <span className="font-inter text-[13px] font-normal uppercase tracking-[0.25em] text-black">
               Neural AI Careers
             </span>
           </div>
@@ -81,43 +62,19 @@ export default async function CareersPage() {
               Engineer the persistent memory layer for frontier AI.
             </h2>
             <p className="mx-auto mb-12 max-w-2xl font-sans text-lg leading-relaxed text-zinc-600">
-              We are building India&apos;s first memory-native cognitive architecture. Our systems don&apos;t just process data; they remember, reason, and adapt. We need researchers and engineers who understand the value of persistent context and boundary-pushing infrastructure.
+              We are building India&apos;s first memory-native cognitive architecture. Our systems don&apos;t just process data; they remember, reason, and adapt.
             </p>
           </div>
         </AnimateOnScroll>
       </section>
 
-      {/* ─── SECTION 4: ADVISORS MARQUEE (Fetched from DB) ─── */}
+      {/* ─── SECTION 4: SUPPORTERS MARQUEE ─── */}
       <section className="relative z-20 border-t border-zinc-200 bg-[#f6fbfb] py-16">
-        <div className="mb-10 text-center">
-            <span className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400">
-                Backed & Advised By
-            </span>
-        </div>
-        
-        {advisors.length > 0 ? (
-            <div className="relative w-full overflow-hidden">
-                <div className="flex w-[200%] animate-scroll">
-                    <div className="flex w-1/2 items-center justify-around gap-8 px-10">
-                        {advisors.map((advisor) => (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img key={advisor.id} src={advisor.logo_url} alt={advisor.name} className="h-8 w-auto object-contain grayscale transition-all duration-300 hover:grayscale-0 md:h-12" />
-                        ))}
-                    </div>
-                    <div className="flex w-1/2 items-center justify-around gap-8 px-10">
-                        {advisors.map((advisor) => (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img key={`dup-${advisor.id}`} src={advisor.logo_url} alt={advisor.name} className="h-8 w-auto object-contain grayscale transition-all duration-300 hover:grayscale-0 md:h-12" />
-                        ))}
-                    </div>
-                </div>
-            </div>
-        ) : (
-          <div className="text-center text-sm text-zinc-400">Loading network...</div>
-        )}
+        {/* Removed "Backed by" text and kept just the marquee as requested */}
+        <SupportersMarquee />
       </section>
 
-      {/* ─── SECTION 5: OPEN POSITIONS (Fetched from DB) ─── */}
+      {/* ─── SECTION 5: OPEN POSITIONS ─── */}
       <section className="relative z-20 bg-[#f6fbfb] px-6 py-32">
         <div className="mx-auto max-w-4xl">
             <AnimateOnScroll>
@@ -126,9 +83,7 @@ export default async function CareersPage() {
             
             <div className="flex flex-col gap-4">
                 {positions.length === 0 ? (
-                    <AnimateOnScroll delay="delay-100">
-                        <div className="py-10 text-center text-zinc-500">No open positions at the moment. Check back soon.</div>
-                    </AnimateOnScroll>
+                    <div className="py-10 text-center text-zinc-500">No open positions at the moment. Check back soon.</div>
                 ) : (
                     positions.map((pos, index) => (
                         <AnimateOnScroll key={pos.id} delay={`delay-${(index % 3 + 1) * 100}`}>
@@ -144,8 +99,7 @@ export default async function CareersPage() {
                                         {pos.department && <span>{pos.department}</span>}
                                         {pos.department && <span>•</span>}
                                         {pos.type && <span>{pos.type}</span>}
-                                        {pos.type && pos.location && <span>•</span>}
-                                        {pos.location && <span>{pos.location}</span>}
+                                        {pos.location && <span>• {pos.location}</span>}
                                     </div>
                                 </div>
                                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[4px] bg-zinc-50 transition-all group-hover:bg-black group-hover:text-white">
@@ -167,7 +121,7 @@ export default async function CareersPage() {
             <div className="flex w-full flex-col items-center justify-between gap-6 rounded-[4px] bg-black p-8 shadow-2xl md:flex-row md:p-12">
                 <div className="text-center md:text-left">
                     <h3 className="mb-2 font-sans text-2xl font-medium tracking-tight text-white md:text-3xl">Can&apos;t find your role?</h3>
-                    <p className="font-sans text-base text-zinc-400 md:text-lg">We are always looking for exceptional talent. Send us your CV.</p>
+                    <p className="font-sans text-base text-zinc-400 md:text-lg">Send us your CV.</p>
                 </div>
                 
                 <a 
