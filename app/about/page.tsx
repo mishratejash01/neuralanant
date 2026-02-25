@@ -78,7 +78,7 @@ export default function AboutPage() {
       <section className="mx-auto w-full max-w-6xl px-6 pb-32">
         <AnimateOnScroll delay="delay-200">
           <div 
-            className="relative w-full overflow-hidden rounded-2xl bg-black px-8 py-20 text-center sm:px-16 sm:py-24 shadow-2xl"
+            className="relative w-full overflow-hidden bg-black px-8 py-20 text-center sm:px-16 sm:py-24"
             style={{
               backgroundImage: "url('https://npletjmaefkrjhlcgsbc.supabase.co/storage/v1/object/sign/design/ursa-major-ursa-minor-constellations.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xM2EzYjE1MC1mZDRlLTRiZjktYjc0OC1lZGI4YTk0MmM0ZGEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkZXNpZ24vdXJzYS1tYWpvci11cnNhLW1pbm9yLWNvbnN0ZWxsYXRpb25zLmpwZyIsImlhdCI6MTc3MjA0Mzc4OSwiZXhwIjo0OTI1NjQzNzg5fQ.jzOI6YH3y6O_YCTVud9W-ko1c6dvNCg6_HNPM-jqYSA')",
               backgroundSize: "cover",
