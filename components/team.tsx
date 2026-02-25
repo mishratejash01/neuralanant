@@ -8,6 +8,7 @@ interface TeamCategory {
   display_order: number;
 }
 
+// Added twitter_url to ensure strict typing
 interface TeamMember {
   id: string;
   category_id: string | null;
@@ -16,8 +17,8 @@ interface TeamMember {
   bio: string;
   avatar_url: string | null;
   linkedin_url: string | null;
-  location: string;
-  department: string;
+  twitter_url: string | null;
+  department?: string;
 }
 
 export default async function Team() {
@@ -36,9 +37,7 @@ export default async function Team() {
   const safeCategories = (categoriesData as TeamCategory[]) || [];
   const safeMembers = (membersData as TeamMember[]) || [];
 
-  // Group members and enforce "Our leadership" title
   const membersByCategory = safeCategories.map(category => {
-    // Override "Founders" to "Our leadership"
     const displayTitle = category.name.toLowerCase() === "founders" ? "Our leadership" : category.name;
     
     return {
@@ -47,7 +46,6 @@ export default async function Team() {
     };
   }).filter(group => group.members.length > 0); 
 
-  // Fallback if no categories exist yet
   if (membersByCategory.length === 0 && safeMembers.length > 0) {
     membersByCategory.push({
       categoryName: "Our leadership",
@@ -58,7 +56,6 @@ export default async function Team() {
   return (
     <section className="relative overflow-hidden py-16 sm:py-24 w-full">
       <div className="relative z-10 w-full overflow-hidden">
-        {/* Render a sliding row for each Category */}
         {membersByCategory.map((group, index) => (
           <AnimateOnScroll key={index} delay={`delay-${(index % 3 + 1) * 100}`}>
             <TeamRow 
