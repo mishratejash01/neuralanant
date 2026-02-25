@@ -2,7 +2,6 @@ import { createClient } from "@/utils/supabase/server";
 import TeamRow from "./team-row";
 import AnimateOnScroll from "./animate-on-scroll";
 
-// ─── STRICT TYPESCRIPT INTERFACES ───
 interface TeamCategory {
   id: string;
   name: string;
@@ -24,53 +23,41 @@ interface TeamMember {
 export default async function Team() {
   const supabase = await createClient();
 
-  // 1. Fetch Categories (Safe fetching without .catch to prevent TS errors)
-  const { data: categoriesData, error: categoryError } = await supabase
+  const { data: categoriesData } = await supabase
     .from("team_categories")
     .select("*")
     .order("display_order", { ascending: true });
 
-  // 2. Fetch Members
-  const { data: membersData, error: memberError } = await supabase
+  const { data: membersData } = await supabase
     .from("team_members")
     .select("*")
     .order("display_order", { ascending: true });
 
-  // Explicitly cast the returned data to our safe interfaces
   const safeCategories = (categoriesData as TeamCategory[]) || [];
   const safeMembers = (membersData as TeamMember[]) || [];
 
-  // Group members by category ID
-  const membersByCategory = safeCategories.map(category => ({
-    categoryName: category.name,
-    members: safeMembers.filter(m => m.category_id === category.id)
-  })).filter(group => group.members.length > 0); 
+  // Group members and enforce "Our leadership" title
+  const membersByCategory = safeCategories.map(category => {
+    // Override "Founders" to "Our leadership"
+    const displayTitle = category.name.toLowerCase() === "founders" ? "Our leadership" : category.name;
+    
+    return {
+      categoryName: displayTitle,
+      members: safeMembers.filter(m => m.category_id === category.id)
+    };
+  }).filter(group => group.members.length > 0); 
 
-  // Fallback: If you haven't run the SQL migration yet, group everyone under "Leadership"
+  // Fallback if no categories exist yet
   if (membersByCategory.length === 0 && safeMembers.length > 0) {
     membersByCategory.push({
-      categoryName: "Leadership",
+      categoryName: "Our leadership",
       members: safeMembers
     });
   }
 
   return (
-    <section className="relative overflow-hidden py-28 sm:py-36 w-full">
-      {/* Background blobs */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="blob-2 absolute -right-[5%] top-[20%] h-[400px] w-[400px] rounded-full bg-teal-100/20 blur-[100px]" />
-      </div>
-
+    <section className="relative overflow-hidden py-16 sm:py-24 w-full">
       <div className="relative z-10 w-full overflow-hidden">
-        <AnimateOnScroll>
-          <div className="mx-auto mb-20 max-w-2xl text-center px-6">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400">Our People</p>
-            <h2 className="font-display mt-5 text-4xl tracking-tight text-zinc-900 sm:text-5xl">
-              Built by engineers who believe in India&apos;s AI future
-            </h2>
-          </div>
-        </AnimateOnScroll>
-
         {/* Render a sliding row for each Category */}
         {membersByCategory.map((group, index) => (
           <AnimateOnScroll key={index} delay={`delay-${(index % 3 + 1) * 100}`}>
