@@ -32,10 +32,11 @@ export default async function CareersPage() {
 
   return (
     <main className="bg-[#f6fbfb]">
-      {/* ─── SECTION 1: HERO (Centering the text) ─── */}
-      <section className="relative z-10 flex h-screen flex-col items-center justify-center px-6">
+      {/* ─── SECTION 1: HERO (Centering text with a small peak below) ─── */}
+      <section className="relative z-10 flex h-[92vh] flex-col items-center justify-center px-6">
         <AnimateOnScroll>
           <div className="mb-8 text-center">
+            {/* Inter Regular for the label */}
             <span className="font-inter text-[13px] font-normal uppercase tracking-[0.25em] text-black">
               Neural AI Careers
             </span>
@@ -43,14 +44,15 @@ export default async function CareersPage() {
         </AnimateOnScroll>
 
         <AnimateOnScroll delay="delay-100">
-          <h1 className="text-center font-sans text-[clamp(4rem,10vw,10rem)] leading-[0.95] tracking-tighter text-black">
-            <span className="block font-medium">Efficiency</span>
-            <span className="block font-light italic text-zinc-400">Wanted.</span>
+          {/* Serif font for 'Efficiency Wanted' */}
+          <h1 className="text-center font-serif text-[clamp(4.5rem,12vw,11rem)] leading-[0.9] tracking-tight text-black">
+            <span className="block font-light">Efficiency</span>
+            <span className="block font-light italic opacity-90">Wanted</span>
           </h1>
         </AnimateOnScroll>
       </section>
 
-      {/* ─── SECTION 2: ANIMATED IMAGE ─── */}
+      {/* ─── SECTION 2: ANIMATED IMAGE (Small peak visible at start) ─── */}
       <CareersImageAnimation />
 
       {/* ─── SECTION 3: CORE MISSION ─── */}
