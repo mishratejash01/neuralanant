@@ -52,13 +52,12 @@ export default function AboutPage() {
       <Team />
       
       {/* ─── SUPPORTERS / INVESTORS MARQUEE ─── */}
-      {/* Added -mt-16 to pull it up into the empty space left by the Team component */}
       <div className="relative z-20 -mt-16 pb-8 sm:-mt-24">
         <SupportersMarquee />
       </div>
 
       {/* ─── CUSTOM CAREERS CTA ─── */}
-      <section className="flex flex-col items-center justify-center pt-8 pb-32 px-6 text-center">
+      <section className="flex flex-col items-center justify-center pt-8 pb-20 px-6 text-center">
         <AnimateOnScroll>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-black mb-8">
             Build the future of AI with us.
@@ -72,6 +71,38 @@ export default function AboutPage() {
           >
             Open positions &gt;
           </Link>
+        </AnimateOnScroll>
+      </section>
+
+      {/* ─── EARLY ACCESS RECTANGULAR FRAME ─── */}
+      <section className="mx-auto w-full max-w-6xl px-6 pb-32">
+        <AnimateOnScroll delay="delay-200">
+          <div 
+            className="relative w-full overflow-hidden rounded-2xl bg-black px-8 py-20 text-center sm:px-16 sm:py-24 shadow-2xl"
+            style={{
+              backgroundImage: "url('https://npletjmaefkrjhlcgsbc.supabase.co/storage/v1/object/sign/design/ursa-major-ursa-minor-constellations.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xM2EzYjE1MC1mZDRlLTRiZjktYjc0OC1lZGI4YTk0MmM0ZGEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkZXNpZ24vdXJzYS1tYWpvci11cnNhLW1pbm9yLWNvbnN0ZWxsYXRpb25zLmpwZyIsImlhdCI6MTc3MjA0Mzc4OSwiZXhwIjo0OTI1NjQzNzg5fQ.jzOI6YH3y6O_YCTVud9W-ko1c6dvNCg6_HNPM-jqYSA')",
+              backgroundSize: "cover",
+              backgroundPosition: "center"
+            }}
+          >
+            {/* Dark overlay to ensure text is highly readable against the stars */}
+            <div className="absolute inset-0 bg-black/50" />
+            
+            <div className="relative z-10 flex flex-col items-center justify-center">
+              <h2 className="text-3xl font-medium tracking-tight text-white sm:text-4xl md:text-5xl">
+                Experience the frontier.
+              </h2>
+              <p className="mt-5 max-w-xl text-[1.05rem] leading-relaxed text-zinc-300">
+                Join the waitlist to get early access to Anant 1.0 — India&apos;s first memory-native cognitive architecture.
+              </p>
+              <Link 
+                href="/#early-access" 
+                className="mt-10 inline-flex h-12 items-center justify-center rounded-full bg-white px-8 text-sm font-semibold text-black transition-transform hover:scale-105"
+              >
+                Get Early Access
+              </Link>
+            </div>
+          </div>
         </AnimateOnScroll>
       </section>
     </main>
