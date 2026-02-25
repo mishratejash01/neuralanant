@@ -28,16 +28,14 @@ export default async function CareersPage() {
     .eq("is_active", true);
 
   const positions = (careersData as Career[]) || [];
-  // Use the Neural AI office email for general applications
   const mailToLink = `mailto:office@neuralai.in?subject=${encodeURIComponent("Application for Career Opportunity at Neural AI")}`;
 
   return (
     <main className="bg-[#f6fbfb]">
-      {/* ─── SECTION 1: HERO ─── */}
-      <section className="relative z-10 flex min-h-[50vh] flex-col items-center justify-end px-6 pb-12">
+      {/* ─── SECTION 1: HERO (Centering the text) ─── */}
+      <section className="relative z-10 flex h-screen flex-col items-center justify-center px-6">
         <AnimateOnScroll>
           <div className="mb-8 text-center">
-            {/* Neural AI brand labeling */}
             <span className="font-inter text-[13px] font-normal uppercase tracking-[0.25em] text-black">
               Neural AI Careers
             </span>
@@ -52,14 +50,13 @@ export default async function CareersPage() {
         </AnimateOnScroll>
       </section>
 
-      {/* ─── SECTION 2: SHIFTED FULL WIDTH IMAGE ─── */}
+      {/* ─── SECTION 2: ANIMATED IMAGE ─── */}
       <CareersImageAnimation />
 
       {/* ─── SECTION 3: CORE MISSION ─── */}
       <section className="relative z-20 bg-[#f6fbfb] px-6 pb-20 pt-32">
         <AnimateOnScroll>
           <div className="mx-auto max-w-4xl text-center">
-            {/* Mission statement based on company focus */}
             <h2 className="mb-8 font-sans text-4xl font-medium leading-tight tracking-tight text-black md:text-5xl">
               Engineer the persistent memory layer for frontier AI.
             </h2>
