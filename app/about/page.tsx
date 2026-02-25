@@ -25,13 +25,13 @@ export default function AboutPage() {
         <div className="z-10 mt-12 mb-[60px] max-w-[800px] text-center">
           <AnimateOnScroll>
             <h1 className="mb-6 font-sans text-[clamp(2.5rem,5vw,4rem)] font-medium tracking-[-0.04em] text-black">
-              Frontier AI. For all of us.
+              From India to the World.
             </h1>
           </AnimateOnScroll>
           
           <AnimateOnScroll delay="delay-100">
             <p className="mx-auto max-w-2xl text-[1.15rem] font-normal leading-[1.6] tracking-[-0.01em] text-[#666]">
-              We exist to make the frontier memory layer accessible to everyone.
+              Engineering the persistent memory layer for frontier models. We are a research and applied AI lab building India&apos;s first memory-native cognitive architecture for the global ecosystem.
             </p>
           </AnimateOnScroll>
         </div>
