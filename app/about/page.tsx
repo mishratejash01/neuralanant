@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import AnimateOnScroll from "@/components/animate-on-scroll";
 import Team from "@/components/team";
-import AdvisoryBoard from "@/components/advisory-board";
-import CTABanner from "@/components/cta-banner";
+import SupportersMarquee from "@/components/supporters-marquee";
 
 export const metadata: Metadata = {
   title: "About — Neural AI",
@@ -11,25 +11,25 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="bg-[#f6fbfb]">
+    <main className="bg-[#f6fbfb] pb-24">
       {/* ─── ABOUT HERO SECTION ─── */}
       <section 
-        className="relative flex min-h-screen flex-col items-center px-5 py-[100px] text-[#111] antialiased sm:pt-32"
+        className="relative flex min-h-[90vh] flex-col items-center px-5 py-[100px] text-[#111] antialiased sm:pt-32"
         style={{
           backgroundImage: "linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px)",
           backgroundSize: "40px 40px",
         }}
       >
         {/* ─── Header Text ─── */}
-        <div className="z-10 mt-12 mb-[60px] max-w-[800px] text-center">
+        <div className="z-10 mt-20 mb-[60px] max-w-[800px] text-center">
           <AnimateOnScroll>
-            <h1 className="mb-6 font-sans text-[clamp(2.5rem,5vw,4rem)] font-medium tracking-[-0.04em] text-black">
+            <h1 className="mb-6 font-sans text-[clamp(2.5rem,5vw,4rem)] font-medium tracking-tight text-black">
               From India to the World.
             </h1>
           </AnimateOnScroll>
           
           <AnimateOnScroll delay="delay-100">
-            <p className="mx-auto max-w-2xl text-[1.15rem] font-normal leading-[1.6] tracking-[-0.01em] text-[#666]">
+            <p className="mx-auto max-w-2xl text-[1.15rem] font-normal leading-[1.6] text-[#666]">
               Building the persistent memory layer for frontier AI.
             </p>
           </AnimateOnScroll>
@@ -48,12 +48,31 @@ export default function AboutPage() {
         </AnimateOnScroll>
       </section>
 
-      {/* ─── NEW HORIZONTAL SCROLLING TEAM SECTION ─── */}
+      {/* ─── HORIZONTAL SCROLLING TEAM SECTION ─── */}
       <Team />
       
-      {/* ─── ADVISORY & CTA ─── */}
-      <AdvisoryBoard />
-      <CTABanner />
+      {/* ─── SUPPORTERS / INVESTORS MARQUEE ─── */}
+      <div className="py-12">
+        <SupportersMarquee />
+      </div>
+
+      {/* ─── CUSTOM CAREERS CTA ─── */}
+      <section className="flex flex-col items-center justify-center py-24 px-6 text-center">
+        <AnimateOnScroll>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-black mb-8">
+            Build the future of AI with us.
+          </h2>
+        </AnimateOnScroll>
+        
+        <AnimateOnScroll delay="delay-100">
+          <Link 
+            href="/careers" 
+            className="inline-flex items-center gap-1 text-[1.1rem] font-medium text-black border-b-2 border-black pb-1 transition-opacity hover:opacity-60"
+          >
+            Open positions &gt;
+          </Link>
+        </AnimateOnScroll>
+      </section>
     </main>
   );
 }
