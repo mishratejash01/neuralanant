@@ -13,8 +13,8 @@ export default function CareersImageAnimation() {
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      // Calculate progress based on when the section hits the middle of the screen
-      const scrollDistance = rect.height;
+      // Calculate progress based on scroll position relative to the container
+      const scrollDistance = rect.height - windowHeight;
       const scrolled = -rect.top;
       
       let currentProgress = scrolled / scrollDistance;
@@ -29,17 +29,17 @@ export default function CareersImageAnimation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Animation values
-  const scale = 1 - (progress * 0.08); // Slightly more pronounced scale-down
-  const blur = progress * 10;
+  // Animation values based on scroll progress
+  const scale = 1 - (progress * 0.1); 
+  const blur = progress * 12;
   const opacity = 1 - (progress * 0.5);
-  const borderRadius = progress * 24; // Becomes more rounded as it shrinks
+  const borderRadius = progress * 32;
 
   return (
-    /* mt-24 pushes the start of the image section down from the hero text */
-    <section ref={containerRef} className="relative h-[180vh] bg-[#f6fbfb] mt-24">
-      {/* sticky top-12 starts the sticky effect a bit lower than the very top */}
-      <div className="sticky top-12 flex h-[80vh] w-full flex-col items-center justify-center overflow-hidden">
+    /* mt-48 significantly shifts the image section down from the hero */
+    <section ref={containerRef} className="relative h-[200vh] bg-[#f6fbfb] mt-48">
+      {/* Increased top-24 to start the sticky position lower on the screen */}
+      <div className="sticky top-24 flex h-[70vh] w-full flex-col items-center justify-center overflow-hidden">
         <div 
           style={{ 
             transform: `scale(${scale})`,
