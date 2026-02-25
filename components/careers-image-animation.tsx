@@ -31,8 +31,8 @@ export default function CareersImageAnimation() {
   const borderRadius = progress * 32;
 
   return (
-    /* Changed to mt-12 to shift the image further down the page */
-    <section ref={containerRef} className="relative h-[200vh] bg-[#f6fbfb] mt-12">
+    /* Shifted from -mt-[8vh] to -mt-[15vh] to move the image higher up the page */
+    <section ref={containerRef} className="relative h-[200vh] bg-[#f6fbfb] -mt-[15vh]">
       <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden">
         <div 
           style={{ 
@@ -44,6 +44,7 @@ export default function CareersImageAnimation() {
           }}
           className="z-0 h-full w-full origin-center overflow-hidden bg-black shadow-none transition-all duration-75 ease-out"
         >
+          {/* Grayscale image aligned with the Neural AI brand aesthetic */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
             src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop" 
