@@ -11,6 +11,7 @@ export default function CareersImageAnimation() {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
+      
       const scrollDistance = rect.height - windowHeight;
       const scrolled = -rect.top;
       
@@ -30,8 +31,8 @@ export default function CareersImageAnimation() {
   const borderRadius = progress * 32;
 
   return (
-    /* -mt-[40vh] pulls the image up to start above the middle of Section 1 */
-    <section ref={containerRef} className="relative h-[200vh] bg-[#f6fbfb] -mt-[40vh]">
+    /* -mt-[30vh] allows the image to peek at the bottom of the hero section */
+    <section ref={containerRef} className="relative h-[200vh] bg-[#f6fbfb] -mt-[30vh]">
       <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden">
         <div 
           style={{ 
