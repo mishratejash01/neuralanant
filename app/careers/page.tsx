@@ -33,10 +33,9 @@ export default async function CareersPage() {
   return (
     <main className="bg-[#f6fbfb]">
       {/* ─── SECTION 1: HERO ─── */}
-      <section className="relative z-10 flex min-h-[75vh] flex-col items-center justify-center px-6">
+      <section className="relative z-10 flex min-h-[60vh] flex-col items-center justify-end px-6 pb-12">
         <AnimateOnScroll>
           <div className="mb-8 text-center">
-            {/* Using Inter Regular for the label as requested */}
             <span className="font-inter text-[13px] font-normal uppercase tracking-[0.25em] text-black">
               Neural AI Careers
             </span>
@@ -51,10 +50,10 @@ export default async function CareersPage() {
         </AnimateOnScroll>
       </section>
 
-      {/* ─── SECTION 2: ANIMATED IMAGE FRAME ─── */}
+      {/* ─── SECTION 2: FULL WIDTH ANIMATED IMAGE ─── */}
       <CareersImageAnimation />
 
-      {/* ─── SECTION 3: CORE MISSION CONTENT ─── */}
+      {/* ─── SECTION 3: CORE MISSION ─── */}
       <section className="relative z-20 bg-[#f6fbfb] px-6 pb-20 pt-32">
         <AnimateOnScroll>
           <div className="mx-auto max-w-4xl text-center">
@@ -70,7 +69,6 @@ export default async function CareersPage() {
 
       {/* ─── SECTION 4: SUPPORTERS MARQUEE ─── */}
       <section className="relative z-20 border-t border-zinc-200 bg-[#f6fbfb] py-16">
-        {/* Removed "Backed by" text and kept just the marquee as requested */}
         <SupportersMarquee />
       </section>
 
