@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 
+// Updated to safely accept nulls from Supabase
 interface TeamMember {
   id: string;
   name: string;
@@ -10,8 +11,8 @@ interface TeamMember {
   avatar_url: string | null;
   linkedin_url: string | null;
   twitter_url: string | null;
-  location?: string;
-  member_type?: string;
+  location?: string | null;
+  member_type?: string | null;
 }
 
 export default function TeamRow({ categoryName, members }: { categoryName: string, members: TeamMember[] }) {
@@ -96,7 +97,6 @@ export default function TeamRow({ categoryName, members }: { categoryName: strin
                     )}
                   </div>
                   
-                  {/* The Arrow is now perfectly aligned below the right edge of the image frame */}
                   <div className="text-2xl text-black opacity-20 transition-opacity duration-300 group-hover:opacity-0">
                     &rarr;
                   </div>
@@ -112,6 +112,23 @@ export default function TeamRow({ categoryName, members }: { categoryName: strin
                 </div>
                 
                 <div className="flex flex-col gap-6">
-                  {/* member_type logic mapped from db */}
+                  {/* member_type logic safely mapped */}
                   {member.member_type && (
-                    <span className="
+                    <span className="w-fit bg-black px-4 py-1.5 text-[0.7rem] uppercase tracking-[1px] text-white">
+                      {member.member_type}
+                    </span>
+                  )}
+
+                  {/* Location mapped safely with fallback */}
+                  <p className="text-[0.85rem] leading-[1.5] text-zinc-500">
+                    {(member.location || 'HQ / Global').split('/').map((loc: string, i: number) => <span key={i}>{loc}<br/></span>)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
