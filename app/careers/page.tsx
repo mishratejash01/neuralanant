@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import AnimateOnScroll from "@/components/animate-on-scroll";
 import CareersImageAnimation from "@/components/careers-image-animation";
 import SupportersMarquee from "@/components/supporters-marquee";
+import CareersCTA from "@/components/careers-cta";
 import { createClient } from "@/utils/supabase/server";
 
 export const metadata: Metadata = {
@@ -9,7 +10,6 @@ export const metadata: Metadata = {
   description: "Join Neural AI to build the persistent memory layer for frontier AI.",
 };
 
-// Interface matching your new SQL schema
 interface Career {
   id: string;
   title: string;
@@ -31,14 +31,14 @@ export default async function CareersPage() {
     .order("created_at", { ascending: false });
 
   const positions = (careersData as Career[]) || [];
-  const mailToLink = `mailto:office@neuralai.in?subject=${encodeURIComponent("Application for Neural AI")}`;
 
   return (
     <main className="bg-[#f6fbfb]">
-      {/* ─── HERO SECTION ─── */}
+      {/* ─── SECTION 1: HERO ─── */}
       <section className="relative z-10 flex h-[92vh] flex-col items-center justify-center px-6">
         <AnimateOnScroll>
           <div className="mb-8 text-center">
+            {/* Inter font for labels */}
             <span className="font-inter text-[13px] font-normal uppercase tracking-[0.25em] text-black">
               Neural AI Careers
             </span>
@@ -53,10 +53,10 @@ export default async function CareersPage() {
         </AnimateOnScroll>
       </section>
 
-      {/* ─── ANIMATED IMAGE PEEK ─── */}
+      {/* ─── SECTION 2: ANIMATED IMAGE PEEK ─── */}
       <CareersImageAnimation />
 
-      {/* ─── MISSION STATEMENT ─── */}
+      {/* ─── SECTION 3: CORE MISSION ─── */}
       <section className="relative z-20 bg-[#f6fbfb] px-6 pb-20 pt-32">
         <AnimateOnScroll>
           <div className="mx-auto max-w-4xl text-center">
@@ -64,18 +64,18 @@ export default async function CareersPage() {
               Engineer the memory layer of the future.
             </h2>
             <p className="mx-auto mb-12 max-w-2xl font-sans text-lg leading-relaxed text-zinc-600">
-              We are building India&apos;s first memory-native cognitive architecture. Join us in scaling Neural AI from India to the world.
+              Neural AI is building India&apos;s first memory-native cognitive architecture. Join Tejash Mishra and our team at IIT Madras to scale frontier AI to the world.
             </p>
           </div>
         </AnimateOnScroll>
       </section>
 
-      {/* ─── SUPPORTERS ─── */}
+      {/* ─── SECTION 4: SUPPORTERS MARQUEE ─── */}
       <section className="relative z-20 border-t border-zinc-200 bg-[#f6fbfb] py-16">
         <SupportersMarquee />
       </section>
 
-      {/* ─── DYNAMIC ROLES LIST ─── */}
+      {/* ─── SECTION 5: OPEN POSITIONS ─── */}
       <section className="relative z-20 bg-[#f6fbfb] px-6 py-32">
         <div className="mx-auto max-w-4xl">
             <AnimateOnScroll>
@@ -84,9 +84,7 @@ export default async function CareersPage() {
             
             <div className="flex flex-col gap-4">
                 {positions.length === 0 ? (
-                    <div className="py-10 text-center text-zinc-500">
-                      No open positions currently. Check back soon.
-                    </div>
+                    <div className="py-10 text-center text-zinc-500">No open positions currently. Check back soon.</div>
                 ) : (
                     positions.map((pos, index) => (
                         <AnimateOnScroll key={pos.id} delay={`delay-${(index % 3 + 1) * 100}`}>
@@ -118,27 +116,8 @@ export default async function CareersPage() {
         </div>
       </section>
 
-      {/* ─── BOTTOM CTA ─── */}
-      <section className="relative z-20 flex justify-center bg-[#f6fbfb] px-6 pb-32">
-        <AnimateOnScroll className="w-full max-w-4xl">
-            <div className="flex w-full flex-col items-center justify-between gap-6 rounded-[4px] bg-black p-8 shadow-2xl md:flex-row md:p-12">
-                <div className="text-center md:text-left">
-                    <h3 className="mb-2 font-sans text-2xl font-medium tracking-tight text-white md:text-3xl">Spontaneous Application?</h3>
-                    <p className="font-sans text-base text-zinc-400 md:text-lg">Send your CV directly to our team.</p>
-                </div>
-                
-                <a 
-                    href={mailToLink}
-                    className="flex shrink-0 items-center gap-2 rounded-[4px] bg-white px-8 py-3 font-sans font-medium text-black no-underline transition-transform duration-300 hover:scale-105"
-                >
-                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    Send CV
-                </a>
-            </div>
-        </AnimateOnScroll>
-      </section>
+      {/* ─── SECTION 6: SMART CTA ─── */}
+      <CareersCTA />
     </main>
   );
 }
