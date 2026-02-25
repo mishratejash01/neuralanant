@@ -9,38 +9,46 @@ export default function CareersImageAnimation() {
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return;
+      
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      const scrollDistance = rect.height - windowHeight;
+      
+      // Calculate progress based on when the section hits the middle of the screen
+      const scrollDistance = rect.height;
       const scrolled = -rect.top;
       
       let currentProgress = scrolled / scrollDistance;
       currentProgress = Math.min(Math.max(currentProgress, 0), 1);
+      
       setProgress(currentProgress);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
+    
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scale = 1 - (progress * 0.05);
-  const blur = progress * 8;
-  const opacity = 1 - (progress * 0.4);
-  const borderRadius = progress * 8;
+  // Animation values
+  const scale = 1 - (progress * 0.08); // Slightly more pronounced scale-down
+  const blur = progress * 10;
+  const opacity = 1 - (progress * 0.5);
+  const borderRadius = progress * 24; // Becomes more rounded as it shrinks
 
   return (
-    /* We use a negative margin-top to pull the image section up into the hero */
-    <section ref={containerRef} className="relative h-[150vh] bg-[#f6fbfb] -mt-[15vh]">
-      <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden px-0 pb-12 pt-24 sm:px-6">
+    /* mt-24 pushes the start of the image section down from the hero text */
+    <section ref={containerRef} className="relative h-[180vh] bg-[#f6fbfb] mt-24">
+      {/* sticky top-12 starts the sticky effect a bit lower than the very top */}
+      <div className="sticky top-12 flex h-[80vh] w-full flex-col items-center justify-center overflow-hidden">
         <div 
           style={{ 
             transform: `scale(${scale})`,
             filter: `blur(${blur}px)`,
             opacity: opacity,
-            borderRadius: `${borderRadius}px`
+            borderRadius: `${borderRadius}px`,
+            width: '100%' 
           }}
-          className="z-0 h-full w-full origin-center overflow-hidden bg-black shadow-2xl transition-all duration-75 ease-out"
+          className="z-0 h-full w-full origin-center overflow-hidden bg-black shadow-none transition-all duration-75 ease-out"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
