@@ -2,24 +2,43 @@ import { createClient } from "@/utils/supabase/server";
 import TeamRow from "./team-row";
 import AnimateOnScroll from "./animate-on-scroll";
 
+// ─── STRICT TYPESCRIPT INTERFACES ───
+interface TeamCategory {
+  id: string;
+  name: string;
+  display_order: number;
+}
+
+interface TeamMember {
+  id: string;
+  category_id: string | null;
+  name: string;
+  role: string;
+  bio: string;
+  avatar_url: string | null;
+  linkedin_url: string | null;
+  location: string;
+  department: string;
+}
+
 export default async function Team() {
   const supabase = await createClient();
 
-  // 1. Fetch Categories (Gracefully handle if table doesn't exist yet)
-  const { data: categories } = await supabase
+  // 1. Fetch Categories (Safe fetching without .catch to prevent TS errors)
+  const { data: categoriesData, error: categoryError } = await supabase
     .from("team_categories")
     .select("*")
-    .order("display_order", { ascending: true })
-    .catch(() => ({ data: [] })); 
+    .order("display_order", { ascending: true });
 
   // 2. Fetch Members
-  const { data: members } = await supabase
+  const { data: membersData, error: memberError } = await supabase
     .from("team_members")
     .select("*")
     .order("display_order", { ascending: true });
 
-  const safeCategories = categories ?? [];
-  const safeMembers = members ?? [];
+  // Explicitly cast the returned data to our safe interfaces
+  const safeCategories = (categoriesData as TeamCategory[]) || [];
+  const safeMembers = (membersData as TeamMember[]) || [];
 
   // Group members by category ID
   const membersByCategory = safeCategories.map(category => ({
