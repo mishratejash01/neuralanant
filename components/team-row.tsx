@@ -72,7 +72,8 @@ export default function TeamRow({ categoryName, members }: { categoryName: strin
                   <h3 className="text-[2rem] font-medium leading-[1.1] text-black">
                     {member.name.split(' ').map((part, i) => <span key={i}>{part}<br/></span>)}
                   </h3>
-                  <p className="mt-2.5 text-[0.8rem] font-bold uppercase tracking-[2px] text-zinc-500">
+                  {/* Role Text Updated Here */}
+                  <p className="mt-2.5 text-[0.9rem] font-normal text-zinc-500">
                     {member.role}
                   </p>
                   
