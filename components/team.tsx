@@ -8,7 +8,7 @@ interface TeamCategory {
   display_order: number;
 }
 
-// Added twitter_url to ensure strict typing
+// Updated to safely accept nulls from Supabase
 interface TeamMember {
   id: string;
   category_id: string | null;
@@ -18,7 +18,8 @@ interface TeamMember {
   avatar_url: string | null;
   linkedin_url: string | null;
   twitter_url: string | null;
-  department?: string;
+  location: string | null;
+  member_type: string | null;
 }
 
 export default async function Team() {
