@@ -9,37 +9,30 @@ export default function CareersImageAnimation() {
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return;
-      
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      
-      // Calculate progress based on scroll position relative to the container
       const scrollDistance = rect.height - windowHeight;
       const scrolled = -rect.top;
       
       let currentProgress = scrolled / scrollDistance;
       currentProgress = Math.min(Math.max(currentProgress, 0), 1);
-      
       setProgress(currentProgress);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
-    
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Animation values based on scroll progress
   const scale = 1 - (progress * 0.1); 
   const blur = progress * 12;
   const opacity = 1 - (progress * 0.5);
   const borderRadius = progress * 32;
 
   return (
-    /* mt-48 significantly shifts the image section down from the hero */
-    <section ref={containerRef} className="relative h-[200vh] bg-[#f6fbfb] mt-48">
-      {/* Increased top-24 to start the sticky position lower on the screen */}
-      <div className="sticky top-24 flex h-[70vh] w-full flex-col items-center justify-center overflow-hidden">
+    /* -mt-[40vh] pulls the image up to start above the middle of Section 1 */
+    <section ref={containerRef} className="relative h-[200vh] bg-[#f6fbfb] -mt-[40vh]">
+      <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden">
         <div 
           style={{ 
             transform: `scale(${scale})`,
