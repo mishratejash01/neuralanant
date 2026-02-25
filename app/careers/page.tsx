@@ -1,116 +1,219 @@
-import type { Metadata } from "next";
-import { createClient } from "@/utils/supabase/server";
-import AnimateOnScroll from "@/components/animate-on-scroll";
-import JobListings from "@/components/job-listings";
-import CTABanner from "@/components/cta-banner";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Careers — Neural AI",
-  description:
-    "Join the team building India's first LLM with persistent memory. Explore open roles at Neural AI.",
+import { useRef, useEffect, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, Mail } from "lucide-react";
+import { createClient } from "@/utils/supabase/client";
+
+// --- Types ---
+type Advisor = {
+  id: string;
+  name: string;
+  logo_url: string;
 };
 
-export default async function CareersPage() {
-  const supabase = await createClient();
-  const { data: jobs } = await supabase
-    .from("job_openings")
-    .select("*")
-    .eq("is_active", true)
-    .order("display_order", { ascending: true });
+type Career = {
+  id: string;
+  title: string;
+  department: string | null;
+  location: string | null;
+  type: string | null;
+  is_active: boolean | null;
+  application_link: string | null;
+};
+
+export default function CareersPage() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const supabase = createClient();
+  
+  // State
+  const [advisors, setAdvisors] = useState<Advisor[]>([]);
+  const [positions, setPositions] = useState<Career[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch Data from Supabase
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data: advisorsData } = await supabase.from('advisors').select('*');
+        const { data: careersData } = await supabase.from('careers').select('*').eq('is_active', true);
+        
+        if (advisorsData) setAdvisors(advisorsData);
+        if (careersData) setPositions(careersData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, [supabase]);
+
+  // Animation Hooks
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"], 
+  });
+
+  const scale = useTransform(scrollYProgress, [0.2, 0.8], [1, 0.95]);
+  const borderRadius = useTransform(scrollYProgress, [0.2, 0.8], ["0px", "8px"]);
+  const filter = useTransform(scrollYProgress, [0.4, 0.9], ["blur(0px)", "blur(8px)"]);
+  const imageOpacity = useTransform(scrollYProgress, [0.5, 1], [1, 0.6]);
+
+  // Create encoded mailto link
+  const mailToLink = `mailto:office@neuralai.in?subject=${encodeURIComponent("Application for Career Opportunity at Neural AI")}`;
 
   return (
-    <main>
-      <section className="relative overflow-hidden px-6 pb-16 pt-36 sm:pb-24 sm:pt-44">
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="blob-1 absolute left-[15%] top-[25%] h-[400px] w-[400px] rounded-full bg-rose-100/25 blur-[100px]" />
-          <div className="blob-3 absolute right-[20%] top-[30%] h-[300px] w-[300px] rounded-full bg-blue-100/20 blur-[100px]" />
-        </div>
-        <div className="grid-dot-pattern pointer-events-none absolute inset-0 opacity-50" />
+    <main className="bg-[#f6fbfb]">
+      <style>{`
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .animate-scroll {
+          animation: scroll 20s linear infinite;
+        }
+      `}</style>
 
-        <div className="relative z-10 mx-auto max-w-3xl text-center">
-          <AnimateOnScroll>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400">Careers</p>
-            <h1 className="font-display mt-5 text-4xl tracking-tight text-zinc-900 sm:text-5xl lg:text-6xl">
-              Build the future of AI memory
-            </h1>
-            <p className="mt-5 text-[17px] leading-relaxed text-zinc-500">
-              We&apos;re looking for exceptional people who believe AI should remember, learn, and
-              grow. Join us in Chennai and help build something that&apos;s never been done before.
-            </p>
-          </AnimateOnScroll>
-        </div>
-      </section>
+      {/* --- SECTION 1: HERO --- */}
+      <div className="relative z-10 flex min-h-[90vh] flex-col items-center justify-center px-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="mb-8"
+          >
+            <span className="font-sans text-[12px] font-semibold uppercase tracking-[0.25em] text-black">
+              Neural AI Careers
+            </span>
+          </motion.div>
 
-      <section className="px-6 py-16 sm:py-20">
-        <div className="mx-auto max-w-6xl">
-          <AnimateOnScroll>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {[
-                {
-                  icon: (
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z" />
-                    </svg>
-                  ),
-                  title: "Frontier Research",
-                  desc: "Work on problems no one has solved yet. Persistent memory in LLMs is uncharted territory.",
-                },
-                {
-                  icon: (
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
-                    </svg>
-                  ),
-                  title: "World-Class Team",
-                  desc: "Collaborate with alumni from Google, Microsoft, DeepMind, and top Indian institutions.",
-                },
-                {
-                  icon: (
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342" />
-                    </svg>
-                  ),
-                  title: "IIT Madras Backed",
-                  desc: "Incubated at IIT Madras Research Park with access to top-tier academic resources.",
-                },
-                {
-                  icon: (
-                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.58-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                    </svg>
-                  ),
-                  title: "Early Stage Impact",
-                  desc: "Shape the product, culture, and direction of a company from day one.",
-                },
-              ].map((item) => (
-                <div key={item.title} className="rounded-2xl border border-zinc-100 bg-white p-6 transition-all duration-500 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-zinc-100/50">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-900 text-white">
-                    {item.icon}
-                  </div>
-                  <h3 className="mt-4 text-sm font-semibold text-zinc-900">{item.title}</h3>
-                  <p className="mt-2 text-[13px] leading-relaxed text-zinc-500">{item.desc}</p>
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.1 }}
+            className="text-center font-sans text-[clamp(4rem,10vw,10rem)] leading-[0.95] tracking-tighter text-black"
+          >
+            <span className="block font-medium">Efficiency</span>
+            <span className="block font-light italic text-zinc-400">Wanted.</span>
+          </motion.h1>
+      </div>
+
+      {/* --- SECTION 2: IMAGE FRAME --- */}
+      <div ref={containerRef} className="relative h-[150vh] bg-[#f6fbfb]">
+        <div className="sticky top-0 flex h-screen w-full flex-col items-center justify-center overflow-hidden px-0 sm:px-6">
+          <motion.div 
+            style={{ scale, borderRadius, filter, opacity: imageOpacity }}
+            className="z-0 h-full w-full origin-center overflow-hidden bg-black shadow-2xl"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img 
+              src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2301&auto=format&fit=crop" 
+              alt="Neural AI Office" 
+              className="h-full w-full object-cover opacity-90 grayscale"
+            />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* --- SECTION 3: CORE MISSION CONTENT --- */}
+      <div className="relative z-20 bg-[#f6fbfb] px-6 pb-20 pt-32">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="mb-8 font-sans text-4xl font-medium leading-tight tracking-tight text-black md:text-5xl">
+            Engineer the persistent memory layer for frontier AI.
+          </h2>
+          <p className="mx-auto mb-12 max-w-2xl font-sans text-lg leading-relaxed text-zinc-600">
+            We are building India&apos;s first memory-native cognitive architecture. Our systems don&apos;t just process data; they remember, reason, and adapt. We need researchers and engineers who understand the value of persistent context and boundary-pushing infrastructure.
+          </p>
+        </div>
+      </div>
+
+      {/* --- SECTION 4: ADVISORS / BACKERS MARQUEE --- */}
+      <div className="relative z-20 border-t border-zinc-200 bg-[#f6fbfb] py-16">
+        <div className="mb-10 text-center">
+            <span className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-zinc-400">
+                Backed & Advised By
+            </span>
+        </div>
+        
+        {advisors.length > 0 ? (
+            <div className="relative w-full overflow-hidden">
+                <div className="flex w-[200%] animate-scroll">
+                    <div className="flex w-1/2 items-center justify-around gap-8 px-10">
+                        {advisors.map((advisor) => (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img key={advisor.id} src={advisor.logo_url} alt={advisor.name} className="h-8 w-auto object-contain grayscale transition-all duration-300 hover:grayscale-0 md:h-12" />
+                        ))}
+                    </div>
+                    <div className="flex w-1/2 items-center justify-around gap-8 px-10">
+                        {advisors.map((advisor) => (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img key={`dup-${advisor.id}`} src={advisor.logo_url} alt={advisor.name} className="h-8 w-auto object-contain grayscale transition-all duration-300 hover:grayscale-0 md:h-12" />
+                        ))}
+                    </div>
                 </div>
-              ))}
             </div>
-          </AnimateOnScroll>
-        </div>
-      </section>
+        ) : (
+          <div className="text-center text-sm text-zinc-400">Loading network...</div>
+        )}
+      </div>
 
-      <section className="px-6 pb-28 sm:pb-36">
-        <div className="mx-auto max-w-3xl">
-          <AnimateOnScroll>
-            <div className="mb-10 text-center">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400">Open Positions</p>
-              <h2 className="font-display mt-3 text-3xl tracking-tight text-zinc-900 sm:text-4xl">Find your role</h2>
+      {/* --- SECTION 5: OPEN POSITIONS --- */}
+      <div className="relative z-20 bg-[#f6fbfb] px-6 py-32">
+        <div className="mx-auto max-w-4xl">
+            <h3 className="mb-12 text-center font-sans text-3xl font-medium tracking-tight text-black">Open Roles</h3>
+            <div className="flex flex-col gap-4">
+                {isLoading ? (
+                    <div className="py-10 text-center text-zinc-400">Loading positions...</div>
+                ) : positions.length === 0 ? (
+                    <div className="py-10 text-center text-zinc-500">No open positions at the moment. Check back soon.</div>
+                ) : (
+                    positions.map((pos) => (
+                        <a 
+                            key={pos.id} 
+                            href={pos.application_link || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex cursor-pointer items-center justify-between rounded-[4px] border border-zinc-200 bg-white p-6 shadow-sm no-underline transition-all duration-300 hover:border-zinc-400 hover:shadow-md"
+                        >
+                            <div>
+                                <h4 className="font-sans text-lg font-medium text-black transition-colors group-hover:text-teal-700">{pos.title}</h4>
+                                <div className="mt-2 flex flex-wrap gap-3 font-sans text-sm text-zinc-500">
+                                    {pos.department && <span>{pos.department}</span>}
+                                    {pos.department && <span>•</span>}
+                                    {pos.type && <span>{pos.type}</span>}
+                                    {pos.type && pos.location && <span>•</span>}
+                                    {pos.location && <span>{pos.location}</span>}
+                                </div>
+                            </div>
+                            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[4px] bg-zinc-50 transition-all group-hover:bg-black group-hover:text-white">
+                                <ArrowRight className="h-5 w-5" />
+                            </div>
+                        </a>
+                    ))
+                )}
             </div>
-          </AnimateOnScroll>
-          <AnimateOnScroll delay="delay-200">
-            <JobListings jobs={jobs ?? []} />
-          </AnimateOnScroll>
         </div>
-      </section>
+      </div>
 
-      <CTABanner />
+      {/* --- SECTION 6: CTA CARD --- */}
+      <div className="relative z-20 flex justify-center bg-[#f6fbfb] px-6 pb-32">
+        <div className="flex w-full max-w-4xl flex-col items-center justify-between gap-6 rounded-[4px] bg-black p-8 shadow-2xl md:flex-row md:p-12">
+            <div className="text-center md:text-left">
+                <h3 className="mb-2 font-sans text-2xl font-medium tracking-tight text-white md:text-3xl">Can&apos;t find your role?</h3>
+                <p className="font-sans text-base text-zinc-400 md:text-lg">We are always looking for exceptional talent. Send us your CV.</p>
+            </div>
+            
+            <a 
+                href={mailToLink}
+                className="flex shrink-0 items-center gap-2 rounded-[4px] bg-white px-8 py-3 font-sans font-medium text-black no-underline transition-transform duration-300 hover:scale-105"
+            >
+                <Mail className="h-4 w-4" />
+                Send CV
+            </a>
+        </div>
+      </div>
+
     </main>
   );
 }
