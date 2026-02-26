@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { label: "Technology", href: "/technology" },
+  { label: "Technology", href: "/technology", target: "_blank", rel: "noopener noreferrer" },
   { label: "About", href: "/about" },
   { label: "Careers", href: "/careers" },
   { label: "FAQ", href: "/faq" },
@@ -66,6 +66,8 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
+              target={link.target}
+              rel={link.rel}
               className={`px-3 py-2 text-[14px] font-normal transition-opacity duration-300 ${
                 pathname === link.href 
                   ? (isDarkTheme ? "text-white opacity-100" : "text-black opacity-100") 
@@ -119,6 +121,8 @@ export default function Navbar() {
             <div key={link.label} className="border-b border-zinc-200 py-6">
               <Link 
                 href={link.href} 
+                target={link.target}
+                rel={link.rel}
                 onClick={() => setMobileOpen(false)}
                 className={`text-[22px] font-normal ${pathname === link.href ? "text-teal-700" : "text-black"}`}
               >
