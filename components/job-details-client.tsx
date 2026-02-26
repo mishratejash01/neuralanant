@@ -21,7 +21,7 @@ export default function JobDetailsClient({ job }: { job: Job }) {
     <div className="min-h-screen bg-white font-sans text-zinc-900 flex flex-col selection:bg-teal-100">
       
       {/* ─── PERPLEXITY-STYLE HEADER ─── */}
-      <header className="sticky top-0 z-50 flex h-20 shrink-0 items-center justify-center bg-white px-6">
+      <header className="sticky top-0 z-50 flex h-20 shrink-0 items-center justify-center bg-white px-6 border-b border-[#e8eaed]">
         <Link href="/careers" className="absolute left-6 md:left-10 text-[#225760] hover:opacity-70 transition-opacity">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7" />
