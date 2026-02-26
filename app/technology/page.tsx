@@ -20,7 +20,7 @@ export default function TechnologyPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-zinc-300 selection:bg-emerald-500/40 selection:text-white font-sans flex flex-col">
+    <div className="min-h-screen bg-[#0a0a0a] text-zinc-300 selection:bg-[#2eaadc]/40 selection:text-white font-sans flex flex-col">
       
       {/* Topbar with Neural Branding and Functional Search */}
       <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center justify-between border-b border-white/10 bg-[#0a0a0a]/80 backdrop-blur-md px-6">
@@ -43,14 +43,14 @@ export default function TechnologyPage() {
         {/* Functional Long Search Bar */}
         <div className="relative group w-full max-w-md hidden md:block">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg className="w-4 h-4 text-zinc-500 group-focus-within:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-zinc-500 group-focus-within:text-[#2eaadc] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
           <input
             ref={searchInputRef}
             type="text"
-            className="block w-full rounded-md border border-white/10 bg-white/5 py-2 pl-10 pr-16 text-sm text-zinc-200 placeholder-zinc-500 focus:border-emerald-500/50 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all"
+            className="block w-full rounded-md border border-white/10 bg-white/5 py-2 pl-10 pr-16 text-sm text-zinc-200 placeholder-zinc-500 focus:border-[#2eaadc]/50 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-[#2eaadc]/50 transition-all"
             placeholder="Search documentation..."
           />
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -82,12 +82,12 @@ export default function TechnologyPage() {
 
         {/* Main Content */}
         <main className="min-w-0 flex-1 py-12 lg:pl-16 lg:py-16">
-          <article className="prose prose-invert prose-zinc max-w-3xl prose-headings:text-white prose-a:text-emerald-400 hover:prose-a:text-emerald-300 prose-code:text-emerald-200">
+          <article className="prose prose-invert prose-zinc max-w-3xl prose-headings:text-white prose-a:text-[#2eaadc] hover:prose-a:text-[#2eaadc]/80 prose-code:text-[#2eaadc]/70">
             
-            <p className="text-emerald-400 font-mono text-sm tracking-tight mb-2 uppercase flex items-center gap-2">
+            <p className="text-[#2eaadc] font-mono text-sm tracking-tight mb-2 uppercase flex items-center gap-2">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2eaadc] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2eaadc]"></span>
               </span>
               In Active Development
             </p>
