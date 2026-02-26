@@ -1,10 +1,25 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+
+// Search index for the documentation
+const searchIndex = [
+  { id: "abstract", title: "1. Abstract", desc: "Technological sovereignty and the Anant 1.0 foundation." },
+  { id: "architecture", title: "2. Model Architecture", desc: "Decoder-only transformer, up to 70B parameters." },
+  { id: "architecture", title: "Advanced Tokenization", desc: "Custom BPE tokenizer with 64,000 vocabulary." },
+  { id: "architecture", title: "Extended Context & Memory", desc: "128,000 token context, GQA, and RoPE." },
+  { id: "data-training", title: "3. Data Pipeline & Pretraining", desc: "Multi-trillion token corpus and data curation." },
+  { id: "data-training", title: "Compute Methodology", desc: "Parallelized architectures and AdamW optimizers." },
+  { id: "alignment", title: "4. Safety & Alignment", desc: "SFT, DPO, and Adversarial Red Teaming." },
+  { id: "infrastructure", title: "5. Sovereign Infrastructure", desc: "Domestic data center operations and serving stack." },
+];
 
 export default function TechnologyPage() {
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState(searchIndex);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   // Handle Ctrl+K / Cmd+K to focus the search bar
   useEffect(() => {
@@ -19,13 +34,35 @@ export default function TechnologyPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  // Filter search results as user types
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    const query = searchQuery.toLowerCase();
+    const filtered = searchIndex.filter(
+      (item) =>
+        item.title.toLowerCase().includes(query) ||
+        item.desc.toLowerCase().includes(query)
+    );
+    setSearchResults(filtered);
+  }, [searchQuery]);
+
+  // Handle clicking a search result
+  const handleResultClick = (id: string) => {
+    setSearchQuery("");
+    setIsSearchFocused(false);
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-zinc-300 selection:bg-[#2eaadc]/40 selection:text-white font-sans flex flex-col">
+    <div className="min-h-screen bg-[#0a0a0a] text-zinc-300 selection:bg-emerald-500/40 selection:text-white font-sans flex flex-col">
       
       {/* Topbar with Neural Branding and Functional Search */}
       <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center justify-between border-b border-white/10 bg-[#0a0a0a]/80 backdrop-blur-md px-6">
         <div className="flex items-center gap-3">
-          {/* Logo / Home Link (Matched to navbar.tsx) */}
+          {/* Logo / Home Link */}
           <Link href="/" className="flex items-center">
             <span className="text-3xl font-semibold tracking-tight text-white transition-colors duration-300 hover:text-emerald-400">
               neural
@@ -40,24 +77,59 @@ export default function TechnologyPage() {
           </div>
         </div>
 
-        {/* Functional Long Search Bar */}
+        {/* Functional Live Search Bar */}
         <div className="relative group w-full max-w-md hidden md:block">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg className="w-4 h-4 text-zinc-500 group-focus-within:text-[#2eaadc] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-zinc-500 group-focus-within:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
           <input
             ref={searchInputRef}
             type="text"
-            className="block w-full rounded-md border border-white/10 bg-white/5 py-2 pl-10 pr-16 text-sm text-zinc-200 placeholder-zinc-500 focus:border-[#2eaadc]/50 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-[#2eaadc]/50 transition-all"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setIsSearchFocused(true)}
+            onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)} // Delay so click registers
+            className="block w-full rounded-md border border-white/10 bg-white/5 py-2 pl-10 pr-16 text-sm text-white placeholder-zinc-500 focus:border-emerald-500/50 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all"
             placeholder="Search documentation..."
           />
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-            <kbd className="hidden sm:inline-flex items-center gap-1 rounded border border-white/10 bg-white/5 px-2 py-1 font-mono text-[10px] font-medium text-zinc-400">
-              <span className="text-xs">Ctrl</span>K
-            </kbd>
+          <div className="absolute inset-y-0 right-0 flex items-center pr-2">
+            {searchQuery ? (
+              <button onClick={() => setSearchQuery("")} className="p-1 text-zinc-400 hover:text-white mr-1 transition-colors">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            ) : (
+              <kbd className="hidden sm:inline-flex items-center gap-1 rounded border border-white/10 bg-white/5 px-2 py-1 font-mono text-[10px] font-medium text-zinc-400 pointer-events-none">
+                <span className="text-xs">Ctrl</span>K
+              </kbd>
+            )}
           </div>
+
+          {/* Search Dropdown Results */}
+          {isSearchFocused && searchQuery.trim().length > 0 && (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-[#121212] border border-white/10 rounded-lg shadow-2xl overflow-hidden z-50">
+              {searchResults.length > 0 ? (
+                <ul className="max-h-80 overflow-y-auto py-2">
+                  {searchResults.map((result, idx) => (
+                    <li key={idx}>
+                      <button 
+                        onClick={() => handleResultClick(result.id)}
+                        className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 flex flex-col gap-1"
+                      >
+                        <span className="text-sm font-medium text-emerald-400">{result.title}</span>
+                        <span className="text-xs text-zinc-400">{result.desc}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="px-4 py-6 text-center text-sm text-zinc-500">
+                  No results found for "{searchQuery}"
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </header>
 
@@ -82,14 +154,15 @@ export default function TechnologyPage() {
 
         {/* Main Content */}
         <main className="min-w-0 flex-1 py-12 lg:pl-16 lg:py-16">
-          <article className="prose prose-invert prose-zinc max-w-3xl prose-headings:text-white prose-a:text-[#2eaadc] hover:prose-a:text-[#2eaadc]/80 prose-code:text-[#2eaadc]/70">
+          <article className="prose prose-invert prose-zinc max-w-3xl prose-headings:text-white prose-a:text-emerald-400 hover:prose-a:text-emerald-300 prose-code:text-emerald-200">
             
-            <p className="text-[#2eaadc] font-mono text-sm tracking-tight mb-2 uppercase flex items-center gap-2">
+            {/* EARLY ACCESS BADGE */}
+            <p className="text-emerald-500 font-mono text-sm tracking-tight mb-2 uppercase flex items-center gap-2">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2eaadc] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2eaadc]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              In Active Development
+              Early Access
             </p>
             <h1 className="text-4xl sm:text-5xl font-medium tracking-tight mb-6">
               Technical Foundations of Anant 1.0
