@@ -29,7 +29,7 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
   // Section 3: Role & Experience
   const [whyThisRole, setWhyThisRole] = useState("");
   const [pastExperience, setPastExperience] = useState("");
-  const [resumeLink, setResumeLink] = useState(""); // <-- ADDED RESUME LINK STATE
+  const [resumeLink, setResumeLink] = useState("");
 
   // Section 4: Proof of Work
   const [proofOfWorkLinks, setProofOfWorkLinks] = useState<string[]>([""]);
@@ -95,15 +95,15 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
       const supabase = createClient();
 
       const { error } = await supabase.from("job_applications").insert({
-        job_id: jobId, // If you get a 409 error, it means this jobId doesn't exist in the 'careers' table!
+        job_id: jobId,
         name: name.trim(),
         email: email.trim().toLowerCase(),
         phone: phone.trim() || null,
         linkedin_url: linkedin.trim() || null,
         twitter_url: twitter.trim() || null,
         instagram_url: instagram.trim() || null,
-        resume_url: resumeLink.trim(),          // <-- Maps to the dedicated Resume column
-        portfolio_url: validLinks.join("\n"),   // <-- Maps multiple proof of work links to the new portfolio column
+        resume_url: resumeLink.trim(),          
+        portfolio_url: validLinks.join("  |  "), // <-- Joins multiple links into one string for the backend
         college: college.trim(),
         degree: degree.trim(),
         year_of_study: yearOfStudy,
@@ -116,14 +116,7 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
 
       if (error) {
         console.error("Supabase Error:", error);
-        // Better error message handling for 409 conflicts
-        if (error.code === '23503') {
-          setErrorMsg("Error: This job posting no longer exists in the database.");
-        } else if (error.code === '23505') {
-          setErrorMsg("Error: An application with this email already exists.");
-        } else {
-          setErrorMsg(error.message || "Something went wrong saving your application.");
-        }
+        setErrorMsg(error.message || "Something went wrong saving your application. Please try again.");
         setStatus("error");
         return;
       }
@@ -266,10 +259,14 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
               className="w-full rounded border border-[#e8eaed] bg-zinc-50 px-4 py-2.5 text-[15px] text-zinc-500 outline-none cursor-not-allowed" />
           </div>
 
-          {/* ADDED RESUME LINK HERE */}
-          <div>
-            <label className="block text-[14px] font-medium text-[#202124] mb-1.5">Resume Link <span className="text-red-500">*</span></label>
-            <input type="url" required value={resumeLink} onChange={(e) => setResumeLink(e.target.value)} placeholder="Google Drive, Notion, Dropbox link..."
+          <div className="rounded-lg border border-[#e8eaed] bg-[#f8f9fa] p-5">
+            <label className="block text-[14px] font-medium text-[#202124] mb-1.5">
+              Resume Link <span className="text-red-500">*</span>
+            </label>
+            <p className="text-[12px] text-[#5f6368] mb-3">
+              Provide a Google Drive, Notion, or Dropbox link. <strong className="text-amber-700">Make sure the link is publicly accessible without requesting access.</strong>
+            </p>
+            <input type="url" required value={resumeLink} onChange={(e) => setResumeLink(e.target.value)} placeholder="https://..."
               className="w-full rounded border border-[#e8eaed] bg-white px-4 py-2.5 text-[15px] outline-none focus:border-[#225760]" />
           </div>
 
@@ -341,7 +338,7 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
             <input type="checkbox" required checked={isPublicConfirmed} onChange={(e) => setIsPublicConfirmed(e.target.checked)}
               className="mt-1 h-4 w-4 shrink-0 rounded border-gray-300 text-[#225760] focus:ring-[#225760]" />
             <span className="text-[13px] leading-[1.5] text-[#444444]">
-              I confirm these links (including my resume) are <strong>publicly accessible without requesting access</strong>. I understand my application will be automatically rejected if the hiring team cannot view the files.
+              I confirm these links (and my resume) are <strong>publicly accessible without requesting access</strong>. I understand my application will be automatically rejected if the hiring team cannot view the files.
             </span>
           </label>
         </div>
