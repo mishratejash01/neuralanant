@@ -36,7 +36,8 @@ export default function JobDetailsClient({
       
       {/* ─── PERPLEXITY-STYLE HEADER ─── */}
       <header className="sticky top-0 z-50 flex h-20 shrink-0 items-center justify-center bg-white px-6 border-b border-[#e8eaed]">
-        <Link href="/careers" className="absolute left-6 md:left-10 text-[#225760] hover:opacity-70 transition-opacity">
+        {/* Changed href from "/careers" to "/" */}
+        <Link href="/" className="absolute left-6 md:left-10 text-[#225760] hover:opacity-70 transition-opacity">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
@@ -47,9 +48,7 @@ export default function JobDetailsClient({
 
         {/* ─── SUPPORTERS RIGHT STAMP ─── */}
         {supporterLogos.length > 0 && (
-          {/* Changed 'hidden sm:flex' to 'flex' so it shows on mobile */}
           <div className="absolute right-6 md:right-10 flex items-center gap-2 md:gap-4">
-            {/* Hidden text on mobile to save space, visible on sm and up */}
             <span className="hidden sm:block text-[11px] font-medium text-[#70757a] tracking-wider uppercase">
               Backed By
             </span>
@@ -59,7 +58,6 @@ export default function JobDetailsClient({
                   key={idx} 
                   src={logo.image_url} 
                   alt={logo.name} 
-                  {/* Made logo slightly smaller on mobile (h-5) and normal on desktop (md:h-7) */}
                   className="h-5 md:h-7 object-contain transition-transform duration-300 hover:scale-105"
                 />
               ))}
