@@ -28,6 +28,6 @@ export default async function JobDetailsPage({ params }: { params: Promise<{ id:
     return notFound();
   }
 
-  // Pass data to the newly created interactive client component
+  // Pass data to the interactive client component (Perplexity style)
   return <JobDetailsClient job={job} />;
 }
