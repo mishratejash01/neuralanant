@@ -36,7 +36,7 @@ export default function JobDetailsClient({
       
       {/* ─── PERPLEXITY-STYLE HEADER ─── */}
       <header className="sticky top-0 z-50 flex h-20 shrink-0 items-center justify-center bg-white px-6 border-b border-[#e8eaed]">
-        {/* Changed href from "/careers" to "/" */}
+        {/* Back button correctly pointing to homepage */}
         <Link href="/" className="absolute left-6 md:left-10 text-[#225760] hover:opacity-70 transition-opacity">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -46,19 +46,19 @@ export default function JobDetailsClient({
           neural
         </Link>
 
-        {/* ─── SUPPORTERS RIGHT STAMP ─── */}
+        {/* ─── SUPPORTERS RIGHT STAMP (DESKTOP ONLY) ─── */}
         {supporterLogos.length > 0 && (
-          <div className="absolute right-6 md:right-10 flex items-center gap-2 md:gap-4">
-            <span className="hidden sm:block text-[11px] font-medium text-[#70757a] tracking-wider uppercase">
+          <div className="absolute right-6 md:right-10 hidden md:flex items-center gap-4">
+            <span className="text-[11px] font-medium text-[#70757a] tracking-wider uppercase">
               Backed By
             </span>
-            <div className="flex items-center gap-2 md:gap-4">
+            <div className="flex items-center gap-4">
               {supporterLogos.map((logo, idx) => (
                 <img 
                   key={idx} 
                   src={logo.image_url} 
                   alt={logo.name} 
-                  className="h-5 md:h-7 object-contain transition-transform duration-300 hover:scale-105"
+                  className="h-7 object-contain transition-transform duration-300 hover:scale-105"
                 />
               ))}
             </div>
@@ -71,8 +71,29 @@ export default function JobDetailsClient({
         
         {/* Title & Tabs */}
         <div className="mb-10">
-          <h1 className="text-[28px] font-medium text-[#202124] mb-8">{job.title}</h1>
-          <div className="flex gap-10 border-b border-[#e8eaed]">
+          
+          {/* ─── SUPPORTERS STAMP (MOBILE ONLY) - CENTERED ABOVE TITLE ─── */}
+          {supporterLogos.length > 0 && (
+            <div className="md:hidden flex flex-col items-center justify-center w-full mb-8 space-y-3">
+              <span className="text-[10px] font-medium text-[#70757a] tracking-wider uppercase">
+                Backed By
+              </span>
+              <div className="flex flex-wrap items-center justify-center gap-5">
+                {supporterLogos.map((logo, idx) => (
+                  <img 
+                    key={idx} 
+                    src={logo.image_url} 
+                    alt={logo.name} 
+                    className="h-6 object-contain"
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          <h1 className="text-[28px] font-medium text-[#202124] mb-8 md:text-left text-center">{job.title}</h1>
+          
+          <div className="flex gap-10 border-b border-[#e8eaed] md:justify-start justify-center">
             <button
               onClick={() => setActiveTab("overview")}
               className={`pb-3 text-[16px] transition-colors ${
