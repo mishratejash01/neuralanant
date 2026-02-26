@@ -6,9 +6,10 @@ import { createClient } from "@/utils/supabase/client";
 interface Props {
   jobId: string;
   jobTitle: string;
+  onClose?: () => void; // <-- Made optional to fix the Vercel build error
 }
 
-export default function JobApplicationForm({ jobId, jobTitle }: Props) {
+export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -77,6 +78,12 @@ export default function JobApplicationForm({ jobId, jobTitle }: Props) {
         <p className="mt-3 text-[15px] text-[#5f6368]">
           Thank you for applying to Neural AI. We have received your application and will review it shortly.
         </p>
+        
+        {onClose && (
+          <button onClick={onClose} className="mt-6 rounded border border-[#e8eaed] bg-white px-6 py-2 text-sm font-medium text-[#202124] transition-colors hover:bg-zinc-50">
+            Close Form
+          </button>
+        )}
       </div>
     );
   }
@@ -145,11 +152,18 @@ export default function JobApplicationForm({ jobId, jobTitle }: Props) {
         </div>
       )}
 
-      <button type="submit" disabled={status === "loading"}
-        className="rounded bg-[#225760] px-8 py-3 text-[15px] font-medium text-white transition-all hover:bg-[#1a4148] disabled:opacity-70 disabled:cursor-not-allowed">
-        {status === "loading" ? "Submitting..." : "Submit Application"}
-      </button>
-      
+      <div className="flex gap-4">
+        <button type="submit" disabled={status === "loading"}
+          className="rounded bg-[#225760] px-8 py-3 text-[15px] font-medium text-white transition-all hover:bg-[#1a4148] disabled:opacity-70 disabled:cursor-not-allowed">
+          {status === "loading" ? "Submitting..." : "Submit Application"}
+        </button>
+        {onClose && (
+          <button type="button" onClick={onClose}
+            className="rounded border border-[#e8eaed] bg-white px-6 py-3 text-[15px] font-medium text-[#5f6368] transition-all hover:bg-zinc-50 hover:text-[#202124]">
+            Cancel
+          </button>
+        )}
+      </div>
     </form>
   );
 }
