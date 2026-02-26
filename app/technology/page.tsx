@@ -20,7 +20,7 @@ export default function TechnologyPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-zinc-300 selection:bg-emerald-500/30 font-sans flex flex-col">
+    <div className="min-h-screen bg-[#0a0a0a] text-zinc-300 selection:bg-emerald-500/40 selection:text-white font-sans flex flex-col">
       
       {/* Topbar with Neural Branding and Functional Search */}
       <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center justify-between border-b border-white/10 bg-[#0a0a0a]/80 backdrop-blur-md px-6">
@@ -36,7 +36,7 @@ export default function TechnologyPage() {
           
           {/* Breadcrumb */}
           <div className="flex items-center text-zinc-400 translate-y-0.5">
-            <span className="font-medium text-[15px]">Technology</span>
+            <span className="font-medium text-[15px]">Documentation</span>
           </div>
         </div>
 
