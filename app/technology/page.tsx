@@ -1,58 +1,63 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Technology | Neural AI",
-  description:
-    "Technical foundations of Anant 1.0: India's sovereign large language model.",
-};
-
 export default function TechnologyPage() {
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Handle Ctrl+K / Cmd+K to focus the search bar
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-zinc-300 selection:bg-emerald-500/30 font-sans flex flex-col">
       
-      {/* Notion-style Topbar adapted for Neural AI theme */}
-      <header className="sticky top-0 z-50 flex h-12 shrink-0 items-center justify-between border-b border-white/10 bg-[#0a0a0a]/80 backdrop-blur-md px-4 text-[14px]">
-        <div className="flex items-center gap-1.5 text-zinc-400">
-          {/* Logo / Home Link */}
-          <Link 
-            href="/" 
-            className="flex items-center gap-2 rounded hover:bg-white/5 px-2 py-1 transition-colors"
-          >
-            <div className="flex h-5 w-5 items-center justify-center rounded-[4px] bg-zinc-200 text-[#0a0a0a] text-[11px] font-bold">
-              N
-            </div>
-            <span className="font-medium text-zinc-200 tracking-tight">neural</span>
+      {/* Topbar with Neural Branding and Functional Search */}
+      <header className="sticky top-0 z-50 flex h-16 shrink-0 items-center justify-between border-b border-white/10 bg-[#0a0a0a]/80 backdrop-blur-md px-6">
+        <div className="flex items-center gap-3">
+          {/* Logo / Home Link (Matched to navbar.tsx) */}
+          <Link href="/" className="flex items-center">
+            <span className="text-3xl font-semibold tracking-tight text-white transition-colors duration-300 hover:text-emerald-400">
+              neural
+            </span>
           </Link>
           
-          <span className="text-white/20 select-none">/</span>
+          <span className="text-white/20 select-none text-xl font-light translate-y-0.5">/</span>
           
           {/* Breadcrumb */}
-          <div className="flex items-center gap-1.5 rounded hover:bg-white/5 px-2 py-1 transition-colors cursor-default text-zinc-200">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-              <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
-            <span className="font-medium">Technology</span>
+          <div className="flex items-center text-zinc-400 translate-y-0.5">
+            <span className="font-medium text-[15px]">Technology</span>
           </div>
         </div>
 
-        {/* Search & Actions */}
-        <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2.5 rounded hover:bg-white/5 px-2.5 py-1.5 text-xs text-zinc-400 transition-colors focus:outline-none">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        {/* Functional Long Search Bar */}
+        <div className="relative group w-full max-w-md hidden md:block">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg className="w-4 h-4 text-zinc-500 group-focus-within:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <span>Search</span>
-            <div className="flex items-center gap-1">
-              <kbd className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] leading-tight text-zinc-400">Ctrl</kbd>
-              <kbd className="rounded border border-white/10 bg-white/5 px-1.5 py-0.5 font-mono text-[10px] leading-tight text-zinc-400">K</kbd>
-            </div>
-          </button>
+          </div>
+          <input
+            ref={searchInputRef}
+            type="text"
+            className="block w-full rounded-md border border-white/10 bg-white/5 py-2 pl-10 pr-16 text-sm text-zinc-200 placeholder-zinc-500 focus:border-emerald-500/50 focus:bg-white/10 focus:outline-none focus:ring-1 focus:ring-emerald-500/50 transition-all"
+            placeholder="Search documentation..."
+          />
+          <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+            <kbd className="hidden sm:inline-flex items-center gap-1 rounded border border-white/10 bg-white/5 px-2 py-1 font-mono text-[10px] font-medium text-zinc-400">
+              <span className="text-xs">Ctrl</span>K
+            </kbd>
+          </div>
         </div>
       </header>
 
@@ -61,7 +66,7 @@ export default function TechnologyPage() {
         
         {/* Left Sidebar - Table of Contents */}
         <aside className="hidden w-64 shrink-0 py-12 lg:block">
-          <div className="sticky top-24">
+          <div className="sticky top-28">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-4">
               Contents
             </h3>
@@ -93,7 +98,7 @@ export default function TechnologyPage() {
               A comprehensive overview of the architecture, memory pipelines, and alignment methodology behind Neural AI's upcoming sovereign large language model.
             </p>
 
-            <section id="abstract" className="scroll-mt-24">
+            <section id="abstract" className="scroll-mt-28">
               <h2>1. Abstract</h2>
               <p>
                 As artificial intelligence capabilities scale, maintaining technological sovereignty has become a fundamental requirement for national security, cultural preservation, and economic independence. Neural AI is currently engineering <strong>Anant 1.0</strong>, a sovereign large language model built from the ground up to deeply understand both global knowledge and localized contexts. 
@@ -105,7 +110,7 @@ export default function TechnologyPage() {
 
             <hr className="border-white/10 my-12" />
 
-            <section id="architecture" className="scroll-mt-24">
+            <section id="architecture" className="scroll-mt-28">
               <h2>2. Model Architecture</h2>
               <p>
                 Anant 1.0 utilizes a highly optimized, decoder-only transformer architecture designed to balance raw capability with inference efficiency. We are currently training and validating architectures scaling up to the 70 billion parameter class.
@@ -128,7 +133,7 @@ export default function TechnologyPage() {
 
             <hr className="border-white/10 my-12" />
 
-            <section id="data-training" className="scroll-mt-24">
+            <section id="data-training" className="scroll-mt-28">
               <h2>3. Data Pipeline & Pretraining</h2>
               <p>
                 The intelligence of a foundation model is bound by the quality and diversity of its pretraining data. We are curating a massive, multi-trillion token corpus utilizing a rigorous, multi-stage filtering pipeline.
@@ -154,7 +159,7 @@ export default function TechnologyPage() {
 
             <hr className="border-white/10 my-12" />
 
-            <section id="alignment" className="scroll-mt-24">
+            <section id="alignment" className="scroll-mt-28">
               <h2>4. Safety & Alignment</h2>
               <p>
                 Raw intelligence must be carefully aligned to human values and national safety guidelines. Anant 1.0 undergoes a rigorous post-training alignment phase to ensure it remains helpful, harmless, and honest in production environments.
@@ -178,7 +183,7 @@ export default function TechnologyPage() {
 
             <hr className="border-white/10 my-12" />
 
-            <section id="infrastructure" className="scroll-mt-24">
+            <section id="infrastructure" className="scroll-mt-28">
               <h2>5. Sovereign Infrastructure</h2>
               <p>
                 True AI sovereignty requires independence at the hardware layer. Neural AI's long-term strategy involves operating entirely on domestic data center infrastructure, ensuring that sensitive government and enterprise data never leaves national borders and remains under strict local jurisdiction.
