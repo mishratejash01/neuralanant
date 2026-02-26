@@ -14,7 +14,10 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [linkedin, setLinkedin] = useState("");
+  const [resumeLink, setResumeLink] = useState("");
+  const [isPublicConfirmed, setIsPublicConfirmed] = useState(false);
   const [coverLetter, setCoverLetter] = useState("");
+  
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -22,6 +25,21 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
     e.preventDefault();
     setStatus("loading");
     setErrorMsg("");
+
+    // Pre-flight validation for the resume link
+    if (!isPublicConfirmed) {
+      setErrorMsg("You must confirm your resume link is publicly accessible.");
+      setStatus("error");
+      return;
+    }
+
+    try {
+      new URL(resumeLink);
+    } catch {
+      setErrorMsg("Please enter a valid URL for your resume.");
+      setStatus("error");
+      return;
+    }
 
     try {
       const supabase = createClient();
@@ -31,18 +49,21 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
         email: email.trim().toLowerCase(),
         phone: phone.trim() || null,
         linkedin_url: linkedin.trim() || null,
+        resume_url: resumeLink.trim(), // Added resume URL field
         cover_letter: coverLetter.trim() || null,
       });
 
       if (error) {
-        setErrorMsg("Something went wrong. Please try again.");
+        console.error("Supabase Error:", error);
+        setErrorMsg("Something went wrong saving your application. Please try again.");
         setStatus("error");
         return;
       }
 
       setStatus("success");
-    } catch {
-      setErrorMsg("Something went wrong. Please try again.");
+    } catch (err) {
+      console.error(err);
+      setErrorMsg("A network error occurred. Please try again.");
       setStatus("error");
     }
   }
@@ -74,7 +95,7 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
   }
 
   return (
-    <div className="rounded-3xl border border-zinc-100 bg-white p-8 shadow-xl shadow-zinc-100/50">
+    <div className="rounded-3xl border border-zinc-100 bg-white p-6 sm:p-8 shadow-xl shadow-zinc-100/50">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">Apply Now</p>
@@ -91,45 +112,63 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="app-name" className="block text-sm font-semibold text-zinc-700">Full name</label>
+          <label htmlFor="app-name" className="block text-sm font-semibold text-zinc-700">Full name <span className="text-red-500">*</span></label>
           <input id="app-name" type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name"
-            className="mt-2 w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-5 py-3 text-sm text-zinc-900 placeholder-zinc-300 outline-none transition-all focus:border-zinc-400 focus:bg-white focus:ring-4 focus:ring-zinc-100" />
+            className="mt-1.5 w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-5 py-3 text-sm text-zinc-900 placeholder-zinc-300 outline-none transition-all focus:border-zinc-400 focus:bg-white focus:ring-4 focus:ring-zinc-100" />
         </div>
 
         <div>
-          <label htmlFor="app-email" className="block text-sm font-semibold text-zinc-700">Email address</label>
+          <label htmlFor="app-email" className="block text-sm font-semibold text-zinc-700">Email address <span className="text-red-500">*</span></label>
           <input id="app-email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com"
-            className="mt-2 w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-5 py-3 text-sm text-zinc-900 placeholder-zinc-300 outline-none transition-all focus:border-zinc-400 focus:bg-white focus:ring-4 focus:ring-zinc-100" />
+            className="mt-1.5 w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-5 py-3 text-sm text-zinc-900 placeholder-zinc-300 outline-none transition-all focus:border-zinc-400 focus:bg-white focus:ring-4 focus:ring-zinc-100" />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <label htmlFor="app-phone" className="block text-sm font-semibold text-zinc-700">Phone <span className="font-normal text-zinc-300">(optional)</span></label>
+            <label htmlFor="app-phone" className="block text-sm font-semibold text-zinc-700">Phone <span className="font-normal text-zinc-400">(optional)</span></label>
             <input id="app-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+91 98765 43210"
-              className="mt-2 w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-5 py-3 text-sm text-zinc-900 placeholder-zinc-300 outline-none transition-all focus:border-zinc-400 focus:bg-white focus:ring-4 focus:ring-zinc-100" />
+              className="mt-1.5 w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-5 py-3 text-sm text-zinc-900 placeholder-zinc-300 outline-none transition-all focus:border-zinc-400 focus:bg-white focus:ring-4 focus:ring-zinc-100" />
           </div>
           <div>
-            <label htmlFor="app-linkedin" className="block text-sm font-semibold text-zinc-700">LinkedIn <span className="font-normal text-zinc-300">(optional)</span></label>
+            <label htmlFor="app-linkedin" className="block text-sm font-semibold text-zinc-700">LinkedIn <span className="font-normal text-zinc-400">(optional)</span></label>
             <input id="app-linkedin" type="url" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} placeholder="linkedin.com/in/you"
-              className="mt-2 w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-5 py-3 text-sm text-zinc-900 placeholder-zinc-300 outline-none transition-all focus:border-zinc-400 focus:bg-white focus:ring-4 focus:ring-zinc-100" />
+              className="mt-1.5 w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-5 py-3 text-sm text-zinc-900 placeholder-zinc-300 outline-none transition-all focus:border-zinc-400 focus:bg-white focus:ring-4 focus:ring-zinc-100" />
           </div>
         </div>
 
+        {/* ─── NEW RESUME LINK SECTION ─── */}
+        <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4">
+          <label htmlFor="app-resume" className="block text-sm font-semibold text-zinc-700">
+            Resume Link <span className="text-red-500">*</span>
+          </label>
+          <p className="mt-1 text-[12px] text-zinc-500">Provide a link to your resume (Google Drive, Notion, etc.).</p>
+          <input id="app-resume" type="url" required value={resumeLink} onChange={(e) => setResumeLink(e.target.value)} placeholder="https://..."
+            className="mt-3 w-full rounded-lg border border-zinc-200 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-300 outline-none transition-all focus:border-zinc-400 focus:ring-4 focus:ring-zinc-100" />
+          
+          <label className="mt-4 flex items-start gap-3 cursor-pointer">
+            <input type="checkbox" required checked={isPublicConfirmed} onChange={(e) => setIsPublicConfirmed(e.target.checked)}
+              className="mt-0.5 h-4 w-4 shrink-0 rounded border-zinc-300 text-zinc-900 focus:ring-zinc-900" />
+            <span className="text-[13px] leading-snug text-zinc-700">
+              I confirm this link is <strong>publicly accessible</strong>. I understand my application will be automatically rejected if the file requires access permission.
+            </span>
+          </label>
+        </div>
+
         <div>
-          <label htmlFor="app-cover" className="block text-sm font-semibold text-zinc-700">Why Neural AI? <span className="font-normal text-zinc-300">(optional)</span></label>
-          <textarea id="app-cover" rows={4} value={coverLetter} onChange={(e) => setCoverLetter(e.target.value)} placeholder="Tell us about yourself and why you're excited about this role..."
-            className="mt-2 w-full resize-none rounded-xl border border-zinc-200 bg-zinc-50/50 px-5 py-3 text-sm text-zinc-900 placeholder-zinc-300 outline-none transition-all focus:border-zinc-400 focus:bg-white focus:ring-4 focus:ring-zinc-100" />
+          <label htmlFor="app-cover" className="block text-sm font-semibold text-zinc-700">Why Neural AI? <span className="font-normal text-zinc-400">(optional)</span></label>
+          <textarea id="app-cover" rows={3} value={coverLetter} onChange={(e) => setCoverLetter(e.target.value)} placeholder="Tell us why you're excited about this role..."
+            className="mt-1.5 w-full resize-none rounded-xl border border-zinc-200 bg-zinc-50/50 px-5 py-3 text-sm text-zinc-900 placeholder-zinc-300 outline-none transition-all focus:border-zinc-400 focus:bg-white focus:ring-4 focus:ring-zinc-100" />
         </div>
 
         {status === "error" && (
           <div className="rounded-xl border border-red-100 bg-red-50/50 px-5 py-3">
-            <p className="text-sm text-red-500">{errorMsg}</p>
+            <p className="text-sm text-red-600">{errorMsg}</p>
           </div>
         )}
 
         <button type="submit" disabled={status === "loading"}
-          className="w-full rounded-xl bg-zinc-900 px-6 py-3.5 text-sm font-semibold text-white shadow-xl shadow-zinc-900/10 transition-all duration-300 hover:bg-zinc-800 hover:shadow-2xl hover:shadow-zinc-900/20 disabled:opacity-60">
-          {status === "loading" ? "Submitting..." : "Submit Application"}
+          className="w-full mt-2 rounded-xl bg-zinc-900 px-6 py-4 text-sm font-semibold text-white shadow-xl shadow-zinc-900/10 transition-all duration-300 hover:bg-zinc-800 hover:shadow-2xl hover:shadow-zinc-900/20 disabled:opacity-60">
+          {status === "loading" ? "Submitting Application..." : "Submit Application"}
         </button>
       </form>
     </div>
