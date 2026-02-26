@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const productLinks = [
-  { label: "Technology", href: "/technology" },
+  { label: "Technology", href: "/technology", target: "_blank", rel: "noopener noreferrer" },
   { label: "About", href: "/about" },
   { label: "Careers", href: "/careers" },
   { label: "FAQ", href: "/faq" },
@@ -47,7 +47,14 @@ export default function Footer() {
             <ul className="mt-5 space-y-3">
               {productLinks.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-[13px] text-zinc-400 transition-colors hover:text-zinc-900">{link.label}</Link>
+                  <Link 
+                    href={link.href} 
+                    target={link.target}
+                    rel={link.rel}
+                    className="text-[13px] text-zinc-400 transition-colors hover:text-zinc-900"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
