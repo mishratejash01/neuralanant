@@ -57,7 +57,8 @@ export default function JobDetailsClient({
                   key={idx} 
                   src={logo.image_url} 
                   alt={logo.name} 
-                  className="h-6 md:h-7 object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                  // Removed grayscale and opacity classes here to keep it colored
+                  className="h-6 md:h-7 object-contain transition-transform duration-300 hover:scale-105"
                 />
               ))}
             </div>
