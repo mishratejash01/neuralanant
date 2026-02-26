@@ -18,8 +18,8 @@ export default function Navbar() {
   const [isPastHero, setIsPastHero] = useState(false);
   const pathname = usePathname();
 
-  // Hide the navbar completely on the technology page
-  if (pathname === "/technology") return null;
+  // Hide the navbar completely on the technology page AND individual job application pages
+  if (pathname === "/technology" || pathname?.startsWith("/careers/")) return null;
 
   const isHomePage = pathname === "/";
 
