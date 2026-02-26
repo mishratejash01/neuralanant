@@ -49,7 +49,7 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
         email: email.trim().toLowerCase(),
         phone: phone.trim() || null,
         linkedin_url: linkedin.trim() || null,
-        resume_url: resumeLink.trim(), // Added resume URL field
+        resume_url: resumeLink.trim(), // Storing the resume link
         cover_letter: coverLetter.trim() || null,
       });
 
@@ -131,12 +131,12 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
           </div>
           <div>
             <label htmlFor="app-linkedin" className="block text-sm font-semibold text-zinc-700">LinkedIn <span className="font-normal text-zinc-400">(optional)</span></label>
-            <input id="app-linkedin" type="url" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} placeholder="linkedin.com/in/you"
+            <input id="app-linkedin" type="url" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} placeholder="https://linkedin.com/in/you"
               className="mt-1.5 w-full rounded-xl border border-zinc-200 bg-zinc-50/50 px-5 py-3 text-sm text-zinc-900 placeholder-zinc-300 outline-none transition-all focus:border-zinc-400 focus:bg-white focus:ring-4 focus:ring-zinc-100" />
           </div>
         </div>
 
-        {/* ─── NEW RESUME LINK SECTION ─── */}
+        {/* ─── RESUME LINK SECTION ─── */}
         <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-4">
           <label htmlFor="app-resume" className="block text-sm font-semibold text-zinc-700">
             Resume Link <span className="text-red-500">*</span>
