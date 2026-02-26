@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Technology | Neural AI",
   description:
-    "Technical foundations of Anant 1.0: India's sovereign large language model. Explore our architecture, training methodology, and alignment research.",
+    "Technical foundations of Anant 1.0: India's sovereign large language model.",
 };
 
 export default function TechnologyPage() {
