@@ -238,13 +238,13 @@ export default function TechnologyPage() {
         <main className="min-w-0 flex-1 py-12 lg:pl-16 lg:py-16">
           <article ref={articleRef} className="prose prose-invert prose-zinc max-w-3xl prose-headings:text-white prose-a:text-emerald-400 hover:prose-a:text-emerald-300 prose-code:text-emerald-200">
             
-            <div id="badge-status" className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 mb-6">
+            <p id="badge-status" className="text-emerald-500 font-mono text-sm tracking-tight mb-2 uppercase flex items-center gap-2">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span className="text-emerald-400 font-mono text-xs tracking-tight uppercase">Early Access / Pre-Training Phase</span>
-            </div>
+              Early Access / Pre-Training Phase
+            </p>
 
             <h1 id="main-title" className="text-4xl sm:text-5xl font-medium tracking-tight mb-6">
               Anant 1.0 Specifications
