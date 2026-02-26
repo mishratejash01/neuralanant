@@ -28,6 +28,13 @@ export default async function JobDetailsPage({ params }: { params: Promise<{ id:
     return notFound();
   }
 
+  // Fetch the active supporters
+  const { data: supporterLogos } = await supabase
+    .from("supporters")
+    .select("name, image_url")
+    .eq("is_active", true)
+    .order("display_order", { ascending: true });
+
   // Pass data to the interactive client component (Perplexity style)
-  return <JobDetailsClient job={job} />;
+  return <JobDetailsClient job={job} supporterLogos={supporterLogos || []} />;
 }
