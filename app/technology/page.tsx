@@ -3,25 +3,58 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-// Search index for the documentation
-const searchIndex = [
-  { id: "abstract", title: "1. Abstract", desc: "Technological sovereignty and the Anant 1.0 foundation." },
-  { id: "architecture", title: "2. Model Architecture", desc: "Decoder-only transformer, up to 70B parameters." },
-  { id: "architecture", title: "Advanced Tokenization", desc: "Custom BPE tokenizer with 64,000 vocabulary." },
-  { id: "architecture", title: "Extended Context & Memory", desc: "128,000 token context, GQA, and RoPE." },
-  { id: "data-training", title: "3. Data Pipeline & Pretraining", desc: "Multi-trillion token corpus and data curation." },
-  { id: "data-training", title: "Compute Methodology", desc: "Parallelized architectures and AdamW optimizers." },
-  { id: "alignment", title: "4. Safety & Alignment", desc: "SFT, DPO, and Adversarial Red Teaming." },
-  { id: "infrastructure", title: "5. Sovereign Infrastructure", desc: "Domestic data center operations and serving stack." },
-];
+interface SearchIndexItem {
+  id: string;
+  heading: string;
+  text: string;
+  isHeading: boolean;
+}
 
 export default function TechnologyPage() {
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const articleRef = useRef<HTMLElement>(null);
+  
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState(searchIndex);
+  const [searchIndex, setSearchIndex] = useState<SearchIndexItem[]>([]);
+  const [searchResults, setSearchResults] = useState<SearchIndexItem[]>([]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-  // Handle Ctrl+K / Cmd+K to focus the search bar
+  // 1. Build Search Index from the actual page DOM on mount
+  useEffect(() => {
+    if (!articleRef.current) return;
+    
+    // Grab all readable text elements inside the article
+    const elements = articleRef.current.querySelectorAll("h1, h2, h3, h4, p, li");
+    const index: SearchIndexItem[] = [];
+    let currentHeading = "Technical Foundations";
+
+    elements.forEach((el, i) => {
+      const tagName = el.tagName.toUpperCase();
+      const text = el.textContent?.trim();
+      
+      // Update the context heading if we pass a new header
+      if (["H1", "H2", "H3", "H4"].includes(tagName)) {
+        currentHeading = text || currentHeading;
+      }
+
+      if (text && text.length > 5) {
+        // Ensure the element has a unique ID so we can scroll to it
+        const id = el.id || `content-section-${i}`;
+        if (!el.id) el.id = id;
+
+        index.push({
+          id,
+          heading: currentHeading,
+          text,
+          isHeading: ["H1", "H2", "H3", "H4"].includes(tagName),
+        });
+      }
+    });
+
+    setSearchIndex(index);
+  }, []);
+
+  // 2. Handle Ctrl+K / Cmd+K to focus the search bar
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "k") {
@@ -34,26 +67,75 @@ export default function TechnologyPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Filter search results as user types
+  // 3. Filter search results live as user types
   useEffect(() => {
     if (!searchQuery.trim()) {
       setSearchResults([]);
       return;
     }
     const query = searchQuery.toLowerCase();
-    const filtered = searchIndex.filter(
-      (item) =>
-        item.title.toLowerCase().includes(query) ||
-        item.desc.toLowerCase().includes(query)
+    
+    // Find all items that contain the text
+    const filtered = searchIndex.filter((item) =>
+      item.text.toLowerCase().includes(query)
     );
+    
     setSearchResults(filtered);
-  }, [searchQuery]);
+  }, [searchQuery, searchIndex]);
 
-  // Handle clicking a search result
+  // 4. Handle clicking a search result (Scroll & Highlight)
   const handleResultClick = (id: string) => {
     setSearchQuery("");
     setIsSearchFocused(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    
+    const element = document.getElementById(id);
+    if (element) {
+      // Scroll into view with an offset so it isn't hidden under the fixed header
+      const y = element.getBoundingClientRect().top + window.scrollY - 120;
+      window.scrollTo({ top: y, behavior: "smooth" });
+
+      // Briefly highlight the element to show the user exactly where it is
+      const originalTransition = element.style.transition;
+      const originalBg = element.style.backgroundColor;
+      const originalPadding = element.style.padding;
+      const originalRadius = element.style.borderRadius;
+      
+      element.style.transition = "all 0.4s ease-in-out";
+      element.style.backgroundColor = "rgba(16, 185, 129, 0.15)"; // Soft emerald highlight
+      element.style.padding = "4px 8px";
+      element.style.borderRadius = "6px";
+      element.style.marginLeft = "-8px"; // Offset padding so text doesn't shift
+
+      // Remove the highlight after 1.5 seconds
+      setTimeout(() => {
+        element.style.backgroundColor = originalBg;
+        setTimeout(() => {
+          element.style.transition = originalTransition;
+          element.style.padding = originalPadding;
+          element.style.borderRadius = originalRadius;
+          element.style.marginLeft = "0";
+        }, 400);
+      }, 1500);
+    }
+  };
+
+  // Helper to visually highlight the searched letters/words in the dropdown
+  const getHighlightedText = (text: string, highlight: string) => {
+    if (!highlight.trim()) return <span className="line-clamp-2">{text}</span>;
+    const parts = text.split(new RegExp(`(${highlight})`, "gi"));
+    return (
+      <span className="line-clamp-2">
+        {parts.map((part, i) =>
+          part.toLowerCase() === highlight.toLowerCase() ? (
+            <span key={i} className="bg-emerald-500/30 text-emerald-200 font-semibold rounded-[2px]">
+              {part}
+            </span>
+          ) : (
+            <span key={i}>{part}</span>
+          )
+        )}
+      </span>
+    );
   };
 
   return (
@@ -78,7 +160,7 @@ export default function TechnologyPage() {
         </div>
 
         {/* Functional Live Search Bar */}
-        <div className="relative group w-full max-w-md hidden md:block">
+        <div className="relative group w-full max-w-lg hidden md:block">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg className="w-4 h-4 text-zinc-500 group-focus-within:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -110,22 +192,26 @@ export default function TechnologyPage() {
           {isSearchFocused && searchQuery.trim().length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-[#121212] border border-white/10 rounded-lg shadow-2xl overflow-hidden z-50">
               {searchResults.length > 0 ? (
-                <ul className="max-h-80 overflow-y-auto py-2">
+                <ul className="max-h-[400px] overflow-y-auto py-2">
                   {searchResults.map((result, idx) => (
                     <li key={idx}>
                       <button 
                         onClick={() => handleResultClick(result.id)}
-                        className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 flex flex-col gap-1"
+                        className="w-full text-left px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 flex flex-col gap-1.5"
                       >
-                        <span className="text-sm font-medium text-emerald-400">{result.title}</span>
-                        <span className="text-xs text-zinc-400">{result.desc}</span>
+                        <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
+                          {result.heading}
+                        </span>
+                        <span className="text-sm text-zinc-300">
+                          {getHighlightedText(result.text, searchQuery)}
+                        </span>
                       </button>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <div className="px-4 py-6 text-center text-sm text-zinc-500">
-                  No results found for "{searchQuery}"
+                <div className="px-4 py-8 text-center text-sm text-zinc-500">
+                  No results found in documentation for <span className="text-zinc-300 font-medium">"{searchQuery}"</span>
                 </div>
               )}
             </div>
@@ -152,27 +238,27 @@ export default function TechnologyPage() {
           </div>
         </aside>
 
-        {/* Main Content */}
+        {/* Main Content (Ref attached here for DOM scanning) */}
         <main className="min-w-0 flex-1 py-12 lg:pl-16 lg:py-16">
-          <article className="prose prose-invert prose-zinc max-w-3xl prose-headings:text-white prose-a:text-emerald-400 hover:prose-a:text-emerald-300 prose-code:text-emerald-200">
+          <article ref={articleRef} className="prose prose-invert prose-zinc max-w-3xl prose-headings:text-white prose-a:text-emerald-400 hover:prose-a:text-emerald-300 prose-code:text-emerald-200">
             
             {/* EARLY ACCESS BADGE */}
-            <p className="text-emerald-500 font-mono text-sm tracking-tight mb-2 uppercase flex items-center gap-2">
+            <p id="badge-status" className="text-emerald-500 font-mono text-sm tracking-tight mb-2 uppercase flex items-center gap-2">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
               Early Access
             </p>
-            <h1 className="text-4xl sm:text-5xl font-medium tracking-tight mb-6">
+            <h1 id="main-title" className="text-4xl sm:text-5xl font-medium tracking-tight mb-6">
               Technical Foundations of Anant 1.0
             </h1>
-            <p className="text-xl text-zinc-400 leading-relaxed mb-12">
+            <p id="main-subtitle" className="text-xl text-zinc-400 leading-relaxed mb-12">
               A comprehensive overview of the architecture, memory pipelines, and alignment methodology behind Neural AI's upcoming sovereign large language model.
             </p>
 
             <section id="abstract" className="scroll-mt-28">
-              <h2>1. Abstract</h2>
+              <h2 id="heading-abstract">1. Abstract</h2>
               <p>
                 As artificial intelligence capabilities scale, maintaining technological sovereignty has become a fundamental requirement for national security, cultural preservation, and economic independence. Neural AI is currently engineering <strong>Anant 1.0</strong>, a sovereign large language model built from the ground up to deeply understand both global knowledge and localized contexts. 
               </p>
@@ -184,17 +270,17 @@ export default function TechnologyPage() {
             <hr className="border-white/10 my-12" />
 
             <section id="architecture" className="scroll-mt-28">
-              <h2>2. Model Architecture</h2>
+              <h2 id="heading-architecture">2. Model Architecture</h2>
               <p>
                 Anant 1.0 utilizes a highly optimized, decoder-only transformer architecture designed to balance raw capability with inference efficiency. We are currently training and validating architectures scaling up to the 70 billion parameter class.
               </p>
               
-              <h3>Advanced Tokenization</h3>
+              <h3 id="heading-tokenization">Advanced Tokenization</h3>
               <p>
                 Most global frontier models rely on tokenizers optimized primarily for English. For Anant 1.0, we are engineering a custom Byte-Pair Encoding (BPE) tokenizer with an expanded vocabulary (up to 64,000 tokens). This ensures that our target national languages achieve high word-to-token compression, dramatically reducing inference costs and improving the model's native reasoning capabilities in non-English contexts.
               </p>
 
-              <h3>Extended Context & Memory</h3>
+              <h3 id="heading-context">Extended Context & Memory</h3>
               <p>
                 To support document-heavy enterprise workflows, Anant 1.0 is engineered with an extended context window capable of processing up to 128,000 tokens natively. To achieve this without catastrophic memory overhead during inference, we utilize:
               </p>
@@ -207,12 +293,12 @@ export default function TechnologyPage() {
             <hr className="border-white/10 my-12" />
 
             <section id="data-training" className="scroll-mt-28">
-              <h2>3. Data Pipeline & Pretraining</h2>
+              <h2 id="heading-data">3. Data Pipeline & Pretraining</h2>
               <p>
                 The intelligence of a foundation model is bound by the quality and diversity of its pretraining data. We are curating a massive, multi-trillion token corpus utilizing a rigorous, multi-stage filtering pipeline.
               </p>
 
-              <h3>Sovereign Data Curation</h3>
+              <h3 id="heading-curation">Sovereign Data Curation</h3>
               <p>
                 Our data mixture carefully balances general global knowledge with deep sovereign context, including high-quality web scrapes, public domain texts, academic papers, and official documentation. We utilize a strict pipeline to ensure data integrity:
               </p>
@@ -223,7 +309,7 @@ export default function TechnologyPage() {
               </ul>
 
               <div className="bg-white/5 border border-white/10 rounded-lg p-6 my-8">
-                <h4 className="text-white mt-0 mb-2">Compute Methodology</h4>
+                <h4 id="heading-compute" className="text-white mt-0 mb-2">Compute Methodology</h4>
                 <p className="text-sm text-zinc-400 mb-0">
                   Following modern scaling laws, our training runs utilize highly parallelized architectures (combining Data, Tensor, and Pipeline parallelism) across massive GPU clusters. We employ AdamW optimizers with mixed-precision (BF16) training to maximize hardware utilization while maintaining absolute numerical stability.
                 </p>
@@ -233,22 +319,22 @@ export default function TechnologyPage() {
             <hr className="border-white/10 my-12" />
 
             <section id="alignment" className="scroll-mt-28">
-              <h2>4. Safety & Alignment</h2>
+              <h2 id="heading-safety">4. Safety & Alignment</h2>
               <p>
                 Raw intelligence must be carefully aligned to human values and national safety guidelines. Anant 1.0 undergoes a rigorous post-training alignment phase to ensure it remains helpful, harmless, and honest in production environments.
               </p>
               
-              <h3>Supervised Fine-Tuning (SFT)</h3>
+              <h3 id="heading-sft">Supervised Fine-Tuning (SFT)</h3>
               <p>
                 The base model is fine-tuned on tens of thousands of highly curated, human-verified instruction-response pairs. This phase teaches the model to adopt the "Anant" persona—a professional, highly accurate, and culturally aware AI assistant.
               </p>
 
-              <h3>Direct Preference Optimization (DPO)</h3>
+              <h3 id="heading-dpo">Direct Preference Optimization (DPO)</h3>
               <p>
                 Rather than relying solely on legacy Reinforcement Learning from Human Feedback (RLHF) pipelines, we utilize Direct Preference Optimization (DPO). By training directly on human preference pairs, we mathematically penalize hallucinations and harmful outputs, pushing the model toward safer, more reliable generations without the instability of reward-model training.
               </p>
 
-              <h3>Adversarial Red Teaming</h3>
+              <h3 id="heading-redteam">Adversarial Red Teaming</h3>
               <p>
                 Prior to release, our models undergo continuous adversarial red-teaming. Security experts actively attempt to bypass safety guardrails to identify vulnerabilities, biases, and edge-case failures, which are immediately patched in subsequent alignment cycles.
               </p>
@@ -257,7 +343,7 @@ export default function TechnologyPage() {
             <hr className="border-white/10 my-12" />
 
             <section id="infrastructure" className="scroll-mt-28">
-              <h2>5. Sovereign Infrastructure</h2>
+              <h2 id="heading-infra">5. Sovereign Infrastructure</h2>
               <p>
                 True AI sovereignty requires independence at the hardware layer. Neural AI's long-term strategy involves operating entirely on domestic data center infrastructure, ensuring that sensitive government and enterprise data never leaves national borders and remains under strict local jurisdiction.
               </p>
