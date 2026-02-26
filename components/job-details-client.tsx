@@ -47,18 +47,20 @@ export default function JobDetailsClient({
 
         {/* ─── SUPPORTERS RIGHT STAMP ─── */}
         {supporterLogos.length > 0 && (
-          <div className="absolute right-6 md:right-10 hidden sm:flex items-center gap-4">
-            <span className="text-[11px] font-medium text-[#70757a] tracking-wider uppercase">
+          {/* Changed 'hidden sm:flex' to 'flex' so it shows on mobile */}
+          <div className="absolute right-6 md:right-10 flex items-center gap-2 md:gap-4">
+            {/* Hidden text on mobile to save space, visible on sm and up */}
+            <span className="hidden sm:block text-[11px] font-medium text-[#70757a] tracking-wider uppercase">
               Backed By
             </span>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4">
               {supporterLogos.map((logo, idx) => (
                 <img 
                   key={idx} 
                   src={logo.image_url} 
                   alt={logo.name} 
-                  // Removed grayscale and opacity classes here to keep it colored
-                  className="h-6 md:h-7 object-contain transition-transform duration-300 hover:scale-105"
+                  {/* Made logo slightly smaller on mobile (h-5) and normal on desktop (md:h-7) */}
+                  className="h-5 md:h-7 object-contain transition-transform duration-300 hover:scale-105"
                 />
               ))}
             </div>
