@@ -17,6 +17,7 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [college, setCollege] = useState("");
+  const [degree, setDegree] = useState(""); // <-- NEW STATE FOR DEGREE
   const [yearOfStudy, setYearOfStudy] = useState("");
   const [gender, setGender] = useState("");
 
@@ -100,8 +101,9 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
         linkedin_url: linkedin.trim() || null,
         twitter_url: twitter.trim() || null,
         instagram_url: instagram.trim() || null,
-        resume_url: validLinks.join("\n"), // Joins multiple links with a line break to store in the text column
+        resume_url: validLinks.join("\n"),
         college: college.trim(),
+        degree: degree.trim(), // <-- NEW PAYLOAD FIELD
         year_of_study: yearOfStudy,
         gender: gender,
         why_this_role: whyThisRole.trim(),
@@ -173,10 +175,18 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
             </div>
           </div>
 
-          <div>
-            <label className="block text-[14px] font-medium text-[#202124] mb-1.5">College Name <span className="text-red-500">*</span></label>
-            <input type="text" required value={college} onChange={(e) => setCollege(e.target.value)}
-              className="w-full rounded border border-[#e8eaed] bg-white px-4 py-2.5 text-[15px] outline-none focus:border-[#225760]" />
+          {/* NEW COLLEGE & DEGREE ROW */}
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label className="block text-[14px] font-medium text-[#202124] mb-1.5">College Name <span className="text-red-500">*</span></label>
+              <input type="text" required value={college} onChange={(e) => setCollege(e.target.value)}
+                className="w-full rounded border border-[#e8eaed] bg-white px-4 py-2.5 text-[15px] outline-none focus:border-[#225760]" />
+            </div>
+            <div>
+              <label className="block text-[14px] font-medium text-[#202124] mb-1.5">Degree & Major <span className="text-red-500">*</span></label>
+              <input type="text" required value={degree} onChange={(e) => setDegree(e.target.value)} placeholder="e.g. B.Tech in CS"
+                className="w-full rounded border border-[#e8eaed] bg-white px-4 py-2.5 text-[15px] outline-none focus:border-[#225760]" />
+            </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
@@ -280,7 +290,7 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
               <div key={index} className="flex items-center gap-2">
                 <input 
                   type="url" 
-                  required={index === 0} // Only the first link is strictly required by HTML
+                  required={index === 0}
                   value={link} 
                   onChange={(e) => handleLinkChange(index, e.target.value)} 
                   placeholder="https://..."
@@ -359,12 +369,9 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
           <h4 className="text-[14px] font-bold text-[#202124] mb-3">Terms and Conditions</h4>
           <ul className="space-y-2 text-[13px] text-[#5f6368] list-decimal list-inside mb-5 pl-1">
             <li>You understand that this role involves high ownership, accountability, and performance-driven expectations.</li>
-            
-            {/* DYNAMIC COMPENSATION & TYPE CLAUSE */}
             <li>
               You acknowledge that the employment type is <strong>{jobType || "Full-time"}</strong> and compensation is based on the stated range <strong>({salaryRange || "Competitive / Equity"})</strong> or as discussed during the process.
             </li>
-            
             <li>You confirm that all information provided is accurate, complete, and truthful to the best of your knowledge.</li>
             <li>You accept that incomplete applications or submissions with low quality or generic responses may be rejected.</li>
             <li>You consent to being contacted via email, phone, or relevant platforms regarding this application.</li>
