@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Technology | Neural AI",
@@ -10,28 +9,11 @@ export const metadata: Metadata = {
 export default function TechnologyPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-zinc-300 selection:bg-emerald-500/30 font-sans">
-      {/* Top Navigation Bar - Minimalist */}
-      <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#0a0a0a]/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="text-white font-semibold tracking-wide hover:text-emerald-400 transition-colors">
-              Neural AI
-            </Link>
-            <span className="text-zinc-600">/</span>
-            <span className="text-zinc-400 text-sm font-medium">Research & Technology</span>
-          </div>
-          <div className="flex items-center gap-6 text-sm">
-            <Link href="/" className="text-white hover:text-emerald-400 transition-colors">
-              Return to Home
-            </Link>
-          </div>
-        </div>
-      </nav>
-
       <div className="mx-auto flex max-w-7xl px-4 sm:px-6 lg:px-8">
+        
         {/* Left Sidebar - Table of Contents */}
         <aside className="hidden w-64 shrink-0 py-12 lg:block">
-          <div className="sticky top-24">
+          <div className="sticky top-12">
             <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 mb-4">
               Contents
             </h3>
@@ -63,7 +45,7 @@ export default function TechnologyPage() {
               A comprehensive overview of the architecture, memory pipelines, and alignment methodology behind Neural AI's upcoming sovereign large language model.
             </p>
 
-            <section id="abstract" className="scroll-mt-24">
+            <section id="abstract" className="scroll-mt-12">
               <h2>1. Abstract</h2>
               <p>
                 As artificial intelligence capabilities scale, maintaining technological sovereignty has become a fundamental requirement for national security, cultural preservation, and economic independence. Neural AI is currently engineering <strong>Anant 1.0</strong>, a sovereign large language model built from the ground up to deeply understand both global knowledge and localized contexts. 
@@ -75,7 +57,7 @@ export default function TechnologyPage() {
 
             <hr className="border-white/10 my-12" />
 
-            <section id="architecture" className="scroll-mt-24">
+            <section id="architecture" className="scroll-mt-12">
               <h2>2. Model Architecture</h2>
               <p>
                 Anant 1.0 utilizes a highly optimized, decoder-only transformer architecture designed to balance raw capability with inference efficiency. We are currently training and validating architectures scaling up to the 70 billion parameter class.
@@ -98,7 +80,7 @@ export default function TechnologyPage() {
 
             <hr className="border-white/10 my-12" />
 
-            <section id="data-training" className="scroll-mt-24">
+            <section id="data-training" className="scroll-mt-12">
               <h2>3. Data Pipeline & Pretraining</h2>
               <p>
                 The intelligence of a foundation model is bound by the quality and diversity of its pretraining data. We are curating a massive, multi-trillion token corpus utilizing a rigorous, multi-stage filtering pipeline.
@@ -124,7 +106,7 @@ export default function TechnologyPage() {
 
             <hr className="border-white/10 my-12" />
 
-            <section id="alignment" className="scroll-mt-24">
+            <section id="alignment" className="scroll-mt-12">
               <h2>4. Safety & Alignment</h2>
               <p>
                 Raw intelligence must be carefully aligned to human values and national safety guidelines. Anant 1.0 undergoes a rigorous post-training alignment phase to ensure it remains helpful, harmless, and honest in production environments.
@@ -148,7 +130,7 @@ export default function TechnologyPage() {
 
             <hr className="border-white/10 my-12" />
 
-            <section id="infrastructure" className="scroll-mt-24">
+            <section id="infrastructure" className="scroll-mt-12">
               <h2>5. Sovereign Infrastructure</h2>
               <p>
                 True AI sovereignty requires independence at the hardware layer. Neural AI's long-term strategy involves operating entirely on domestic data center infrastructure, ensuring that sensitive government and enterprise data never leaves national borders and remains under strict local jurisdiction.
