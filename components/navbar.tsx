@@ -18,6 +18,9 @@ export default function Navbar() {
   const [isPastHero, setIsPastHero] = useState(false);
   const pathname = usePathname();
 
+  // Hide the navbar completely on the technology page
+  if (pathname === "/technology") return null;
+
   const isHomePage = pathname === "/";
 
   useEffect(() => {
@@ -60,7 +63,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* DESKTOP TABS: Pure text, non-bold, no glow/blocks */}
+        {/* DESKTOP TABS */}
         <div className="hidden items-center gap-4 md:flex">
           {navLinks.map((link) => (
             <Link
@@ -99,13 +102,12 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* --- FULL SCREEN MOBILE SIDEBAR --- */}
+      {/* FULL SCREEN MOBILE SIDEBAR */}
       <div 
         className={`fixed inset-0 z-[70] h-full w-full bg-[#f6fbfb] transition-transform duration-500 ease-in-out md:hidden ${
           mobileOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Header inside Sidebar */}
         <div className="flex items-center justify-between px-6 py-6">
           <span className="text-3xl font-semibold tracking-tight text-black">neural</span>
           <button onClick={() => setMobileOpen(false)} className="p-2 text-black">
@@ -115,7 +117,6 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Sidebar Navigation: Non-bold */}
         <div className="mt-8 flex flex-col px-8">
           {navLinks.map((link) => (
             <div key={link.label} className="border-b border-zinc-200 py-6">
@@ -132,7 +133,6 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Bottom CTA Area */}
         <div className="absolute bottom-12 w-full px-8 space-y-4">
           <Link 
             href="/contact"
