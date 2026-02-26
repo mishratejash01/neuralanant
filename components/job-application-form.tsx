@@ -6,10 +6,12 @@ import { createClient } from "@/utils/supabase/client";
 interface Props {
   jobId: string;
   jobTitle: string;
+  salaryRange?: string | null;
+  jobType?: string | null;
   onClose?: () => void;
 }
 
-export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) {
+export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobType, onClose }: Props) {
   // Section 1: Personal Details
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,8 +29,8 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
   const [whyThisRole, setWhyThisRole] = useState("");
   const [pastExperience, setPastExperience] = useState("");
 
-  // Section 4: Proof of Work
-  const [proofOfWorkLink, setProofOfWorkLink] = useState("");
+  // Section 4: Proof of Work (Multiple Links Support)
+  const [proofOfWorkLinks, setProofOfWorkLinks] = useState<string[]>([""]);
   const [isPublicConfirmed, setIsPublicConfirmed] = useState(false);
   const [proudestProject, setProudestProject] = useState("");
   const [aiUsage, setAiUsage] = useState("");
@@ -39,14 +41,36 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
+  // Link Handlers
+  const handleLinkChange = (index: number, value: string) => {
+    const newLinks = [...proofOfWorkLinks];
+    newLinks[index] = value;
+    setProofOfWorkLinks(newLinks);
+  };
+
+  const addLink = () => setProofOfWorkLinks([...proofOfWorkLinks, ""]);
+  
+  const removeLink = (index: number) => {
+    const newLinks = proofOfWorkLinks.filter((_, i) => i !== index);
+    setProofOfWorkLinks(newLinks);
+  };
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("loading");
     setErrorMsg("");
 
+    // Filter out empty links
+    const validLinks = proofOfWorkLinks.filter((link) => link.trim() !== "");
+
     // Strict Validations
+    if (validLinks.length === 0) {
+      setErrorMsg("Please provide at least one valid Proof of Work link.");
+      setStatus("error");
+      return;
+    }
     if (!isPublicConfirmed) {
-      setErrorMsg("You must confirm your proof of work link is publicly accessible.");
+      setErrorMsg("You must confirm your proof of work links are publicly accessible.");
       setStatus("error");
       return;
     }
@@ -55,10 +79,12 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
       setStatus("error");
       return;
     }
+    
+    // Validate all URLs
     try {
-      new URL(proofOfWorkLink);
+      validLinks.forEach((link) => new URL(link));
     } catch {
-      setErrorMsg("Please enter a valid URL for your Proof of Work.");
+      setErrorMsg("Please ensure all provided Proof of Work links are valid URLs.");
       setStatus("error");
       return;
     }
@@ -66,7 +92,6 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
     try {
       const supabase = createClient();
 
-      // Mapping directly to the new dedicated columns in the database
       const { error } = await supabase.from("job_applications").insert({
         job_id: jobId,
         name: name.trim(),
@@ -75,7 +100,7 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
         linkedin_url: linkedin.trim() || null,
         twitter_url: twitter.trim() || null,
         instagram_url: instagram.trim() || null,
-        resume_url: proofOfWorkLink.trim(), // Reusing resume_url for proof of work
+        resume_url: validLinks.join("\n"), // Joins multiple links with a line break to store in the text column
         college: college.trim(),
         year_of_study: yearOfStudy,
         gender: gender,
@@ -243,19 +268,55 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
         
         <div className="rounded-lg border border-[#e8eaed] bg-[#f8f9fa] p-5 mb-6">
           <label className="block text-[14px] font-medium text-[#202124]">
-            Share your best work (Link) <span className="text-red-500">*</span>
+            Share your best work (Links) <span className="text-red-500">*</span>
           </label>
-          <p className="mt-1 text-[13px] text-[#5f6368]">
+          <p className="mt-1 mb-4 text-[13px] text-[#5f6368]">
             For Software: GitHub/Live projects. For Design: Portfolio/Figma. For Non-Tech: Content, Drives, Audio/Video.
           </p>
-          <input type="url" required value={proofOfWorkLink} onChange={(e) => setProofOfWorkLink(e.target.value)} placeholder="https://..."
-            className="mt-3 w-full rounded border border-[#e8eaed] bg-white px-4 py-2.5 text-[15px] outline-none focus:border-[#225760]" />
           
-          <label className="mt-4 flex items-start gap-3 cursor-pointer">
+          {/* MULTIPLE LINKS INPUTS */}
+          <div className="space-y-3">
+            {proofOfWorkLinks.map((link, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <input 
+                  type="url" 
+                  required={index === 0} // Only the first link is strictly required by HTML
+                  value={link} 
+                  onChange={(e) => handleLinkChange(index, e.target.value)} 
+                  placeholder="https://..."
+                  className="w-full rounded border border-[#e8eaed] bg-white px-4 py-2.5 text-[15px] outline-none focus:border-[#225760]" 
+                />
+                {index > 0 && (
+                  <button 
+                    type="button" 
+                    onClick={() => removeLink(index)}
+                    className="shrink-0 p-2.5 text-zinc-400 hover:text-red-500 transition-colors"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <button 
+            type="button" 
+            onClick={addLink}
+            className="mt-3 inline-flex items-center gap-1.5 text-[13px] font-medium text-[#225760] hover:text-[#1a4148] transition-colors"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M12 5v14m-7-7h14"/>
+            </svg>
+            Add another link
+          </button>
+          
+          <label className="mt-5 flex items-start gap-3 cursor-pointer">
             <input type="checkbox" required checked={isPublicConfirmed} onChange={(e) => setIsPublicConfirmed(e.target.checked)}
               className="mt-1 h-4 w-4 shrink-0 rounded border-gray-300 text-[#225760] focus:ring-[#225760]" />
             <span className="text-[13px] leading-[1.5] text-[#444444]">
-              I confirm this link is <strong>publicly accessible without requesting access</strong>. I understand my application will be automatically rejected if the hiring team cannot view the file.
+              I confirm these links are <strong>publicly accessible without requesting access</strong>. I understand my application will be automatically rejected if the hiring team cannot view the files.
             </span>
           </label>
         </div>
@@ -282,23 +343,28 @@ export default function JobApplicationForm({ jobId, jobTitle, onClose }: Props) 
       <section>
         <h3 className="text-[18px] font-semibold text-[#202124] mb-4">5. Legal Confirmations</h3>
         
-        {/* Anti-ChatGPT Warning */}
+        {/* Anti-AI Generation Warning */}
         <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 p-5">
           <h4 className="text-[14px] font-bold text-amber-900 mb-2">IMPORTANT NOTE</h4>
           <p className="text-[13px] text-amber-800 leading-relaxed mb-3">
-            Do not submit copied answers or default ChatGPT style responses. It is obvious and it will hurt your chances. We shortlist not just on what you have done, but how you think and how you present it. Your answers show us how you actually use AI and whether you can use it smartly or just generate generic output.
+            Do not submit copied answers or default AI-generated style responses. It is obvious and it will hurt your chances. We shortlist not just on what you have done, but how you think and how you present it. Your answers show us how you actually use AI and whether you can use it smartly or just generate generic output.
           </p>
           <p className="text-[13px] font-medium text-amber-900">
             Use AI as a tool, not a crutch. Structure your thoughts, add your own context, and make it real.
           </p>
         </div>
 
-        {/* Terms and Conditions Box */}
+        {/* Dynamic Terms and Conditions Box */}
         <div className="rounded-lg border border-[#e8eaed] bg-white p-5">
           <h4 className="text-[14px] font-bold text-[#202124] mb-3">Terms and Conditions</h4>
           <ul className="space-y-2 text-[13px] text-[#5f6368] list-decimal list-inside mb-5 pl-1">
             <li>You understand that this role involves high ownership, accountability, and performance-driven expectations.</li>
-            <li>You acknowledge that this may be an unpaid internship at the initial stage, with a performance-based transition to a paid role.</li>
+            
+            {/* DYNAMIC COMPENSATION & TYPE CLAUSE */}
+            <li>
+              You acknowledge that the employment type is <strong>{jobType || "Full-time"}</strong> and compensation is based on the stated range <strong>({salaryRange || "Competitive / Equity"})</strong> or as discussed during the process.
+            </li>
+            
             <li>You confirm that all information provided is accurate, complete, and truthful to the best of your knowledge.</li>
             <li>You accept that incomplete applications or submissions with low quality or generic responses may be rejected.</li>
             <li>You consent to being contacted via email, phone, or relevant platforms regarding this application.</li>
