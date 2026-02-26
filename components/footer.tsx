@@ -27,8 +27,8 @@ const connectLinks = [
 export default function Footer() {
   const pathname = usePathname();
 
-  // Hide the footer completely on the technology page
-  if (pathname === "/technology") return null;
+  // Hide the footer completely on the technology page AND individual job application pages
+  if (pathname === "/technology" || pathname?.startsWith("/careers/")) return null;
 
   return (
     <footer className="border-t border-zinc-100 bg-zinc-50/50">
