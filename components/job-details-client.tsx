@@ -4,6 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import JobApplicationForm from "./job-application-form";
 
+interface SupporterLogo {
+  name: string;
+  image_url: string;
+}
+
 // Updated to use salary_range directly
 interface Job {
   id: string;
@@ -17,7 +22,13 @@ interface Job {
   benefits?: string | null;
 }
 
-export default function JobDetailsClient({ job }: { job: Job }) {
+export default function JobDetailsClient({ 
+  job, 
+  supporterLogos = [] 
+}: { 
+  job: Job; 
+  supporterLogos?: SupporterLogo[];
+}) {
   const [activeTab, setActiveTab] = useState<"overview" | "application">("overview");
 
   return (
@@ -33,6 +44,25 @@ export default function JobDetailsClient({ job }: { job: Job }) {
         <Link href="/" className="flex items-center text-[28px] font-medium tracking-tight text-[#225760] transition-opacity hover:opacity-80">
           neural
         </Link>
+
+        {/* ─── SUPPORTERS RIGHT STAMP ─── */}
+        {supporterLogos.length > 0 && (
+          <div className="absolute right-6 md:right-10 hidden sm:flex items-center gap-4">
+            <span className="text-[11px] font-medium text-[#70757a] tracking-wider uppercase">
+              Backed By
+            </span>
+            <div className="flex items-center gap-4">
+              {supporterLogos.map((logo, idx) => (
+                <img 
+                  key={idx} 
+                  src={logo.image_url} 
+                  alt={logo.name} 
+                  className="h-6 md:h-7 object-contain grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </header>
 
       {/* ─── MAIN CONTENT CONTAINER ─── */}
