@@ -86,31 +86,36 @@ export default async function CareersPage() {
                 {positions.length === 0 ? (
                     <div className="py-10 text-center text-zinc-500">No open positions currently. Check back soon.</div>
                 ) : (
-                    positions.map((pos, index) => (
-                        <AnimateOnScroll key={pos.id} delay={`delay-${(index % 3 + 1) * 100}`}>
-                            <a 
-                                href={pos.application_link || "#"}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="group flex cursor-pointer items-center justify-between rounded-[4px] border border-zinc-200 bg-white p-6 shadow-sm no-underline transition-all duration-300 hover:border-zinc-400 hover:shadow-md"
-                            >
-                                <div>
-                                    <h4 className="font-sans text-lg font-medium text-black group-hover:text-teal-700">{pos.title}</h4>
-                                    <div className="mt-2 flex flex-wrap gap-3 font-sans text-sm text-zinc-500">
-                                        {pos.department && <span>{pos.department}</span>}
-                                        {pos.department && <span>•</span>}
-                                        {pos.type && <span>{pos.type}</span>}
-                                        {pos.location && <span>• {pos.location}</span>}
-                                    </div>
-                                </div>
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[4px] bg-zinc-50 transition-all group-hover:bg-black group-hover:text-white">
-                                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                    </svg>
-                                </div>
-                            </a>
-                        </AnimateOnScroll>
-                    ))
+                    positions.map((pos, index) => {
+                        // Dynamically route to custom page if no external link exists
+                        const targetUrl = pos.application_link || `/careers/${pos.id}`;
+
+                        return (
+                          <AnimateOnScroll key={pos.id} delay={`delay-${(index % 3 + 1) * 100}`}>
+                              <a 
+                                  href={targetUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="group flex cursor-pointer items-center justify-between rounded-[4px] border border-zinc-200 bg-white p-6 shadow-sm no-underline transition-all duration-300 hover:border-zinc-400 hover:shadow-md"
+                              >
+                                  <div>
+                                      <h4 className="font-sans text-lg font-medium text-black group-hover:text-teal-700">{pos.title}</h4>
+                                      <div className="mt-2 flex flex-wrap gap-3 font-sans text-sm text-zinc-500">
+                                          {pos.department && <span>{pos.department}</span>}
+                                          {pos.department && <span>•</span>}
+                                          {pos.type && <span>{pos.type}</span>}
+                                          {pos.location && <span>• {pos.location}</span>}
+                                      </div>
+                                  </div>
+                                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[4px] bg-zinc-50 transition-all group-hover:bg-black group-hover:text-white">
+                                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                      </svg>
+                                  </div>
+                              </a>
+                          </AnimateOnScroll>
+                        );
+                    })
                 )}
             </div>
         </div>
