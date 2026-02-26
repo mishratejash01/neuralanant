@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import JobApplicationForm from "./job-application-form";
 
-// 1. Added compensation and benefits to the Job interface
+// Updated to use salary_range directly
 interface Job {
   id: string;
   title: string;
@@ -13,7 +13,7 @@ interface Job {
   type: string | null;
   description: string | null;
   requirements: string | null;
-  compensation?: string | null;
+  salary_range?: string | null;
   benefits?: string | null;
 }
 
@@ -83,11 +83,11 @@ export default function JobDetailsClient({ job }: { job: Job }) {
               <span className="text-[15px] font-normal text-[#202124]">{job.department || "Engineering"}</span>
             </div>
             
-            {/* 2. Dynamically Rendered Compensation & Benefits */}
+            {/* Dynamically Rendered Salary & Benefits */}
             <div className="pb-6">
               <span className="block text-[13px] text-[#5f6368] mb-1.5">Compensation & Benefits</span>
               <span className="text-[15px] font-normal text-[#202124]">
-                {job.compensation || "Competitive • Equity"}
+                {job.salary_range || "Competitive • Equity"}
               </span>
               <div className="mt-4 text-[13px] leading-relaxed text-[#70757a]">
                 <strong className="block text-[#202124] font-semibold mb-1">Core Benefits</strong>
