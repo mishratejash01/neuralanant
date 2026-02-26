@@ -17,7 +17,7 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [college, setCollege] = useState("");
-  const [degree, setDegree] = useState(""); // <-- NEW STATE FOR DEGREE
+  const [degree, setDegree] = useState("");
   const [yearOfStudy, setYearOfStudy] = useState("");
   const [gender, setGender] = useState("");
 
@@ -29,8 +29,9 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
   // Section 3: Role & Experience
   const [whyThisRole, setWhyThisRole] = useState("");
   const [pastExperience, setPastExperience] = useState("");
+  const [resumeLink, setResumeLink] = useState(""); // <-- ADDED RESUME LINK STATE
 
-  // Section 4: Proof of Work (Multiple Links Support)
+  // Section 4: Proof of Work
   const [proofOfWorkLinks, setProofOfWorkLinks] = useState<string[]>([""]);
   const [isPublicConfirmed, setIsPublicConfirmed] = useState(false);
   const [proudestProject, setProudestProject] = useState("");
@@ -42,7 +43,7 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Link Handlers
+  // Link Handlers for Proof of Work
   const handleLinkChange = (index: number, value: string) => {
     const newLinks = [...proofOfWorkLinks];
     newLinks[index] = value;
@@ -61,7 +62,6 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
     setStatus("loading");
     setErrorMsg("");
 
-    // Filter out empty links
     const validLinks = proofOfWorkLinks.filter((link) => link.trim() !== "");
 
     // Strict Validations
@@ -71,7 +71,7 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
       return;
     }
     if (!isPublicConfirmed) {
-      setErrorMsg("You must confirm your proof of work links are publicly accessible.");
+      setErrorMsg("You must confirm your links are publicly accessible.");
       setStatus("error");
       return;
     }
@@ -81,11 +81,12 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
       return;
     }
     
-    // Validate all URLs
+    // URL Validations
     try {
+      new URL(resumeLink);
       validLinks.forEach((link) => new URL(link));
     } catch {
-      setErrorMsg("Please ensure all provided Proof of Work links are valid URLs.");
+      setErrorMsg("Please ensure your Resume and Proof of Work links are valid URLs.");
       setStatus("error");
       return;
     }
@@ -94,16 +95,17 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
       const supabase = createClient();
 
       const { error } = await supabase.from("job_applications").insert({
-        job_id: jobId,
+        job_id: jobId, // If you get a 409 error, it means this jobId doesn't exist in the 'careers' table!
         name: name.trim(),
         email: email.trim().toLowerCase(),
         phone: phone.trim() || null,
         linkedin_url: linkedin.trim() || null,
         twitter_url: twitter.trim() || null,
         instagram_url: instagram.trim() || null,
-        resume_url: validLinks.join("\n"),
+        resume_url: resumeLink.trim(),          // <-- Maps to the dedicated Resume column
+        portfolio_url: validLinks.join("\n"),   // <-- Maps multiple proof of work links to the new portfolio column
         college: college.trim(),
-        degree: degree.trim(), // <-- NEW PAYLOAD FIELD
+        degree: degree.trim(),
         year_of_study: yearOfStudy,
         gender: gender,
         why_this_role: whyThisRole.trim(),
@@ -114,7 +116,14 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
 
       if (error) {
         console.error("Supabase Error:", error);
-        setErrorMsg("Something went wrong saving your application. Please try again.");
+        // Better error message handling for 409 conflicts
+        if (error.code === '23503') {
+          setErrorMsg("Error: This job posting no longer exists in the database.");
+        } else if (error.code === '23505') {
+          setErrorMsg("Error: An application with this email already exists.");
+        } else {
+          setErrorMsg(error.message || "Something went wrong saving your application.");
+        }
         setStatus("error");
         return;
       }
@@ -175,7 +184,6 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
             </div>
           </div>
 
-          {/* NEW COLLEGE & DEGREE ROW */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label className="block text-[14px] font-medium text-[#202124] mb-1.5">College Name <span className="text-red-500">*</span></label>
@@ -248,7 +256,7 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
 
       <hr className="border-[#e8eaed]" />
 
-      {/* ─── SECTION 3: ROLE SELECTION ─── */}
+      {/* ─── SECTION 3: ROLE SELECTION & RESUME ─── */}
       <section>
         <h3 className="text-[18px] font-semibold text-[#202124] mb-4">3. Role & Experience</h3>
         <div className="space-y-4">
@@ -257,6 +265,14 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
             <input type="text" disabled value={jobTitle}
               className="w-full rounded border border-[#e8eaed] bg-zinc-50 px-4 py-2.5 text-[15px] text-zinc-500 outline-none cursor-not-allowed" />
           </div>
+
+          {/* ADDED RESUME LINK HERE */}
+          <div>
+            <label className="block text-[14px] font-medium text-[#202124] mb-1.5">Resume Link <span className="text-red-500">*</span></label>
+            <input type="url" required value={resumeLink} onChange={(e) => setResumeLink(e.target.value)} placeholder="Google Drive, Notion, Dropbox link..."
+              className="w-full rounded border border-[#e8eaed] bg-white px-4 py-2.5 text-[15px] outline-none focus:border-[#225760]" />
+          </div>
+
           <div>
             <label className="block text-[14px] font-medium text-[#202124] mb-1.5">Why this role and not others? <span className="text-red-500">*</span></label>
             <textarea required rows={3} value={whyThisRole} onChange={(e) => setWhyThisRole(e.target.value)}
@@ -284,7 +300,6 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
             For Software: GitHub/Live projects. For Design: Portfolio/Figma. For Non-Tech: Content, Drives, Audio/Video.
           </p>
           
-          {/* MULTIPLE LINKS INPUTS */}
           <div className="space-y-3">
             {proofOfWorkLinks.map((link, index) => (
               <div key={index} className="flex items-center gap-2">
@@ -326,7 +341,7 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
             <input type="checkbox" required checked={isPublicConfirmed} onChange={(e) => setIsPublicConfirmed(e.target.checked)}
               className="mt-1 h-4 w-4 shrink-0 rounded border-gray-300 text-[#225760] focus:ring-[#225760]" />
             <span className="text-[13px] leading-[1.5] text-[#444444]">
-              I confirm these links are <strong>publicly accessible without requesting access</strong>. I understand my application will be automatically rejected if the hiring team cannot view the files.
+              I confirm these links (including my resume) are <strong>publicly accessible without requesting access</strong>. I understand my application will be automatically rejected if the hiring team cannot view the files.
             </span>
           </label>
         </div>
@@ -353,7 +368,6 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
       <section>
         <h3 className="text-[18px] font-semibold text-[#202124] mb-4">5. Legal Confirmations</h3>
         
-        {/* Anti-AI Generation Warning */}
         <div className="mb-6 rounded-lg border border-amber-200 bg-amber-50 p-5">
           <h4 className="text-[14px] font-bold text-amber-900 mb-2">IMPORTANT NOTE</h4>
           <p className="text-[13px] text-amber-800 leading-relaxed mb-3">
@@ -364,7 +378,6 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
           </p>
         </div>
 
-        {/* Dynamic Terms and Conditions Box */}
         <div className="rounded-lg border border-[#e8eaed] bg-white p-5">
           <h4 className="text-[14px] font-bold text-[#202124] mb-3">Terms and Conditions</h4>
           <ul className="space-y-2 text-[13px] text-[#5f6368] list-decimal list-inside mb-5 pl-1">
@@ -393,7 +406,6 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
         </div>
       )}
 
-      {/* Submit Buttons */}
       <div className="flex gap-4 pt-4 border-t border-[#e8eaed]">
         <button type="submit" disabled={status === "loading"}
           className="rounded bg-[#225760] px-8 py-3 text-[15px] font-medium text-white transition-all hover:bg-[#1a4148] disabled:opacity-70 disabled:cursor-not-allowed">
