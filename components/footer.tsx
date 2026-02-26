@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const productLinks = [
   { label: "Technology", href: "/technology", target: "_blank", rel: "noopener noreferrer" },
@@ -22,6 +25,11 @@ const connectLinks = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // Hide the footer completely on the technology page
+  if (pathname === "/technology") return null;
+
   return (
     <footer className="border-t border-zinc-100 bg-zinc-50/50">
       <div className="mx-auto max-w-6xl px-6 py-20">
