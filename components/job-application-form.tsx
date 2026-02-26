@@ -11,6 +11,41 @@ interface Props {
   onClose?: () => void;
 }
 
+// ─── HELPER FUNCTION: GENERATES A SUCCESS CHIME ───
+function playSuccessSound() {
+  try {
+    const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+    if (!AudioContext) return;
+    const ctx = new AudioContext();
+
+    // First tone (C5)
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+    osc1.type = "sine";
+    osc1.frequency.setValueAtTime(523.25, ctx.currentTime); 
+    gain1.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+    osc1.start(ctx.currentTime);
+    osc1.stop(ctx.currentTime + 0.15);
+
+    // Second tone (G5 - higher pitch)
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.type = "sine";
+    osc2.frequency.setValueAtTime(783.99, ctx.currentTime + 0.15); 
+    gain2.gain.setValueAtTime(0.1, ctx.currentTime + 0.15);
+    gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+    osc2.start(ctx.currentTime + 0.15);
+    osc2.stop(ctx.currentTime + 0.5);
+  } catch (err) {
+    console.error("Audio playback failed", err);
+  }
+}
+
 export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobType, onClose }: Props) {
   // Section 1: Personal Details
   const [name, setName] = useState("");
@@ -103,7 +138,7 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
         twitter_url: twitter.trim() || null,
         instagram_url: instagram.trim() || null,
         resume_url: resumeLink.trim(),          
-        portfolio_url: validLinks.join("  |  "), // <-- Joins multiple links into one string for the backend
+        portfolio_url: validLinks.join("  |  "), 
         college: college.trim(),
         degree: degree.trim(),
         year_of_study: yearOfStudy,
@@ -121,6 +156,8 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
         return;
       }
 
+      // Play sound and update status on successful submission
+      playSuccessSound();
       setStatus("success");
     } catch (err) {
       console.error(err);
@@ -131,7 +168,7 @@ export default function JobApplicationForm({ jobId, jobTitle, salaryRange, jobTy
 
   if (status === "success") {
     return (
-      <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-10 text-center">
+      <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-10 text-center animate-in fade-in duration-500">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#225760] text-white mb-6">
           <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
