@@ -130,7 +130,12 @@ export default function JobDetailsClient({ job }: { job: Job }) {
 
             {activeTab === "application" && (
               <div className="animate-in fade-in duration-500">
-                <JobApplicationForm jobId={job.id} jobTitle={job.title} />
+                <JobApplicationForm 
+                  jobId={job.id} 
+                  jobTitle={job.title} 
+                  salaryRange={job.salary_range}
+                  jobType={job.type}
+                />
               </div>
             )}
           </div>
