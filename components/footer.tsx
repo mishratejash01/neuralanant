@@ -4,10 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const productLinks = [
-  { label: "Technology", href: "/technology", target: "_blank", rel: "noopener noreferrer" },
+  { label: "Documentation", href: "/technology", target: "_blank", rel: "noopener noreferrer" },
   { label: "About", href: "/about" },
   { label: "Careers", href: "/careers" },
-  { label: "FAQ", href: "/faq" },
   { label: "Early Access", href: "/contact" },
 ];
 
