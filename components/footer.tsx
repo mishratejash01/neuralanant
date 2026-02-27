@@ -4,16 +4,17 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const productLinks = [
-  { label: "Documentation", href: "/technology", target: "_blank", rel: "noopener noreferrer" },
+  { label: "Technology", href: "/technology", target: "_blank", rel: "noopener noreferrer" },
   { label: "About", href: "/about" },
   { label: "Careers", href: "/careers" },
+  { label: "FAQ", href: "/faq" },
   { label: "Early Access", href: "/contact" },
 ];
 
 const companyLinks = [
   { label: "Blog", href: "#" },
   { label: "Press", href: "#" },
-  { label: "Privacy", href: "/app/privacy/page" },
+  { label: "Privacy", href: "/privacy" }, // Updated redirection here
 ];
 
 const connectLinks = [
