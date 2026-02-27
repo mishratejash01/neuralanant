@@ -13,7 +13,7 @@ const productLinks = [
 const companyLinks = [
   { label: "Blog", href: "#" },
   { label: "Press", href: "#" },
-  { label: "Privacy", href: "#" },
+  { label: "Privacy", href: "/app/privacy/page" },
 ];
 
 const connectLinks = [
