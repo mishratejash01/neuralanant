@@ -79,8 +79,8 @@ export default function Footer() {
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Link href="/" className="flex items-center gap-2.5">
-              {/* Massive Bold NEURAL AI Logo */}
-              <span className="text-4xl font-bold uppercase tracking-tight text-teal-950">NEURAL AI</span>
+              {/* Massive Bold Logo with only "neural" in lowercase */}
+              <span className="text-4xl font-bold tracking-tight text-teal-950">neural AI</span>
             </Link>
             <p className="mt-4 text-[14px] font-normal leading-relaxed text-black">
               Building India&apos;s first LLM with persistent memory. The AI that never forgets.
