@@ -76,10 +76,9 @@ export default function Footer() {
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
       <div className="mx-auto max-w-6xl px-6 py-20">
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-6 lg:gap-8">
+          <div className="sm:col-span-2 lg:col-span-2">
             <Link href="/" className="inline-block">
-              {/* Massive Bold Logo with only "neural" in lowercase, sized to match description length */}
               <span className="block -ml-1 text-[4rem] sm:text-[5.5rem] font-bold tracking-tighter leading-none text-teal-950">
                 neural
               </span>
@@ -94,7 +93,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
+          <div className="lg:col-start-4">
             <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-teal-900">Product</p>
             <ul className="mt-5 space-y-3">
               {productLinks.map((link) => (
