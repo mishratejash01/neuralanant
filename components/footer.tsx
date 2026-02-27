@@ -85,11 +85,10 @@ export default function Footer() {
             <p className="mt-4 text-[13px] leading-relaxed text-teal-100/70">
               Building India&apos;s first LLM with persistent memory. The AI that never forgets.
             </p>
-            <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-teal-700/60 bg-teal-800/40 px-3 py-1.5">
-              <svg className="h-3.5 w-3.5 text-teal-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
-              </svg>
-              <span className="text-[10px] font-semibold text-teal-100">Incubated at IIT Madras Research Park</span>
+            <div className="mt-5 space-y-1 text-[12px] text-teal-100/50">
+              <p>Sudha & Shankar Innovation Hub</p>
+              <p>Indian Institute of Technology Madras</p>
+              <p>Chennai - 600036, India</p>
             </div>
           </div>
 
@@ -98,14 +97,20 @@ export default function Footer() {
             <ul className="mt-5 space-y-3">
               {productLinks.map((link) => (
                 <li key={link.label}>
-                  <Link 
-                    href={link.href} 
-                    target={link.target}
-                    rel={link.rel}
-                    className="text-[13px] text-teal-100/60 transition-colors hover:text-white"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.href !== "#" ? (
+                    <Link 
+                      href={link.href} 
+                      target={link.target}
+                      rel={link.rel}
+                      className="text-[13px] text-teal-100/60 transition-colors hover:text-white"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <span className="text-[13px] text-teal-100/40 cursor-default">
+                      {link.label}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -116,9 +121,15 @@ export default function Footer() {
             <ul className="mt-5 space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href} className="text-[13px] text-teal-100/60 transition-colors hover:text-white">
-                    {link.label}
-                  </Link>
+                  {link.href !== "#" ? (
+                    <Link href={link.href} className="text-[13px] text-teal-100/60 transition-colors hover:text-white">
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <span className="text-[13px] text-teal-100/40 cursor-default">
+                      {link.label}
+                    </span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -128,14 +139,26 @@ export default function Footer() {
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-teal-300/80">Connect</p>
             <div className="mt-5 flex gap-4">
               {connectLinks.map((link) => (
-                <a 
-                  key={link.label}
-                  href={link.href} 
-                  aria-label={link.label}
-                  className="text-teal-100/60 transition-all hover:-translate-y-1 hover:text-white"
-                >
-                  {link.icon}
-                </a>
+                link.href !== "#" ? (
+                  <a 
+                    key={link.label}
+                    href={link.href} 
+                    aria-label={link.label}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-teal-100/60 transition-all hover:-translate-y-1 hover:text-white"
+                  >
+                    {link.icon}
+                  </a>
+                ) : (
+                  <span 
+                    key={link.label}
+                    aria-label={link.label}
+                    className="text-teal-100/40 cursor-default"
+                  >
+                    {link.icon}
+                  </span>
+                )
               ))}
             </div>
           </div>
