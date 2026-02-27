@@ -1,6 +1,3 @@
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
-
 export const metadata = {
   title: "Privacy Policy | Neural AI",
   description: "Privacy policy and data handling practices for Neural AI and Anant 1.0.",
@@ -12,8 +9,6 @@ export default function PrivacyPage() {
       className="min-h-screen bg-[#f6fbfb] font-['Inter',sans-serif] selection:bg-teal-200 selection:text-teal-900"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
-      <Navbar />
-      
       <main className="mx-auto max-w-3xl px-6 pb-32 pt-32 sm:pt-40">
         <header className="mb-14">
           <h1 className="mb-4 text-4xl font-semibold tracking-tight text-black sm:text-5xl">
@@ -112,8 +107,6 @@ export default function PrivacyPage() {
 
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }
