@@ -72,20 +72,20 @@ export default function Footer() {
 
   return (
     <footer 
-      className="border-t border-teal-900 bg-teal-950 font-['Inter',sans-serif]" 
+      className="border-t border-teal-200 bg-teal-100 font-['Inter',sans-serif]" 
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
       <div className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <Link href="/" className="flex items-center gap-2.5">
-              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-teal-500 text-xs font-bold text-white">N</span>
-              <span className="text-[15px] font-bold tracking-tight text-white">Neural AI</span>
+              {/* Massive Bold NEURAL AI Logo */}
+              <span className="text-4xl font-bold uppercase tracking-tight text-teal-950">NEURAL AI</span>
             </Link>
-            <p className="mt-4 text-[13px] leading-relaxed text-teal-100/70">
+            <p className="mt-4 text-[14px] font-normal leading-relaxed text-black">
               Building India&apos;s first LLM with persistent memory. The AI that never forgets.
             </p>
-            <div className="mt-5 space-y-1 text-[12px] text-teal-100/50">
+            <div className="mt-5 space-y-1 text-[13px] font-normal text-black">
               <p>Sudha & Shankar Innovation Hub</p>
               <p>Indian Institute of Technology Madras</p>
               <p>Chennai - 600036, India</p>
@@ -93,7 +93,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-teal-300/80">Product</p>
+            <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-teal-900">Product</p>
             <ul className="mt-5 space-y-3">
               {productLinks.map((link) => (
                 <li key={link.label}>
@@ -102,12 +102,12 @@ export default function Footer() {
                       href={link.href} 
                       target={link.target}
                       rel={link.rel}
-                      className="text-[13px] text-teal-100/60 transition-colors hover:text-white"
+                      className="text-[14px] font-normal text-black transition-colors hover:text-teal-700"
                     >
                       {link.label}
                     </Link>
                   ) : (
-                    <span className="text-[13px] text-teal-100/40 cursor-default">
+                    <span className="text-[14px] font-normal text-black/50 cursor-default">
                       {link.label}
                     </span>
                   )}
@@ -117,16 +117,16 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-teal-300/80">Company</p>
+            <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-teal-900">Company</p>
             <ul className="mt-5 space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.label}>
                   {link.href !== "#" ? (
-                    <Link href={link.href} className="text-[13px] text-teal-100/60 transition-colors hover:text-white">
+                    <Link href={link.href} className="text-[14px] font-normal text-black transition-colors hover:text-teal-700">
                       {link.label}
                     </Link>
                   ) : (
-                    <span className="text-[13px] text-teal-100/40 cursor-default">
+                    <span className="text-[14px] font-normal text-black/50 cursor-default">
                       {link.label}
                     </span>
                   )}
@@ -136,7 +136,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-teal-300/80">Connect</p>
+            <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-teal-900">Connect</p>
             <div className="mt-5 flex gap-4">
               {connectLinks.map((link) => (
                 link.href !== "#" ? (
@@ -146,7 +146,7 @@ export default function Footer() {
                     aria-label={link.label}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-teal-100/60 transition-all hover:-translate-y-1 hover:text-white"
+                    className="text-black transition-all hover:-translate-y-1 hover:text-teal-700"
                   >
                     {link.icon}
                   </a>
@@ -154,7 +154,7 @@ export default function Footer() {
                   <span 
                     key={link.label}
                     aria-label={link.label}
-                    className="text-teal-100/40 cursor-default"
+                    className="text-black/50 cursor-default"
                   >
                     {link.icon}
                   </span>
@@ -164,9 +164,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-20 flex flex-col items-center justify-between gap-4 border-t border-teal-800/50 pt-8 sm:flex-row">
-          <p className="text-[11px] text-teal-100/40">&copy; 2026 Neural AI. All rights reserved.</p>
-          <p className="text-[11px] text-teal-100/40">Made with care in India</p>
+        <div className="mt-20 flex flex-col items-center justify-between gap-4 border-t border-teal-200/60 pt-8 sm:flex-row">
+          <p className="text-[13px] font-normal text-black/70">&copy; 2026 Neural AI. All rights reserved.</p>
+          <p className="text-[13px] font-normal text-black/70">Made with care in India</p>
         </div>
       </div>
     </footer>
