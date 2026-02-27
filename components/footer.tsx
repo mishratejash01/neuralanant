@@ -170,6 +170,5 @@ export default function Footer() {
           <p className="text-[13px] font-normal text-black/70">Made with care in India</p>
         </div>
       </div>
-    </footer>
   );
 }
