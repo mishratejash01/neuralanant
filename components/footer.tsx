@@ -78,14 +78,16 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-6 py-20">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <Link href="/" className="flex items-center gap-2.5">
-              {/* Massive Bold Logo with only "neural" in lowercase */}
-              <span className="text-4xl font-bold tracking-tight text-teal-950">neural AI</span>
+            <Link href="/" className="inline-block">
+              {/* Massive Bold Logo with only "neural" in lowercase, sized to match description length */}
+              <span className="block -ml-1 text-[4rem] sm:text-[5.5rem] font-bold tracking-tighter leading-none text-teal-950">
+                neural
+              </span>
             </Link>
-            <p className="mt-4 text-[14px] font-normal leading-relaxed text-black">
+            <p className="mt-4 text-[14px] font-normal leading-relaxed text-black sm:pr-8">
               Building India&apos;s first LLM with persistent memory. The AI that never forgets.
             </p>
-            <div className="mt-5 space-y-1 text-[13px] font-normal text-black">
+            <div className="mt-6 space-y-1 text-[13px] font-normal text-black">
               <p>Sudha & Shankar Innovation Hub</p>
               <p>Indian Institute of Technology Madras</p>
               <p>Chennai - 600036, India</p>
